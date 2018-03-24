@@ -1,35 +1,36 @@
 {
-  "name": "yarcl",
-  "version": "0.0.3",
-  "description": "Yet another React charting library.",
-  "main": "lib\\index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/samoxive/yarcl.git"
-  },
-  "keywords": [
-    "react",
-    "chart",
-    "plot",
-    "library"
-  ],
-  "author": "Şamil NART",
-  "contributors": [
-    "Emre Can HACIOSMANOĞLU",
-    "Ozan KARAALİ"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/samoxive/yarcl/issues"
-  },
-  "homepage": "https://github.com/samoxive/yarcl#readme",
-  "dependencies": {
-    "typescript": "^2.7.2"
-  },
-  "files": [
-    "lib"
-  ]
+    "name": "yarcl",
+    "version": "0.0.3",
+    "description": "Yet another React charting library.",
+    "main": "lib\\index.js",
+    "types": "lib\\index.d.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/samoxive/yarcl.git"
+    },
+    "keywords": [
+        "react",
+        "chart",
+        "plot",
+        "library"
+    ],
+    "author": "Şamil NART",
+    "contributors": [
+        "Emre Can HACIOSMANOĞLU",
+        "Ozan KARAALİ"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/samoxive/yarcl/issues"
+    },
+    "homepage": "https://github.com/samoxive/yarcl#readme",
+    "dependencies": {
+        "typescript": "^2.7.2"
+    },
+    "files": [
+        "lib"
+    ]
 }
