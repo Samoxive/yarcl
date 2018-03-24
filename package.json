@@ -12,6 +12,7 @@
         "watch-ts": "tsc --watch",
         "build-rollup": "rollup -c",
         "build-ts": "tsc",
+        "lint": "tslint --project tsconfig.json src/**/*.{ts,tsx}",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -39,14 +40,16 @@
         "@types/react-dom": "^16.0.4",
         "concurrently": "^3.5.1",
         "npm-run-all": "^4.1.2",
+        "react": "^16.2.0",
+        "react-dom": "^16.2.0",
         "rollup": "^0.57.1",
         "rollup-plugin-commonjs": "^9.1.0",
         "rollup-plugin-node-resolve": "^3.3.0",
         "rollup-plugin-scss": "^0.4.0",
         "rollup-plugin-uglify": "^3.0.0",
-        "typescript": "^2.7.2",
-        "react": "^16.2.0",
-        "react-dom": "^16.2.0"
+        "tslint": "^5.9.1",
+        "tslint-react": "^3.5.1",
+        "typescript": "^2.7.2"
     },
     "peerDependencies": {
         "react": "^16.2.0",
