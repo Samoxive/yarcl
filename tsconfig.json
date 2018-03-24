@@ -8,7 +8,7 @@
         ],
         "jsx": "react",
         "declaration": true,
-        "outDir": "./lib",
+        "outDir": "./build",
         "rootDir": "./src",
         "downlevelIteration": true,
         "strict": true,
