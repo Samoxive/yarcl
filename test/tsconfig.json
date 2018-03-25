@@ -7,8 +7,6 @@
             "dom"
         ],
         "jsx": "react",
-        "outDir": "./test",
-        "rootDir": "./test",
         "downlevelIteration": true,
         "strict": true,
         "noImplicitAny": true,
@@ -20,8 +18,6 @@
         "experimentalDecorators": true
     },
     "exclude": [
-        "build",
-        "node_modules",
-        "./src"
+        "node_modules"
     ]
 }
