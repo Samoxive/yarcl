@@ -15,7 +15,7 @@
         "build": "tsc && rollup -c",
         "lint": "tslint --project tsconfig.json src/**/*.{ts,tsx}",
         "pretest": "npm run build && tsc -p test/tsconfig.json",
-        "test": "mocha"
+        "test": "npm run lint && mocha"
     },
     "repository": {
         "type": "git",
