@@ -1,6 +1,6 @@
 {
     "name": "yarcl",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "Yet another React charting library.",
     "main": "lib\\yarcl.cjs.min.js",
     "module": "lib\\yarcl.esm.min.js",
@@ -15,7 +15,8 @@
         "build": "tsc && rollup -c",
         "lint": "tslint --project tsconfig.json src/**/*.{ts,tsx}",
         "pretest": "npm run build && tsc -p test/tsconfig.json",
-        "test": "npm run lint && mocha"
+        "test": "npm run lint && mocha",
+        "prepublishOnly": "npm run test && npm run build"
     },
     "repository": {
         "type": "git",
@@ -67,7 +68,6 @@
         "react-dom": "^16.2.0"
     },
     "files": [
-        "lib",
-        "build"
+        "lib"
     ]
 }
