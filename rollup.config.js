@@ -1,7 +1,7 @@
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import uglify from 'rollup-plugin-uglify';
-import scss from 'rollup-plugin-scss';
+import sass from 'rollup-plugin-sass';
 import pkg from './package.json';
 
 const globals = {
@@ -11,7 +11,7 @@ const globals = {
 
 export default [
     {
-        input: 'build/index.js',
+        input: 'src/index.js',
         output: [
             { name: 'yarcl', file: pkg.browser, format: 'umd', globals },
             { file: pkg.main, format: 'cjs', globals },
@@ -23,7 +23,9 @@ export default [
         ],
         plugins: [
             resolve(),
-            commonjs()
+            commonjs(),
+            uglify(),
+            sass({ output: 'lib/style.css' })
         ]
     }
 ];
