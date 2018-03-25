@@ -1,21 +1,19 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "module": "es2015",
+        "module": "commonjs",
         "lib": [
             "es6",
             "dom"
         ],
         "jsx": "react",
-        "declaration": true,
-        "outDir": "./build",
-        "rootDir": "./src",
+        "outDir": "./test",
+        "rootDir": "./test",
         "downlevelIteration": true,
         "strict": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
         "strictFunctionTypes": true,
-        "noUnusedLocals": true,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
         "moduleResolution": "node",
@@ -24,6 +22,6 @@
     "exclude": [
         "build",
         "node_modules",
-        "./test"
+        "./src"
     ]
 }
