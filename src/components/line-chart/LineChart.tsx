@@ -1,11 +1,9 @@
 import * as React from 'react';
 
-class LineChart extends React.Component {
+export class LineChart extends React.Component {
     render() {
         return (
-            <div />
+            <div className="line-chart" />
         );
     }
 }
-
-export default LineChart;
