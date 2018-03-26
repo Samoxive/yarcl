@@ -92,7 +92,7 @@
     ],
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "C:\\Users\\Samil\\Desktop\\Kodlama\\Repos\\yarcl\\examples\\text-example\\tsconfig.test.json"
+        "tsConfigFile": "C:\\Users\\darko\\source\\repos\\com202\\yarcl\\examples\\text-example\\tsconfig.test.json"
       }
     }
   },
