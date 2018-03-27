@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './Circle.css';
 
 export interface RectangleProps {
     x?: number;
@@ -12,11 +11,11 @@ export interface RectangleProps {
 const BarRectangle: React.SFC<RectangleProps> = (props) => {
     const x = props.x;
     const y = props.y;
-    const w = props.w || 30;
-    const h = props.h || 30;
+    const w = props.w;
+    const h = props.h;
     return (
-        <svg className="Rectangle" width="1000" height="1000">
-            <rect x={x} y={y} width={w} height={h}/>
+        <svg className="Rectangle" width="15" height="500">
+            <rect x={x} y={y} width={w} height={h} fill="black"/>
         </svg>
     );
 };
