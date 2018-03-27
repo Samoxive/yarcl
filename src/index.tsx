@@ -5,4 +5,4 @@ export interface TextProps {
 }
 
 export const Text = ({ text }: TextProps) => <h1>{text}</h1>;
-export { LineChart, LineChartData } from './components/line-chart/LineChart';
+export { LineChart, LineChartData, Title, Subtitle, yAxis, PlotOptions, Data } from './components/line-chart/LineChart';
