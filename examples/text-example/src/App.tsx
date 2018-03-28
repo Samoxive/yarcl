@@ -6,7 +6,7 @@ class App extends React.Component {
         return (
             <div className="App">
                 <Text text="Hello world!" />
-                <BarChart data={[1, 2, 3, 4, 5, 6]}/>
+                <BarChart title="HEllo" data={[1, 2, 3, 4, 5, 6]}/>
             </div>
         );
     }

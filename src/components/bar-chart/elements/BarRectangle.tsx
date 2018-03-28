@@ -5,7 +5,9 @@ export interface RectangleProps {
     y?: number;
     w?: number;
     h?: number;
-
+    canvasW?: number;
+    canvasH?: number;
+    color?: string;
 }
 
 const BarRectangle: React.SFC<RectangleProps> = (props) => {
@@ -13,9 +15,12 @@ const BarRectangle: React.SFC<RectangleProps> = (props) => {
     const y = props.y;
     const w = props.w;
     const h = props.h;
+    const cW = props.canvasW || 15;
+    const cH = props.canvasH || 500;
+    const color = props.color || 'black';
     return (
-        <svg className="Rectangle" width="15" height="500">
-            <rect x={x} y={y} width={w} height={h} fill="black"/>
+        <svg className="Rectangle" width={cW} height={cH}>
+            <rect x={x} y={y} width={w} height={h} fill={color}/>
         </svg>
     );
 };
