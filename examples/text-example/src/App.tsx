@@ -11,12 +11,16 @@ class App extends React.Component {
     p: PlotOptions;
     render() {
         
-        this.t = {text: 'Denemesssssssssssssssdssss'};
-        this.s = {text: 'deneme'};
-        this.w = 500;
-        this.h = 500;
-        this.y = {title: {text: 'y Axis'}};
-        this.d = [{name: 'emre', data: [ 1, 2, 3, 4, 5]}];
+        this.t = {text: 'First Atemp For Line Chart(TITLE)'};
+        this.s = {text: 'Subtitle'};
+        this.w = 700;
+        this.h = 400;
+        this.y = {title: {text: 'Y Axis'}};
+        this.d = (
+            [{name: 'DataBlock-1', data: [ 1, 2, 3, 4, 5]}, 
+            {name: 'DataBlock-2', data: [ 5, 4, 3, 2, 1]}, 
+            {name: 'DataBlock-3', data: [ 3, 3, 3, 3, 3]}]
+        );
         this.p = {pointStart: 10};
         return (
             <div className="App">
