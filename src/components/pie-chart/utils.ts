@@ -16,7 +16,7 @@ export function getCircleCoordinates(data: PieChartData[]): Pie[] {
     let percentageUsed = 0;
 
     const percentages = data.map((datum) => datum.value / sum);
-    let previousPie: Pie = { percentage: 0, p1: { x: 0, y: 0 }, p2: { x: 0, y: 0 } };
+    let previousPie: Pie = { percentage: 0, p1: { x: 0, y: 0 }, p2: { x: 1, y: 0 } };
     const coordinates: Pie[] = new Array(data.length);
     let i = 0;
 
