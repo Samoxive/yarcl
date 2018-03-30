@@ -1,5 +1,4 @@
 import * as React from 'react';
-import BarRectangle from './elements/BarRectangle';
 
 export interface BarChartData {
     title?: string;
@@ -37,38 +36,34 @@ export const BarChart = ({title, subtitle, data}: BarChartData) => (
         </div>
 
         <div className="ChartData">
-            <svg width="15" height={biggestNum(data) * 10}>
+            <svg width={data.length * 15} height={biggestNum(data) * 10}>
                 <line 
                     x1="0" 
                     x2="0" 
                     y1="0" 
                     y2={biggestNum(data) * 10} 
-                    stroke={getRandomColor()} 
+                    stroke="black"
                     strokeWidth="4" 
                 />
-
-            </svg>
             {data.map((num, i) => 
-                <BarRectangle 
+                <rect
                     key={i} 
-                    x={5} 
+                    x={15 * i + 3.5} 
                     y={(biggestNum(data) - num) * 10} 
-                    w={5} 
-                    h={10 * num}
-                    canvasH={biggestNum(data)}
-                />)}
-            <div>
-            <svg width={data.length * 15} height={15}>
+                    width={7.5} 
+                    height={10 * num} 
+                    fill={getRandomColor()}
+                />)
+            }
                 <line 
                     x1="0" 
                     x2={data.length * 15}
-                    y1="0" 
-                    y2="0" 
-                    stroke={getRandomColor()} 
+                    y1={biggestNum(data) * 10}
+                    y2={biggestNum(data) * 10}
+                    stroke="black"
                     strokeWidth="4" 
                 />
             </svg>
-            </div>
         </div>
     </div>
 );
