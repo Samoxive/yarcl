@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Text } from '../../..'; 
+import '../../../lib/style.css';
 
 class App extends React.Component {
     render() {
