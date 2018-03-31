@@ -5,19 +5,19 @@ export interface Point {
     y: number;
 }
 
-export interface Pie {
+export interface PieCoordinates {
     percentage: number;
     p1: Point;
     p2: Point;
 }
 
-export function getCircleCoordinates(data: PieChartData[]): Pie[] {
+export function getCircleCoordinates(data: PieChartData[]): PieCoordinates[] {
     const sum = data.reduce((acc, datum) => acc + datum.value, 0);
     let percentageUsed = 0;
 
     const percentages = data.map((datum) => datum.value / sum);
-    let previousPie: Pie = { percentage: 0, p1: { x: 0, y: 0 }, p2: { x: 1, y: 0 } };
-    const coordinates: Pie[] = new Array(data.length);
+    let previousPie: PieCoordinates = { percentage: 0, p1: { x: 0, y: 0 }, p2: { x: 1, y: 0 } };
+    const coordinates: PieCoordinates[] = new Array(data.length);
     let i = 0;
 
     for (const percentage of percentages) {
