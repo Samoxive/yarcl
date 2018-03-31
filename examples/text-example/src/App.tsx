@@ -18,8 +18,10 @@ class App extends React.Component {
         this.y = {title: {text: 'Y Axis'}};
         this.d = (
             [{name: 'DataBlock-1', data: [ 1, 2, 3, 4, 5]}, 
-            {name: 'DataBlock-2', data: [ 5, 4, 3, 2, 1]}, 
-            {name: 'DataBlock-3', data: [ 3, 3, 3, 3, 3]}]
+            {name: 'DataBlock-2', data: [ 5, 4, 3, 2, 1]},
+            {name: 'DataBlock-3', data: [ 4, 4, 4, 4, 4]}, 
+            {name: 'DataBlock-4', data: [ 3, 3, 3, 3, 3]}, 
+            {name: 'DataBlock-5', data: [ 2, 2, 2, 2, 2]}]
         );
         this.p = {pointStart: 10};
         return (

@@ -34,18 +34,36 @@ function MaxDataCount(series: Data[]) {
     return maxCount;
 }
 
-function XAxis(s: Data[], w: number, h: number, p: number) {
+function XAxisLines(s: Data[], w: number, h: number, p: number) {
     let c = MaxDataCount(s);
     let arr = new Array(c);
     for (let i = 0; i < c; i++) {
         arr[i] = i + 1;
     }
     return arr.map((num) => (
-        <text text-anchor="middle" x={105 + num * (w - 200) / (c - 1)} y={6*h/8 + 25} fill="gray" >
-            {(p + num)}
-        </text>
+        <line 
+            x1={105 + num * (w - 200) / (c - 1)} 
+            y1={6*h/8}
+            x2={105 + num * (w - 200) / (c - 1)}
+            y2={6*h/8 + 10}
+            stroke-width="1"
+            stroke="gray"/>
     ));
 }
+    
+function XAxisDatas(s: Data[], w: number, h: number, p: number) {
+    let c = MaxDataCount(s);
+    let arr = new Array(c);
+    for (let i = 0; i < c; i++) {
+        arr[i] = i + 1;
+    }
+    return arr.map((num) => (
+            <text text-anchor="middle" x={105 + num * (w - 200) / (c - 1)} y={6*h/8 + 25} fill="gray" >
+                {(p + num)}
+            </text>
+    ));
+}
+
 function Triangle (w: number,h: number,i: number, j: number ,d: Data[]) {
     let c = MaxDataCount(d);
     let x1, x2, x3, y1, y2, y3, x, y;
@@ -62,6 +80,50 @@ function Triangle (w: number,h: number,i: number, j: number ,d: Data[]) {
     return <polygon points={""+x1+","+y1+" "+x2+","+y2+" "+x3+","+y3+""} fill="green"/>
 }
 
+function Star(w: number,h: number,i: number, j: number ,d: Data[]) {
+    let c = MaxDataCount(d);
+    let x1, x2, x3, x4, x5, y1, y2, y3, y4, y5, x, y;
+    x = 105+j*(w-200)/(c-1);
+    y = (3*h/4 - ((d[i].data[j] * 1) / c) * (h/2));
+    x1 = x;
+    y1 = y - 8;
+
+    x2 = x + 4;
+    y2 = y + 3;
+
+    x3 = x - 6;
+    y3 = y - 3;
+
+    x4 = x + 6;
+    y4 = y - 3;
+
+    x5 = x - 4;
+    y5 = y + 3;
+    return <polygon points={""+x1+","+y1+" "+x2+","+y2+" "+x3+","+y3+" "+x4+","+y4+" "+x5+","+y5+""} fill="orange"/>
+}
+
+function Pentagon(w: number,h: number,i: number, j: number ,d: Data[]) {
+    let c = MaxDataCount(d);
+    let x1, x2, x3, x4, x5, y1, y2, y3, y4, y5, x, y;
+    x = 105+j*(w-200)/(c-1);
+    y = (3*h/4 - ((d[i].data[j] * 1) / c) * (h/2));
+    x1 = x;
+    y1 = y - 8;
+
+    x2 = x + 6;
+    y2 = y - 3;
+
+    x3 = x + 4;
+    y3 = y + 3;
+
+    x4 = x - 4;
+    y4 = y + 3;
+
+    x5 = x - 6;
+    y5 = y - 3;
+    return <polygon points={""+x1+","+y1+" "+x2+","+y2+" "+x3+","+y3+" "+x4+","+y4+" "+x5+","+y5+""} fill="purple"/>
+}
+
 function DrawHorizontalLines(w: number, h: number) {
     let arr = [ 1, 2, 3, 4, 5];
     return arr.map((num, i) => (
@@ -76,16 +138,70 @@ function XAxisInfos(w: number, h: number, d: Data[]) {
     ));
 }
 
-// Not finished
+function DrawDataLines(w: number, h: number, d: Data[]) {
+    let c = MaxDataCount(d);
+    return d.map((num, i) => (
+        d[i].data.map((num, j) => (
+            (j == d[i].data.length - 1)? null:(
+                (i%5 === 0)? (
+                    <line 
+                    x1={105+j*(w-200)/(c-1)} 
+                    y1={(3*h/4-((d[i].data[j]*1)/c)*(h/2))}
+                    x2={105+(j+1)*(w-200)/(c-1)} 
+                    y2={(3*h/4-((d[i].data[j+1]*1)/c)*(h/2))}
+                    stroke-width="1"
+                    stroke="blue"/>
+                ):
+                (i%5 === 1)? (
+                    <line 
+                    x1={105+j*(w-200)/(c-1)} 
+                    y1={(3*h/4-((d[i].data[j]*1)/c)*(h/2))}
+                    x2={105+(j+1)*(w-200)/(c-1)} 
+                    y2={(3*h/4-((d[i].data[j+1]*1)/c)*(h/2))}
+                    stroke-width="1"
+                    stroke="black"/>
+                    ):
+                (i%5 === 2)? (
+                    <line 
+                    x1={105+j*(w-200)/(c-1)} 
+                    y1={(3*h/4-((d[i].data[j]*1)/c)*(h/2))}
+                    x2={105+(j+1)*(w-200)/(c-1)} 
+                    y2={(3*h/4-((d[i].data[j+1]*1)/c)*(h/2))}
+                    stroke-width="1"
+                    stroke="green"/>
+                    ):
+                (i%5 === 3)? (
+                    <line 
+                    x1={105+j*(w-200)/(c-1)} 
+                    y1={(3*h/4-((d[i].data[j]*1)/c)*(h/2))}
+                    x2={105+(j+1)*(w-200)/(c-1)} 
+                    y2={(3*h/4-((d[i].data[j+1]*1)/c)*(h/2))}
+                    stroke-width="1"
+                    stroke="orange"/>
+                    ):
+                (i%5 === 4)? (
+                    <line 
+                    x1={105+j*(w-200)/(c-1)} 
+                    y1={(3*h/4-((d[i].data[j]*1)/c)*(h/2))}
+                    x2={105+(j+1)*(w-200)/(c-1)} 
+                    y2={(3*h/4-((d[i].data[j+1]*1)/c)*(h/2))}
+                    stroke-width="1"
+                    stroke="purple"/>
+                    ): null 
+            ) 
+        ))
+    ));
+}
+
 function DrawPoint(w: number, h: number, d: Data[]) {
     let c = MaxDataCount(d);
     return d.map((num, i) => (
         d[i].data.map((num, j) => (
-            (i%5 === 0)? <circle  cx={105+j*(w-200)/(c-1)} cy={(3*h/4 - ((d[i].data[j] * 1) / c) * (h/2))} r={5} fill="blue"/>:           // Circle-DONE
-            (i%5 === 1)? <rect x={105+j*(w-200)/(c-1)-4} y={(3*h/4-((d[i].data[j]*1)/c)*(h/2))-4} width={8} height={8} fill="black"/>:    // Rectangle-DONE
-            (i%5 === 2)? Triangle(w, h, i, j, d) :                                                                                        // Triangle-DONE
-            (i%5 === 3)? <polygon points={""+100+","+10+" "+40+","+198+" "+190+","+78+" "+10+","+78+" "+160+","+198+""} fill="orange"/>:  // Star
-            (i%5 === 4)? <polygon points={"100,10 10,78 40,198 160,198 190,78"} fill="purple"/>: null                                     // Pentagon I guess
+            (i%5 === 0)? <circle  cx={105+j*(w-200)/(c-1)} cy={(3*h/4 - ((d[i].data[j] * 1) / c) * (h/2))} r={5} fill="blue"/>:             // Circle
+            (i%5 === 1)? <rect x={105+j*(w-200)/(c-1)-5} y={(3*h/4-((d[i].data[j]*1)/c)*(h/2))-5} width={10} height={10} fill="black"/>:    // Rectangle
+            (i%5 === 2)? Triangle(w, h, i, j, d) :                                                                                          // Triangle
+            (i%5 === 3)? Star(w,h,i,j,d):                                                                                                   // Star
+            (i%5 === 4)? Pentagon(w,h,i,j,d): null                                                                                          // Pentagon
         ))
     ));
 }
@@ -116,13 +232,15 @@ export const LineChart = ({t,s,y,p,w,h,d}: LineChartData) => (
         {DrawHorizontalLines(w,h)}
         {XAxisInfos(w,h,d)}
 
+        <line x1={105} y1={6*h/8} x2={105} y2={6*h/8 + 10} stroke-width="1" stroke="gray"/>
         <text text-anchor="middle" x={100 + 5} y={6*h/8 + 25} fill="gray" >{p.pointStart}</text>
-        {XAxis(d,w,h,p.pointStart)}
+        {XAxisDatas(d,w,h,p.pointStart)}
+        {XAxisLines(d,w,h,p.pointStart)}
 
         <text text-anchor="middle" x={w/2} y="30" fill="gray" >{t.text}</text>
         <text text-anchor="middle" x={w/2} y="60" fill="gray" >{s.text}</text>
         <text text-anchor="middle" x="30" y={h/2} fill="gray" transform={"rotate(-90 30,"+(h/2)+" )"}>{y.title.text}</text>
-
+        {DrawDataLines(w,h,d)}
         {DrawPoint(w,h,d)}
     </svg>
 );
