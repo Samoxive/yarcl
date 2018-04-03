@@ -48,10 +48,10 @@ export const BarChart = ({title, subtitle, data}: BarChartData) => (
             {data.map((num, i) => 
                 <rect
                     key={i} 
-                    x={15 * i + 3.5} 
-                    y={(biggestNum(data) - num) * 10} 
-                    width={7.5} 
-                    height={10 * num} 
+                    x={0}
+                    y={15 * i + 3.5}
+                    width={10 * num}    
+                    height={7.5} 
                     fill={getRandomColor()}
                 />)
             }
