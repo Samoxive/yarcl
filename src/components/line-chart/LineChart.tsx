@@ -24,6 +24,27 @@ function BigOne(series: Data[]) {
     return big;
 }
 
+function PlaceNames(w: number, h: number, d: Data[]) {
+    return d.map((data, i) => (
+        (i % 5 == 0) ? (
+            <text  text-anchor="start" x={w - 150} y={(6 + i)*h/16 + 25} fill="blue">{data.name}</text>
+        ):
+        (i % 5 == 1) ? (
+            <text  text-anchor="start" x={w - 150} y={(6 + i)*h/16 + 25} fill="black">{data.name}</text>
+        ):
+        (i % 5 == 2) ? (
+            <text  text-anchor="start" x={w - 150} y={(6 + i)*h/16 + 25} fill="green">{data.name}</text>
+        ):
+        (i % 5 == 3) ? (
+            <text  text-anchor="start" x={w - 150} y={(6 + i)*h/16 + 25} fill="orange">{data.name}</text>
+        ):
+        (i % 5 == 4) ? (
+            <text  text-anchor="start" x={w - 150} y={(6 + i)*h/16 + 25} fill="purple">{data.name}</text>
+        ):
+        null
+    ));
+}
+
 function MaxDataCount(series: Data[]) {
     let maxCount = 0;
     for (let i = 0; i < series.length; i++) {
@@ -42,9 +63,9 @@ function XAxisLines(s: Data[], w: number, h: number, p: number) {
     }
     return arr.map((num) => (
         <line 
-            x1={105 + num * (w - 200) / (c - 1)} 
+            x1={105 + num * (w - 300) / (c - 1)} 
             y1={6*h/8}
-            x2={105 + num * (w - 200) / (c - 1)}
+            x2={105 + num * (w - 300) / (c - 1)}
             y2={6*h/8 + 10}
             stroke-width="1"
             opacity="0.8"
@@ -59,7 +80,7 @@ function XAxisDatas(s: Data[], w: number, h: number, p: number) {
         arr[i] = i;
     }
     return arr.map((num) => (
-            <text text-anchor="middle" x={105 + num * (w - 200) / (c - 1)} y={6*h/8 + 25} fill="gray" >
+            <text text-anchor="middle" x={105 + num * (w - 300) / (c - 1)} y={6*h/8 + 25} fill="gray" >
                 {(p + num)}
             </text>
     ));
@@ -69,7 +90,7 @@ function Triangle (w: number,h: number,i: number, j: number ,d: Data[]) {
     let c = MaxDataCount(d);
     let x1, x2, x3, y1, y2, y3, x, y;
     let b = BigOne(d);
-    x = 105+j*(w-200)/(c-1);
+    x = 105+j*(w-300)/(c-1);
     y = (3*h/4 - ((d[i].data[j] * 1) / b) * (h/2));
     x1 = x;
     y1 = y - 9;
@@ -86,7 +107,7 @@ function Star(w: number,h: number,i: number, j: number ,d: Data[]) {
     let c = MaxDataCount(d);
     let b = BigOne(d);
     let x1, x2, x3, x4, x5, y1, y2, y3, y4, y5, x, y;
-    x = 105+j*(w-200)/(c-1);
+    x = 105+j*(w-300)/(c-1);
     y = (3*h/4 - ((d[i].data[j] * 1) / b) * (h/2));
     x1 = x;
     y1 = y - 8;
@@ -109,7 +130,7 @@ function Pentagon(w: number,h: number,i: number, j: number ,d: Data[]) {
     let c = MaxDataCount(d);
     let b = BigOne(d);
     let x1, x2, x3, x4, x5, y1, y2, y3, y4, y5, x, y;
-    x = 105+j*(w-200)/(c-1);
+    x = 105+j*(w-300)/(c-1);
     y = (3*h/4 - ((d[i].data[j] * 1) / b) * (h/2));
     x1 = x;
     y1 = y - 8;
@@ -134,7 +155,7 @@ function DrawHorizontalLines(w: number, h: number) {
         <line 
         x1={100} 
         y1={(i + 2) * h / 8} 
-        x2={w - 90} 
+        x2={w - 190} 
         y2={(i + 2) * h / 8} 
         stroke-width="1" 
         opacity="0.7"
@@ -157,45 +178,45 @@ function DrawDataLines(w: number, h: number, d: Data[]) {
             (j == d[i].data.length - 1)? null:(
                 (i%5 === 0)? (
                     <line 
-                    x1={105+j*(w-200)/(c-1)} 
+                    x1={105+j*(w-300)/(c-1)} 
                     y1={(3*h/4-((d[i].data[j]*1)/b)*(h/2))}
-                    x2={105+(j+1)*(w-200)/(c-1)} 
+                    x2={105+(j+1)*(w-300)/(c-1)} 
                     y2={(3*h/4-((d[i].data[j+1]*1)/b)*(h/2))}
                     stroke-width="1"
                     stroke="blue"/>
                 ):
                 (i%5 === 1)? (
                     <line 
-                    x1={105+j*(w-200)/(c-1)} 
+                    x1={105+j*(w-300)/(c-1)} 
                     y1={(3*h/4-((d[i].data[j]*1)/b)*(h/2))}
-                    x2={105+(j+1)*(w-200)/(c-1)} 
+                    x2={105+(j+1)*(w-300)/(c-1)} 
                     y2={(3*h/4-((d[i].data[j+1]*1)/b)*(h/2))}
                     stroke-width="1"
                     stroke="black"/>
                     ):
                 (i%5 === 2)? (
                     <line 
-                    x1={105+j*(w-200)/(c-1)} 
+                    x1={105+j*(w-300)/(c-1)} 
                     y1={(3*h/4-((d[i].data[j]*1)/b)*(h/2))}
-                    x2={105+(j+1)*(w-200)/(c-1)} 
+                    x2={105+(j+1)*(w-300)/(c-1)} 
                     y2={(3*h/4-((d[i].data[j+1]*1)/b)*(h/2))}
                     stroke-width="1"
                     stroke="green"/>
                     ):
                 (i%5 === 3)? (
                     <line 
-                    x1={105+j*(w-200)/(c-1)} 
+                    x1={105+j*(w-300)/(c-1)} 
                     y1={(3*h/4-((d[i].data[j]*1)/b)*(h/2))}
-                    x2={105+(j+1)*(w-200)/(c-1)} 
+                    x2={105+(j+1)*(w-300)/(c-1)} 
                     y2={(3*h/4-((d[i].data[j+1]*1)/b)*(h/2))}
                     stroke-width="1"
                     stroke="orange"/>
                     ):
                 (i%5 === 4)? (
                     <line 
-                    x1={105+j*(w-200)/(c-1)} 
+                    x1={105+j*(w-300)/(c-1)} 
                     y1={(3*h/4-((d[i].data[j]*1)/b)*(h/2))}
-                    x2={105+(j+1)*(w-200)/(c-1)} 
+                    x2={105+(j+1)*(w-300)/(c-1)} 
                     y2={(3*h/4-((d[i].data[j+1]*1)/b)*(h/2))}
                     stroke-width="1"
                     stroke="purple"/>
@@ -210,8 +231,8 @@ function DrawPoint(w: number, h: number, d: Data[]) {
     let b = BigOne(d);
     return d.map((num, i) => (
         d[i].data.map((num, j) => (
-            (i%5 === 0)? <circle  cx={105+j*(w-200)/(c-1)} cy={(3*h/4 - ((d[i].data[j] * 1) / b) * (h/2))} r={5} fill="blue"/>:             // Circle
-            (i%5 === 1)? <rect x={105+j*(w-200)/(c-1)-5} y={(3*h/4-((d[i].data[j]*1)/b)*(h/2))-5} width={10} height={10} fill="black"/>:    // Rectangle
+            (i%5 === 0)? <circle  cx={105+j*(w-300)/(c-1)} cy={(3*h/4 - ((d[i].data[j] * 1) / b) * (h/2))} r={5} fill="blue"/>:             // Circle
+            (i%5 === 1)? <rect x={105+j*(w-300)/(c-1)-5} y={(3*h/4-((d[i].data[j]*1)/b)*(h/2))-5} width={10} height={10} fill="black"/>:    // Rectangle
             (i%5 === 2)? Triangle(w, h, i, j, d) :                                                                                          // Triangle
             (i%5 === 3)? Star(w,h,i,j,d):                                                                                                   // Star
             (i%5 === 4)? Pentagon(w,h,i,j,d): null                                                                                          // Pentagon
@@ -255,5 +276,6 @@ export const LineChart = ({t,s,y,p,w,h,d}: LineChartData) => (
         <text text-anchor="middle" x="30" y={h/2} fill="gray" transform={"rotate(-90 30,"+(h/2)+" )"}>{y.title.text}</text>
         {DrawDataLines(w,h,d)}
         {DrawPoint(w,h,d)}
+        {PlaceNames(w,h,d)}
     </svg>
 );
