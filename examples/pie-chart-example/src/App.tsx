@@ -8,7 +8,7 @@ class App extends React.Component {
             <div className="App">
                 <PieChart
                           title="Hello world!"
-                          data={[{label: 'Hello', value: 1}, {label: 'World', value: 4}, {label: 'Ayy lmao', value: 5}]}
+                          data={[{label: 'Hello', value: 1}, {label: 'World', value: 5}]}
                 />
             </div>
         );
