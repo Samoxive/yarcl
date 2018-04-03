@@ -68,7 +68,7 @@ export const PieChart = ({title, data}: PieChartProps) => {
                     {data.map((datum, i) => (
                         <div key={i}>
                             <span><svg viewBox="0 0 2 2" className="pie-chart-label-svg">
-                                <circle cx="1" cy="1" r="1" stroke-width="0" fill={colors[i]} />
+                                <circle cx="1" cy="1" r="1" strokeWidth="0" fill={colors[i]} />
                             </svg></span>
                             <span>{datum.label}</span>
                         </div>)
