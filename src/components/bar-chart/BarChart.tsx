@@ -41,7 +41,7 @@ export const BarChart = ({title, subtitle, data, label}: BarChartData) => (
         </div>
 
         <div className="ChartData">
-            <svg width={data.length * 15} height={biggestNum(data) * 10}>
+            <svg viewBox="0 0 {data.length * 15} {biggestNum(data) * 10}">
                 <line 
                     x1="0" 
                     x2="0" 
@@ -62,7 +62,7 @@ export const BarChart = ({title, subtitle, data, label}: BarChartData) => (
             }
                 <line 
                     x1="0" 
-                    x2={biggestNum(data) * 10}
+                    x2={biggestNum(data) * 10 + 2}
                     y1={data.length * 15}
                     y2={data.length * 15}
                     stroke="black"
