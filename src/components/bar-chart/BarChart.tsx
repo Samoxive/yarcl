@@ -37,10 +37,7 @@ export const BarChart = ({title, subtitle, data, label}: BarChartData) => (
         </div>
 
         <div className="Labels">
-            {label.map((num, i) => 
-                <Text key={i}>{num}</Text>
-            )
-            }
+            {label.map((num, i) => <div key={i}>{num}</div>)}
         </div>
 
         <div className="ChartData">
