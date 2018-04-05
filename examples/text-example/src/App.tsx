@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { LineChart, Title, Subtitle, yAxis, PlotOptions, Data } from '../../..';
+import { LineChart, Title, Subtitle, YAxis, PlotOptions, Data } from '../../..';
 
 class App extends React.Component {
     t: Title;
     s: Subtitle;
-    y: yAxis;
-    d: Data[];
+    y: YAxis;
+    ds: Data[];
     w: number;
     h: number;
     p: PlotOptions;
@@ -16,7 +16,7 @@ class App extends React.Component {
         this.w = 700;
         this.h = 400;
         this.y = {title: {text: 'Y Axis'}};
-        this.d = (
+        this.ds = (
             [{name: 'DataBlock-1', data: [4394, 5203, 5717, 6658, 9731, 1131, 1333, 1545]}, 
             {name: 'DataBlock-2', data: [2416, 2064, 2942, 2851, 3290, 3082, 3821, 4434]},
             {name: 'DataBlock-3', data: [1144, 1722, 1605, 1971, 1085, 2477, 3247, 3987]}, 
@@ -26,7 +26,15 @@ class App extends React.Component {
         this.p = {pointStart: 10};
         return (
             <div className="App">
-                <LineChart t={this.t} s={this.s} y={this.y} p={this.p} w={this.w} h={this.h} d={this.d}/>
+                <LineChart 
+                    title={this.t} 
+                    subtitle={this.s} 
+                    yAxis={this.y} 
+                    plotOptions={this.p} 
+                    width={this.w} 
+                    height={this.h}
+                    series={this.ds}
+                />
             </div>
         );
     }
