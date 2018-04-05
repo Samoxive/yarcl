@@ -27,19 +27,110 @@ function BigOne(series: Data[]) {
 function PlaceNames(w: number, h: number, d: Data[]) {
     return d.map((data, i) => (
         (i % 5 === 0) ? (
-            <text  text-anchor="start" x={w - 150} y={(6 + i) * h / 16 + 25} fill="blue">{data.name}</text>
+            <>
+                <text  text-anchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="blue">{data.name}</text>
+                <line 
+                    x1={w - 180}
+                    y1={(6 + i) * h / 16 + 25}
+                    x2={w - 150} 
+                    y2={(6 + i) * h / 16 + 25}
+                    stroke-width="1"
+                    stroke="blue"
+                />
+                <circle  
+                    cx={w - 165} 
+                    cy={(6 + i) * h / 16 + 25}  
+                    r={5} 
+                    fill="blue"
+                /> 
+            </>
         ) :
         (i % 5 === 1) ? (
-            <text  text-anchor="start" x={w - 150} y={(6 + i) * h / 16 + 25} fill="black">{data.name}</text>
+            <>
+                <text  text-anchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="black">{data.name}</text>
+                <line 
+                    x1={w - 180}
+                    y1={(6 + i) * h / 16 + 25}
+                    x2={w - 150} 
+                    y2={(6 + i) * h / 16 + 25}
+                    stroke-width="1"
+                    stroke="black"
+                />
+                <rect 
+                    x={w - 170} 
+                    y={(6 + i) * h / 16 + 20} 
+                    width={10} 
+                    height={10} 
+                    fill="black"
+                />
+            </>
         ) :
         (i % 5 === 2) ? (
-            <text  text-anchor="start" x={w - 150} y={(6 + i) * h / 16 + 25} fill="green">{data.name}</text>
+            <>
+                <text  text-anchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="green">{data.name}</text>
+                <line 
+                    x1={w - 180}
+                    y1={(6 + i) * h / 16 + 25}
+                    x2={w - 150} 
+                    y2={(6 + i) * h / 16 + 25}
+                    stroke-width="1"
+                    stroke="green"
+                />
+                <polygon 
+                    points={
+                        ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 16) + 
+                        ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 28) + 
+                        ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 28) 
+                    } 
+                    fill="green"
+                />
+            </>
         ) :
         (i % 5 === 3) ? (
-            <text  text-anchor="start" x={w - 150} y={(6 + i) * h / 16 + 25} fill="orange">{data.name}</text>
+            <>
+                <text  text-anchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="orange">{data.name}</text>
+                <line 
+                    x1={w - 180}
+                    y1={(6 + i) * h / 16 + 25}
+                    x2={w - 150} 
+                    y2={(6 + i) * h / 16 + 25}
+                    stroke-width="1"
+                    stroke="orange"
+                />
+                <polygon 
+                    points={
+                    ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
+                    ' ' + (w - 161) + ',' + ((6 + i) * h / 16 + 28) + 
+                    ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 22) + 
+                    ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
+                    ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) 
+                    } 
+                    fill="orange"
+                />
+            </>
         ) :
         (i % 5 === 4) ? (
-            <text  text-anchor="start" x={w - 150} y={(6 + i) * h / 16 + 25} fill="purple">{data.name}</text>
+            <>
+                <text  text-anchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="purple">{data.name}</text>
+                <line 
+                    x1={w - 180}
+                    y1={(6 + i) * h / 16 + 25}
+                    x2={w - 150} 
+                    y2={(6 + i) * h / 16 + 25}
+                    stroke-width="1"
+                    stroke="purple"
+                />
+                <polygon 
+                    points={
+                    ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
+                    ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
+                    ' ' + (w - 161) + ',' + ((6 + i) * h / 16 + 28) + 
+                    ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) +
+                    ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 22) 
+                    } 
+                    fill="purple"
+                />
+            </>
         ) :
         null
     ));
