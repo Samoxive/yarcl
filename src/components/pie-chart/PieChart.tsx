@@ -6,6 +6,7 @@ import { getCircleCoordinates, PieCoordinates } from './utils';
 export interface PieChartData {
     label: string;
     value: number;
+    color?: string;
 }
 
 export interface PieChartProps {
@@ -49,7 +50,7 @@ export class Pie extends React.Component<PieProps> {
 
 export const PieChart = ({title, data}: PieChartProps) => {
     let coords = getCircleCoordinates(data);
-    let colors = data.map(getRandomColor);
+    let colors = data.map((datum) => datum.color ? datum.color : getRandomColor());
 
     return (
         <div className="pie-chart-container-vertical">
