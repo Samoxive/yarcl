@@ -1,5 +1,5 @@
 import * as React from 'react';
-import  './BarChart.scss';
+import './BarChart.scss';
 
 export interface BarChartData {
     title?: string;
