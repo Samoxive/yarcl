@@ -5,4 +5,3 @@ test/**/*.js
 src/**/*.js
 examples/**/*.js
 .DS_Store
-*.js
