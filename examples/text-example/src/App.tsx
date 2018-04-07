@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { LineChart, Title, Subtitle, YAxis, PlotOptions, Data } from '../../..';
+import '../../../lib/style.css';
 
 class App extends React.Component {
     t: Title;

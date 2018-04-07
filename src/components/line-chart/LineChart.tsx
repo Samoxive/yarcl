@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './LineChart.scss';
 
 export interface Title {
     text: string;
@@ -28,16 +29,20 @@ function PlaceNames(w: number, h: number, d: Data[]) {
     return d.map((data, i) => (
         (i % 5 === 0) ? (
             <>
-                <text  text-anchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="blue">{data.name}</text>
+                <text key={10 + i} textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="blue">
+                    {data.name}
+                </text>
                 <line 
+                    key={20 + i}
                     x1={w - 180}
                     y1={(6 + i) * h / 16 + 25}
                     x2={w - 150} 
                     y2={(6 + i) * h / 16 + 25}
-                    stroke-width="1"
+                    strokeWidth="1"
                     stroke="blue"
                 />
                 <circle  
+                    key={i}
                     cx={w - 165} 
                     cy={(6 + i) * h / 16 + 25}  
                     r={5} 
@@ -47,16 +52,20 @@ function PlaceNames(w: number, h: number, d: Data[]) {
         ) :
         (i % 5 === 1) ? (
             <>
-                <text  text-anchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="black">{data.name}</text>
+                <text  key={10 + i} textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="black">
+                    {data.name}
+                </text>
                 <line 
+                    key={20 + i}
                     x1={w - 180}
                     y1={(6 + i) * h / 16 + 25}
                     x2={w - 150} 
                     y2={(6 + i) * h / 16 + 25}
-                    stroke-width="1"
+                    strokeWidth="1"
                     stroke="black"
                 />
                 <rect 
+                    key={i}
                     x={w - 170} 
                     y={(6 + i) * h / 16 + 20} 
                     width={10} 
@@ -67,16 +76,20 @@ function PlaceNames(w: number, h: number, d: Data[]) {
         ) :
         (i % 5 === 2) ? (
             <>
-                <text  text-anchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="green">{data.name}</text>
+                <text key={10 + i} textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="green">
+                    {data.name}
+                </text>
                 <line 
+                    key={20 + i}
                     x1={w - 180}
                     y1={(6 + i) * h / 16 + 25}
                     x2={w - 150} 
                     y2={(6 + i) * h / 16 + 25}
-                    stroke-width="1"
+                    strokeWidth="1"
                     stroke="green"
                 />
                 <polygon 
+                    key={i}
                     points={
                         ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 16) + 
                         ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 28) + 
@@ -88,16 +101,19 @@ function PlaceNames(w: number, h: number, d: Data[]) {
         ) :
         (i % 5 === 3) ? (
             <>
-                <text  text-anchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="orange">{data.name}</text>
+                <text key={10 + i} textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="orange">
+                    {data.name}
+                </text>
                 <line 
+                    key={20 + i}
+                    className="dataBlock4"
                     x1={w - 180}
                     y1={(6 + i) * h / 16 + 25}
                     x2={w - 150} 
                     y2={(6 + i) * h / 16 + 25}
-                    stroke-width="1"
-                    stroke="orange"
                 />
                 <polygon 
+                    key={i}
                     points={
                     ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
                     ' ' + (w - 161) + ',' + ((6 + i) * h / 16 + 28) + 
@@ -111,16 +127,20 @@ function PlaceNames(w: number, h: number, d: Data[]) {
         ) :
         (i % 5 === 4) ? (
             <>
-                <text  text-anchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="purple">{data.name}</text>
+                <text key={10 + i} textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="purple">
+                    {data.name}
+                </text>
                 <line 
+                    key={20 + i}
                     x1={w - 180}
                     y1={(6 + i) * h / 16 + 25}
                     x2={w - 150} 
                     y2={(6 + i) * h / 16 + 25}
-                    stroke-width="1"
+                    strokeWidth="1"
                     stroke="purple"
                 />
                 <polygon 
+                    key={i}
                     points={
                     ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
                     ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
@@ -152,13 +172,14 @@ function XAxisLines(s: Data[], w: number, h: number, p: number) {
     for (let i = 0; i < c; i++) {
         arr[i] = i;
     }
-    return arr.map((num) => (
+    return arr.map((num, i) => (
         <line 
+            key={i}
             x1={105 + num * (w - 300) / (c - 1)} 
             y1={6 * h / 8}
             x2={105 + num * (w - 300) / (c - 1)}
             y2={6 * h / 8 + 10}
-            stroke-width="1"
+            strokeWidth="1"
             opacity="0.8"
             stroke="gray"
         />
@@ -171,8 +192,8 @@ function XAxisDatas(s: Data[], w: number, h: number, p: number) {
     for (let i = 0; i < c; i++) {
         arr[i] = i;
     }
-    return arr.map((num) => (
-            <text text-anchor="middle" x={105 + num * (w - 300) / (c - 1)} y={6 * h / 8 + 25} fill="gray" >
+    return arr.map((num, i) => (
+            <text key={i} textAnchor="middle" x={105 + num * (w - 300) / (c - 1)} y={6 * h / 8 + 25} fill="gray" >
                 {(p + num)}
             </text>
     ));
@@ -192,7 +213,13 @@ function Triangle (w: number, h: number, i: number, j: number , d: Data[]) {
 
     x3 = x + 6;
     y3 = y + 3;
-    return <polygon points={'' + x1 + ',' + y1 + ' ' + x2 + ',' + y2 + ' ' + x3 + ',' + y3 + ''} fill="green"/>;
+    return (
+        <polygon 
+            key={i * 10 + j} 
+            points={'' + x1 + ',' + y1 + ' ' + x2 + ',' + y2 + ' ' + x3 + ',' + y3 + ''} 
+            fill="green"
+        />
+    ) ;
 }
 
 function Star(w: number, h: number, i: number, j: number , d: Data[]) {
@@ -217,6 +244,7 @@ function Star(w: number, h: number, i: number, j: number , d: Data[]) {
     y5 = y + 3;
     return(
     <polygon 
+        key={i * 10 + j}
         points={
         ' ' + x1 + ',' + y1 + 
         ' ' + x2 + ',' + y2 + 
@@ -252,6 +280,7 @@ function Pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
     y5 = y - 3;
     return(
     <polygon 
+        key={i * 10 + j}
         points={
         ' ' + x1 + ',' + y1 + 
         ' ' + x2 + ',' + y2 + 
@@ -268,11 +297,12 @@ function DrawHorizontalLines(w: number, h: number) {
     let arr = [ 1, 2, 3, 4, 5];
     return arr.map((num, i) => (
         <line 
+            key={i}
             x1={100} 
             y1={(i + 2) * h / 8} 
             x2={w - 190} 
             y2={(i + 2) * h / 8} 
-            stroke-width="1" 
+            strokeWidth="1" 
             opacity="0.7"
             stroke="gray"
         />
@@ -282,7 +312,7 @@ function DrawHorizontalLines(w: number, h: number) {
 function XAxisInfos(w: number, h: number, d: Data[]) {
     let arr = [ 1, 2, 3, 4, 5];
     return arr.map((num, i) => (
-        <text text-anchor="end" x={100 - 5} y={(i + 2) * h / 8 + 5} fill="gray" >
+        <text key={i} textAnchor="end" x={100 - 5} y={(i + 2) * h / 8 + 5} fill="gray" >
             {(4 - i) * BigOne(d) / 4}
         </text>
     ));
@@ -295,52 +325,57 @@ function DrawDataLines(w: number, h: number, d: Data[]) {
         ds.data.map((nums, j) => (
             (j === ds.data.length - 1) ? null : (
                 (i % 5 === 0) ? (
-                    <line 
+                    <line
+                        key={i * 10 + j} 
                         x1={105 + j * ( w - 300 ) / ( c - 1)} 
                         y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
                         x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1 )} 
                         y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                        stroke-width="1"
+                        strokeWidth="1"
                         stroke="blue"
                     />
                 ) :
                 (i % 5 === 1) ? (
                     <line 
+                        key={i * 10 + j}
                         x1={105 + j * ( w - 300 ) / ( c - 1 )} 
                         y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
                         x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1 )} 
                         y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                        stroke-width="1"
+                        strokeWidth="1"
                         stroke="black"
                     />
                     ) :
                 (i % 5 === 2) ? (
-                    <line 
+                    <line
+                        key={i * 10 + j}
                         x1={105 + j * ( w - 300 ) / ( c - 1 )} 
                         y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
                         x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1)} 
                         y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                        stroke-width="1"
+                        strokeWidth="1"
                         stroke="green"
                     />
                     ) :
                 (i % 5 === 3) ? (
                     <line 
+                        key={i * 10 + j}
                         x1={105 + j * ( w - 300) / ( c - 1 )} 
                         y1={(3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ))}
                         x2={105 + ( j + 1 ) * ( w - 300) / ( c - 1 )} 
                         y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                        stroke-width="1"
+                        strokeWidth="1"
                         stroke="orange"
                     />
                     ) :
                 (i % 5 === 4) ? (
                     <line 
+                        key={i * 10 + j}
                         x1={105 + j * ( w - 300) / ( c - 1 )} 
                         y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2))}
                         x2={105 + ( j + 1 ) * ( w - 300) / ( c - 1)} 
                         y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2))}
-                        stroke-width="1"
+                        strokeWidth="1"
                         stroke="purple"
                     />
                     ) : null 
@@ -355,7 +390,8 @@ function DrawPoint(w: number, h: number, d: Data[]) {
     return d.map((num, i) => (
         num.data.map((nums, j) => (
             (i % 5 === 0) ? (
-            <circle  
+            <circle 
+                key={i * 10 + j}
                 cx={105 + j * ( w - 300 ) / ( c - 1)} 
                 cy={(3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2))} 
                 r={5} 
@@ -364,6 +400,7 @@ function DrawPoint(w: number, h: number, d: Data[]) {
             ) :
             (i % 5 === 1) ? (
             <rect 
+                key={i * 10 + j}
                 x={105 + j * ( w - 300) / ( c - 1 ) - 5} 
                 y={(3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2)) - 5} 
                 width={10} 
@@ -402,24 +439,23 @@ export interface LineChartData {
 
 export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, series}: LineChartData) => (
     <svg width={width} height={height}>
-        <rect width={width} height={height} stroke-width="2" stroke="green" fill="white" />
+        <rect key="1" width={width} height={height} strokeWidth="2" stroke="green" fill="white" />
 
         {DrawHorizontalLines(width, height)}
         {XAxisInfos(width, height, series)}
 
-        {/*<line x1={105} y1={6*h/8} x2={105} y2={6*h/8 + 10} stroke-width="1" stroke="gray"/>}
-        {  <text text-anchor="middle" x={100 + 5} y={6*h/8 + 25} fill="gray" >{p.pointStart}</text>*/}
         {XAxisDatas(series, width, height, plotOptions.pointStart)}
         {XAxisLines(series, width, height, plotOptions.pointStart)}
 
-        <text text-anchor="middle" x={width / 2} y="30" fill="gray" >
+        <text key="2" textAnchor="middle" x={width / 2} y="30" fill="gray" >
             {title.text}
         </text>
-        <text text-anchor="middle" x={width / 2} y="60" fill="gray" >
+        <text key="3" textAnchor="middle" x={width / 2} y="60" fill="gray" >
             {subtitle.text}
         </text>
         <text 
-            text-anchor="middle" 
+            key="4"
+            textAnchor="middle" 
             x="30" 
             y={height / 2} 
             fill="gray" 
