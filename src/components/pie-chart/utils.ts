@@ -7,6 +7,7 @@ export interface Point {
 
 export interface PieCoordinates {
     percentage: number;
+    previousPercentage: number;
     p1: Point;
     p2: Point;
 }
@@ -16,7 +17,7 @@ export function getCircleCoordinates(data: PieChartData[]): PieCoordinates[] {
     let percentageUsed = 0;
 
     const percentages = data.map((datum) => datum.value / sum);
-    let previousPie: PieCoordinates = { percentage: 0, p1: { x: 0, y: 0 }, p2: { x: 1, y: 0 } };
+    let previousPie: PieCoordinates = { percentage: 0, previousPercentage: 0, p1: { x: 0, y: 0 }, p2: { x: 1, y: 0 } };
     const coordinates: PieCoordinates[] = new Array(data.length);
     let i = 0;
 
@@ -24,6 +25,7 @@ export function getCircleCoordinates(data: PieChartData[]): PieCoordinates[] {
         percentageUsed += percentage;
         const newCoordinate = {
             percentage,
+            previousPercentage: percentageUsed - percentage,
             p1: { x: previousPie.p2.x , y: previousPie.p2.y },
             p2: { x: Math.cos(2 * Math.PI * percentageUsed), y: Math.sin(2 * Math.PI * percentageUsed) }
         };
@@ -32,14 +34,15 @@ export function getCircleCoordinates(data: PieChartData[]): PieCoordinates[] {
         previousPie =  { ...newCoordinate };
     }
 
-    return coordinates.map(({ percentage, p1, p2 }) => ({
+    return coordinates.map(({ percentage, previousPercentage, p1, p2 }) => ({
         percentage,
+        previousPercentage,
         p1: normalPointToSVG(p1),
         p2: normalPointToSVG(p2),
     }));
 }
 
-function normalPointToSVG(point: Point): Point {
+export function normalPointToSVG(point: Point): Point {
     return ({
         x: point.x + 1,
         y: point.y + 1
