@@ -1,22 +1,16 @@
-.BarChart {
+.bar-chart {
     width: 70%;
     height: 100%;
     margin: 8px 8px 8px 8px;
 }
 
-.ChartData {
+.chart-data {
     display: flex;
     flex-direction: column;
 }
 
-.Title {
+.chart-title {
     margin: 8px 8px 8px 8px;
     font-size: 24px;
-    align-self: center;
-}
-
-.Labels {
-    margin: 8px 8px 8px 8px;
-    width: 25%;
     align-self: center;
 }
