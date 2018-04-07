@@ -9,7 +9,7 @@ class App extends React.Component {
                 <BarChart 
                     title="Hello" 
                     label={['1', '2', '3', '4', '5', '6', '12', '7', '25', '25']}
-                    data={[1, 2, 3, 4, 5, 6, 12, 7, 25, 300]}
+                    data={[1, 2, 3, 4, 5, 6, 12, 7, 25, 23]}
                 />
             </div>
         );
