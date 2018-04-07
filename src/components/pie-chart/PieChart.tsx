@@ -45,6 +45,21 @@ export class Pie extends React.Component<PieProps> {
             y: Math.sin(2 * Math.PI * halfwayPercentage) / 2
         });
 
+        if (c.percentage > 0.99999999) {
+            return (
+                <React.Fragment>
+                    <circle cx={1} cy={1} r={1} fill={color} />
+                    {showPercentage && (
+                        <text x={1} y={1} fontSize={0.1} textAnchor={'middle'}>~100%</text>
+                    )}
+                </React.Fragment>
+            );
+        }
+
+        if (c.percentage < 0.00000001) {
+            return null;
+        }
+
         return (
             <React.Fragment>
                 <path
@@ -62,7 +77,7 @@ export class Pie extends React.Component<PieProps> {
                         x={percentageCoordinate.x}
                         y={percentageCoordinate.y}
                         fontSize={0.1}
-                        textAnchor={'end'}
+                        textAnchor={'middle'}
                     >
                         {`${Math.floor(c.percentage * 1000) / 10}%`}
                     </text>) : null}
@@ -76,12 +91,12 @@ export const PieChart = ({title, data, options}: PieChartProps) => {
     let colors = data.map((datum) => datum.color ? datum.color : getRandomColor());
 
     return (
-        <div className="pie-chart-container-vertical">
+        <div className="pie-chart pie-chart-container-vertical">
             <div className="pie-chart-title">
                 {title}
             </div>
             <div className="pie-chart-container-horizontal">
-                <div className="pie-chart">
+                <div className="pie-chart-svg">
                     <svg viewBox="0 0 2 2">
                         {coords.map((c, i) => (
                             <Pie
