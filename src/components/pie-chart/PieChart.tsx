@@ -9,15 +9,21 @@ export interface PieChartData {
     color?: string;
 }
 
+export interface PieChartOptions {
+    showPercentage: boolean;
+}
+
 export interface PieChartProps {
     title: string;
     data: PieChartData[];
+    options: PieChartOptions;
 }
 
 export interface PieProps {
     label: string;
     color: string;
     coordinates: PieCoordinates;
+    showPercentage: boolean;
 }
 
 function getRandomColor(): string {
@@ -31,7 +37,7 @@ function getRandomColor(): string {
 
 export class Pie extends React.Component<PieProps> {
     render() {
-        const { coordinates, color } = this.props;
+        const { coordinates, color, showPercentage } = this.props;
         const c = coordinates;
         const halfwayPercentage = (c.percentage / 2) + c.previousPercentage;
         const percentageCoordinate = normalPointToSVG({
@@ -51,7 +57,7 @@ export class Pie extends React.Component<PieProps> {
                         Z`}
                     fill={color}
                 />
-                {percentageCoordinate ? 
+                {showPercentage && percentageCoordinate ? 
                     (<text
                         x={percentageCoordinate.x}
                         y={percentageCoordinate.y}
@@ -65,7 +71,7 @@ export class Pie extends React.Component<PieProps> {
     }
 }
 
-export const PieChart = ({title, data}: PieChartProps) => {
+export const PieChart = ({title, data, options}: PieChartProps) => {
     let coords = getCircleCoordinates(data);
     let colors = data.map((datum) => datum.color ? datum.color : getRandomColor());
 
@@ -78,7 +84,13 @@ export const PieChart = ({title, data}: PieChartProps) => {
                 <div className="pie-chart">
                     <svg viewBox="0 0 2 2">
                         {coords.map((c, i) => (
-                            <Pie key={i} label={data[i].label} coordinates={c} color={colors[i]} />)
+                            <Pie
+                                key={i}
+                                label={data[i].label}
+                                coordinates={c}
+                                color={colors[i]}
+                                showPercentage={options.showPercentage}
+                            />)
                         )}
                     </svg>
                 </div>
