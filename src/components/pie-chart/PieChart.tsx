@@ -1,7 +1,7 @@
 import './PieChart.scss';
 
 import * as React from 'react';
-import { getCircleCoordinates, PieCoordinates } from './utils';
+import { getCircleCoordinates, PieCoordinates, normalPointToSVG } from './utils';
 
 export interface PieChartData {
     label: string;
@@ -33,17 +33,34 @@ export class Pie extends React.Component<PieProps> {
     render() {
         const { coordinates, color } = this.props;
         const c = coordinates;
+        const halfwayPercentage = (c.percentage / 2) + c.previousPercentage;
+        const percentageCoordinate = normalPointToSVG({
+            x: Math.cos(2 * Math.PI * halfwayPercentage) / 2,
+            y: Math.sin(2 * Math.PI * halfwayPercentage) / 2
+        });
+
         return (
-            <path
-                className="pie"
-                d={`M 1 1
-                    L ${c.p1.x} ${c.p1.y}
-                    M ${c.p1.x} ${c.p1.y}
-                    A 1 1 0 ${c.percentage > 0.5 ? 1 : 0} 1 ${c.p2.x} ${c.p2.y}
-                    L 1 1
-                    Z`}
-                fill={color}
-            />
+            <React.Fragment>
+                <path
+                    className="pie"
+                    d={`M 1 1
+                        L ${c.p1.x} ${c.p1.y}
+                        M ${c.p1.x} ${c.p1.y}
+                        A 1 1 0 ${c.percentage > 0.5 ? 1 : 0} 1 ${c.p2.x} ${c.p2.y}
+                        L 1 1
+                        Z`}
+                    fill={color}
+                />
+                {percentageCoordinate ? 
+                    (<text
+                        x={percentageCoordinate.x}
+                        y={percentageCoordinate.y}
+                        fontSize={0.1}
+                        textAnchor={'end'}
+                    >
+                        {`${Math.floor(c.percentage * 1000) / 10}%`}
+                    </text>) : null}
+            </React.Fragment>
         );
     }
 }
