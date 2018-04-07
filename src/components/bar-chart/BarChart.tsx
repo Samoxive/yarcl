@@ -18,7 +18,7 @@ function getRandomColor(): string {
 }
 
 function biggestNum(data: number[]): number {
-    return Math.max.apply(Math, data);
+    return Math.max(...data);
 }
 
 export const BarChart = ({title, subtitle, data, label, color}: BarChartData) => (
