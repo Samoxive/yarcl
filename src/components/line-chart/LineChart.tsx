@@ -29,79 +29,76 @@ function PlaceNames(w: number, h: number, d: Data[]) {
     return d.map((data, i) => (
         (i % 5 === 0) ? (
             <>
-                <text key={10 + i} textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="blue">
+                <text key={10 + i} className="dataBlock1-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
                     {data.name}
                 </text>
-                <line 
+                <line
+                    className="dataBlock1" 
                     key={20 + i}
                     x1={w - 180}
                     y1={(6 + i) * h / 16 + 25}
                     x2={w - 150} 
                     y2={(6 + i) * h / 16 + 25}
-                    strokeWidth="1"
-                    stroke="blue"
                 />
                 <circle  
+                    className="dataBlock1"
                     key={i}
                     cx={w - 165} 
                     cy={(6 + i) * h / 16 + 25}  
                     r={5} 
-                    fill="blue"
                 /> 
             </>
         ) :
         (i % 5 === 1) ? (
             <>
-                <text  key={10 + i} textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="black">
+                <text key={10 + i} className="dataBlock2-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
                     {data.name}
                 </text>
                 <line 
+                    className="dataBlock2"
                     key={20 + i}
                     x1={w - 180}
                     y1={(6 + i) * h / 16 + 25}
                     x2={w - 150} 
                     y2={(6 + i) * h / 16 + 25}
-                    strokeWidth="1"
-                    stroke="black"
                 />
                 <rect 
+                    className="dataBlock2"
                     key={i}
                     x={w - 170} 
                     y={(6 + i) * h / 16 + 20} 
                     width={10} 
                     height={10} 
-                    fill="black"
                 />
             </>
         ) :
         (i % 5 === 2) ? (
             <>
-                <text key={10 + i} textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="green">
+                <text key={10 + i} className="dataBlock3-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
                     {data.name}
                 </text>
                 <line 
+                    className="dataBlock3"
                     key={20 + i}
                     x1={w - 180}
                     y1={(6 + i) * h / 16 + 25}
                     x2={w - 150} 
                     y2={(6 + i) * h / 16 + 25}
-                    strokeWidth="1"
-                    stroke="green"
                 />
                 <polygon 
+                    className="dataBlock3"
                     key={i}
                     points={
                         ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 16) + 
                         ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 28) + 
                         ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 28) 
                     } 
-                    fill="green"
                 />
             </>
         ) :
         (i % 5 === 3) ? (
             <>
-                <text key={10 + i} textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="orange">
+                <text key={10 + i} className="dataBlock4-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
                     {data.name}
                 </text>
                 <line 
@@ -114,6 +111,7 @@ function PlaceNames(w: number, h: number, d: Data[]) {
                 />
                 <polygon 
                     key={i}
+                    className="dataBlock4"
                     points={
                     ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
                     ' ' + (w - 161) + ',' + ((6 + i) * h / 16 + 28) + 
@@ -121,25 +119,24 @@ function PlaceNames(w: number, h: number, d: Data[]) {
                     ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
                     ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) 
                     } 
-                    fill="orange"
                 />
             </>
         ) :
         (i % 5 === 4) ? (
             <>
-                <text key={10 + i} textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25} fill="purple">
+                <text key={10 + i} className="dataBlock5-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
                     {data.name}
                 </text>
                 <line 
+                    className="dataBlock5"
                     key={20 + i}
                     x1={w - 180}
                     y1={(6 + i) * h / 16 + 25}
                     x2={w - 150} 
                     y2={(6 + i) * h / 16 + 25}
-                    strokeWidth="1"
-                    stroke="purple"
                 />
                 <polygon 
+                    className="dataBlock5"
                     key={i}
                     points={
                     ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
@@ -148,7 +145,6 @@ function PlaceNames(w: number, h: number, d: Data[]) {
                     ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) +
                     ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 22) 
                     } 
-                    fill="purple"
                 />
             </>
         ) :
@@ -165,26 +161,6 @@ function MaxDataCount(series: Data[]) {
     }
     return maxCount;
 }
-
-function XAxisLines(s: Data[], w: number, h: number, p: number) {
-    let c = MaxDataCount(s);
-    let arr = new Array(c);
-    for (let i = 0; i < c; i++) {
-        arr[i] = i;
-    }
-    return arr.map((num, i) => (
-        <line 
-            key={i}
-            x1={105 + num * (w - 300) / (c - 1)} 
-            y1={6 * h / 8}
-            x2={105 + num * (w - 300) / (c - 1)}
-            y2={6 * h / 8 + 10}
-            strokeWidth="1"
-            opacity="0.8"
-            stroke="gray"
-        />
-    ));
-}
     
 function XAxisDatas(s: Data[], w: number, h: number, p: number) {
     let c = MaxDataCount(s);
@@ -193,9 +169,25 @@ function XAxisDatas(s: Data[], w: number, h: number, p: number) {
         arr[i] = i;
     }
     return arr.map((num, i) => (
-            <text key={i} textAnchor="middle" x={105 + num * (w - 300) / (c - 1)} y={6 * h / 8 + 25} fill="gray" >
+        <>
+            <line 
+                className="xAxisInfos"
+                key={10 + i}
+                x1={105 + num * (w - 300) / (c - 1)} 
+                y1={6 * h / 8}
+                x2={105 + num * (w - 300) / (c - 1)}
+                y2={6 * h / 8 + 10}
+            />
+            <text 
+                className="xAxisInfos-text" 
+                key={i} 
+                textAnchor="middle" 
+                x={105 + num * (w - 300) / (c - 1)} 
+                y={6 * h / 8 + 25}
+            >
                 {(p + num)}
             </text>
+    </> 
     ));
 }
 
@@ -215,9 +207,9 @@ function Triangle (w: number, h: number, i: number, j: number , d: Data[]) {
     y3 = y + 3;
     return (
         <polygon 
+            className="dataBlock3"
             key={i * 10 + j} 
             points={'' + x1 + ',' + y1 + ' ' + x2 + ',' + y2 + ' ' + x3 + ',' + y3 + ''} 
-            fill="green"
         />
     ) ;
 }
@@ -244,6 +236,7 @@ function Star(w: number, h: number, i: number, j: number , d: Data[]) {
     y5 = y + 3;
     return(
     <polygon 
+        className="dataBlock4"
         key={i * 10 + j}
         points={
         ' ' + x1 + ',' + y1 + 
@@ -252,7 +245,6 @@ function Star(w: number, h: number, i: number, j: number , d: Data[]) {
         ' ' + x4 + ',' + y4 + 
         ' ' + x5 + ',' + y5 + 
         ''} 
-        fill="orange"
     />
     );
 
@@ -280,6 +272,7 @@ function Pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
     y5 = y - 3;
     return(
     <polygon 
+        className="dataBlock5"
         key={i * 10 + j}
         points={
         ' ' + x1 + ',' + y1 + 
@@ -288,7 +281,6 @@ function Pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
         ' ' + x4 + ',' + y4 + 
         ' ' + x5 + ',' + y5 + 
         ''} 
-        fill="purple"
     />
     ); 
 }
@@ -297,22 +289,20 @@ function DrawHorizontalLines(w: number, h: number) {
     let arr = [ 1, 2, 3, 4, 5];
     return arr.map((num, i) => (
         <line 
+            className="backgroundLines"
             key={i}
             x1={100} 
             y1={(i + 2) * h / 8} 
             x2={w - 190} 
             y2={(i + 2) * h / 8} 
-            strokeWidth="1" 
-            opacity="0.7"
-            stroke="gray"
         />
     ));
 }
 
-function XAxisInfos(w: number, h: number, d: Data[]) {
+function YAxisInfos(w: number, h: number, d: Data[]) {
     let arr = [ 1, 2, 3, 4, 5];
     return arr.map((num, i) => (
-        <text key={i} textAnchor="end" x={100 - 5} y={(i + 2) * h / 8 + 5} fill="gray" >
+        <text className="yAxisInfos" key={i} textAnchor="end" x={100 - 5} y={(i + 2) * h / 8 + 5} >
             {(4 - i) * BigOne(d) / 4}
         </text>
     ));
@@ -326,57 +316,52 @@ function DrawDataLines(w: number, h: number, d: Data[]) {
             (j === ds.data.length - 1) ? null : (
                 (i % 5 === 0) ? (
                     <line
+                        className="dataBlock1"
                         key={i * 10 + j} 
                         x1={105 + j * ( w - 300 ) / ( c - 1)} 
                         y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
                         x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1 )} 
                         y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                        strokeWidth="1"
-                        stroke="blue"
                     />
                 ) :
                 (i % 5 === 1) ? (
                     <line 
+                        className="dataBlock2"
                         key={i * 10 + j}
                         x1={105 + j * ( w - 300 ) / ( c - 1 )} 
                         y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
                         x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1 )} 
                         y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                        strokeWidth="1"
-                        stroke="black"
                     />
                     ) :
                 (i % 5 === 2) ? (
                     <line
+                        className="dataBlock3"
                         key={i * 10 + j}
                         x1={105 + j * ( w - 300 ) / ( c - 1 )} 
                         y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
                         x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1)} 
                         y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                        strokeWidth="1"
-                        stroke="green"
                     />
                     ) :
                 (i % 5 === 3) ? (
                     <line 
+                        className="dataBlock4"
                         key={i * 10 + j}
                         x1={105 + j * ( w - 300) / ( c - 1 )} 
                         y1={(3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ))}
                         x2={105 + ( j + 1 ) * ( w - 300) / ( c - 1 )} 
                         y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                        strokeWidth="1"
-                        stroke="orange"
                     />
                     ) :
                 (i % 5 === 4) ? (
                     <line 
+                        className="dataBlock5"
                         key={i * 10 + j}
                         x1={105 + j * ( w - 300) / ( c - 1 )} 
                         y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2))}
                         x2={105 + ( j + 1 ) * ( w - 300) / ( c - 1)} 
                         y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2))}
-                        strokeWidth="1"
-                        stroke="purple"
                     />
                     ) : null 
             ) 
@@ -391,21 +376,21 @@ function DrawPoint(w: number, h: number, d: Data[]) {
         num.data.map((nums, j) => (
             (i % 5 === 0) ? (
             <circle 
+                className="dataBlock1"
                 key={i * 10 + j}
                 cx={105 + j * ( w - 300 ) / ( c - 1)} 
                 cy={(3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2))} 
                 r={5} 
-                fill="blue"
             /> 
             ) :
             (i % 5 === 1) ? (
             <rect 
+                className="dataBlock2"
                 key={i * 10 + j}
                 x={105 + j * ( w - 300) / ( c - 1 ) - 5} 
                 y={(3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2)) - 5} 
                 width={10} 
                 height={10} 
-                fill="black"
             />
             ) :
             (i % 5 === 2) ? 
@@ -439,21 +424,21 @@ export interface LineChartData {
 
 export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, series}: LineChartData) => (
     <svg width={width} height={height}>
-        <rect key="1" width={width} height={height} strokeWidth="2" stroke="green" fill="white" />
+        <rect className="background" key="1" width={width} height={height}/>
 
         {DrawHorizontalLines(width, height)}
-        {XAxisInfos(width, height, series)}
+        {YAxisInfos(width, height, series)}
 
         {XAxisDatas(series, width, height, plotOptions.pointStart)}
-        {XAxisLines(series, width, height, plotOptions.pointStart)}
 
-        <text key="2" textAnchor="middle" x={width / 2} y="30" fill="gray" >
+        <text className="title" key="2" textAnchor="middle" x={width / 2} y="30">
             {title.text}
         </text>
-        <text key="3" textAnchor="middle" x={width / 2} y="60" fill="gray" >
+        <text className="subtitle" key="3" textAnchor="middle" x={width / 2} y="60">
             {subtitle.text}
         </text>
         <text 
+            className="yAxis"
             key="4"
             textAnchor="middle" 
             x="30" 
