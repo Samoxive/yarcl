@@ -26,9 +26,10 @@ function BigOne(series: Data[]) {
 }
 
 function PlaceNames(w: number, h: number, d: Data[]) {
-    return d.map((data, i) => (
-        (i % 5 === 0) ? (
-            <>
+    return d.map((data, i) => {
+        if (i % 5 === 0) {
+            return (
+                <>
                 <text key={10 + i} className="dataBlock1-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
                     {data.name}
                 </text>
@@ -48,32 +49,34 @@ function PlaceNames(w: number, h: number, d: Data[]) {
                     r={5} 
                 /> 
             </>
-        ) :
-        (i % 5 === 1) ? (
+            );
+        } else if (i % 5 === 1) {
+            return(
             <>
-                <text key={10 + i} className="dataBlock2-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
-                    {data.name}
-                </text>
-                <line 
-                    className="dataBlock2"
-                    key={20 + i}
-                    x1={w - 180}
-                    y1={(6 + i) * h / 16 + 25}
-                    x2={w - 150} 
-                    y2={(6 + i) * h / 16 + 25}
-                />
-                <rect 
-                    className="dataBlock2"
-                    key={i}
-                    x={w - 170} 
-                    y={(6 + i) * h / 16 + 20} 
-                    width={10} 
-                    height={10} 
-                />
-            </>
-        ) :
-        (i % 5 === 2) ? (
-            <>
+            <text key={10 + i} className="dataBlock2-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
+                {data.name}
+            </text>
+            <line 
+                className="dataBlock2"
+                key={20 + i}
+                x1={w - 180}
+                y1={(6 + i) * h / 16 + 25}
+                x2={w - 150} 
+                y2={(6 + i) * h / 16 + 25}
+            />
+            <rect 
+                className="dataBlock2"
+                key={i}
+                x={w - 170} 
+                y={(6 + i) * h / 16 + 20} 
+                width={10} 
+                height={10} 
+            />
+        </>
+            );
+        } else if (i % 5 === 2) {
+            return (
+                <>
                 <text key={10 + i} className="dataBlock3-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
                     {data.name}
                 </text>
@@ -95,9 +98,10 @@ function PlaceNames(w: number, h: number, d: Data[]) {
                     } 
                 />
             </>
-        ) :
-        (i % 5 === 3) ? (
-            <>
+            );
+        } else if (i % 5 === 3) {
+            return(
+                <>
                 <text key={10 + i} className="dataBlock4-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
                     {data.name}
                 </text>
@@ -121,9 +125,10 @@ function PlaceNames(w: number, h: number, d: Data[]) {
                     } 
                 />
             </>
-        ) :
-        (i % 5 === 4) ? (
-            <>
+            );
+        } else if (i % 5 === 4) {
+            return (
+                <>
                 <text key={10 + i} className="dataBlock5-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
                     {data.name}
                 </text>
@@ -147,12 +152,14 @@ function PlaceNames(w: number, h: number, d: Data[]) {
                     } 
                 />
             </>
-        ) :
-        null
-    ));
+            );
+        } else {
+            return null;
+        }
+    });
 }
 
-function MaxDataCount(series: Data[]) {
+function GetMaxDataCount(series: Data[]) {
     let maxCount = 0;
     for (let i = 0; i < series.length; i++) {
         if (maxCount < series[i].data.length) {
@@ -163,7 +170,7 @@ function MaxDataCount(series: Data[]) {
 }
     
 function XAxisDatas(s: Data[], w: number, h: number, p: number) {
-    let c = MaxDataCount(s);
+    let c = GetMaxDataCount(s);
     let arr = new Array(c);
     for (let i = 0; i < c; i++) {
         arr[i] = i;
@@ -192,7 +199,7 @@ function XAxisDatas(s: Data[], w: number, h: number, p: number) {
 }
 
 function Triangle (w: number, h: number, i: number, j: number , d: Data[]) {
-    let c = MaxDataCount(d);
+    let c = GetMaxDataCount(d);
     let x1, x2, x3, y1, y2, y3, x, y;
     let b = BigOne(d);
     x = 105 + j * ( w - 300 ) / ( c - 1 );
@@ -215,7 +222,7 @@ function Triangle (w: number, h: number, i: number, j: number , d: Data[]) {
 }
 
 function Star(w: number, h: number, i: number, j: number , d: Data[]) {
-    let c = MaxDataCount(d);
+    let c = GetMaxDataCount(d);
     let b = BigOne(d);
     let x1, x2, x3, x4, x5, y1, y2, y3, y4, y5, x, y;
     x = 105 + j * ( w - 300 ) / ( c - 1 );
@@ -251,7 +258,7 @@ function Star(w: number, h: number, i: number, j: number , d: Data[]) {
 }
 
 function Pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
-    let c = MaxDataCount(d);
+    let c = GetMaxDataCount(d);
     let b = BigOne(d);
     let x1, x2, x3, x4, x5, y1, y2, y3, y4, y5, x, y;
     x = 105 + j * ( w - 300 ) / ( c - 1 );
@@ -309,7 +316,7 @@ function YAxisInfos(w: number, h: number, d: Data[]) {
 }
 
 function DrawDataLines(w: number, h: number, d: Data[]) {
-    let c = MaxDataCount(d);
+    let c = GetMaxDataCount(d);
     let b = BigOne(d);
     return d.map((ds, i) => (
         ds.data.map((nums, j) => (
@@ -370,7 +377,7 @@ function DrawDataLines(w: number, h: number, d: Data[]) {
 }
 
 function DrawPoint(w: number, h: number, d: Data[]) {
-    let c = MaxDataCount(d);
+    let c = GetMaxDataCount(d);
     let b = BigOne(d);
     return d.map((num, i) => (
         num.data.map((nums, j) => (
