@@ -73,7 +73,9 @@ export const BarChart = ({title, subtitle, data, label, color}: BarChartData) =>
                     strokeWidth="4" 
                 />
                 <text x={50} y={data.length * 15 + 10} fontSize={5}>0</text>
+                <text x={100} y={data.length * 15 + 10} fontSize={5}>{numberPrefixed(biggestNum(data) / 4)}</text>
                 <text x={150} y={data.length * 15 + 10} fontSize={5}>{numberPrefixed(biggestNum(data) / 2)}</text>
+                <text x={200} y={data.length * 15 + 10} fontSize={5}>{numberPrefixed(3 * biggestNum(data) / 4)}</text>
                 <text x={250} y={data.length * 15 + 10} fontSize={5}>{numberPrefixed(biggestNum(data))}</text>
             </svg>
         </div>
