@@ -39,7 +39,8 @@ function scaleXAxis(num: number | void, data: number[]) {
     let texts = [];
     for (let i = 0; i <= scale; i++) {
         texts.push(
-            <text 
+            <text
+                key={i}
                 x={50 + (200 * i / scale)} 
                 y={data.length * 15 + 10} 
                 fontSize={5}
