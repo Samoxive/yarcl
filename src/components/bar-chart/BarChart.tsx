@@ -35,7 +35,7 @@ function numberPrefixed(num: number) {
     return scaled.toFixed(2) + prefix;
 }
 
-function scaleXAxis(num: number, data: number[]) {
+function scaleXAxis(num: number | void, data: number[]) {
     let scale = num || 4;
     let texts = [];
     for (let i = 0; i <= scale; i++) {
