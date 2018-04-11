@@ -7,8 +7,9 @@ export interface BarChartData {
     label: string[];
     data: number[];
     color?: string;
-    
+    scale?: number;
 }
+
 function getRandomColor(): string {
     let letters = '0123456789ABCDEF';
     let color = '#';
@@ -34,7 +35,22 @@ function numberPrefixed(num: number) {
     return scaled.toFixed(2) + prefix;
 }
 
-export const BarChart = ({title, subtitle, data, label, color}: BarChartData) => (
+function scaleXAxis(num: number, data: number[]) {
+    let scale = num || 4;
+    let texts = [];
+    for (let i = 0; i <= scale; i++) {
+        texts.push(
+            <text 
+                x={50 + (200 * i / scale)} 
+                y={data.length * 15 + 10} 
+                fontSize={5}
+            >
+            {numberPrefixed(i * biggestNum(data) / (scale))}
+            </text>);
+    }
+    return texts;
+}
+export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartData) => (
     <div className="bar-chart">
         <p>
             <h1>{title}</h1>
@@ -72,11 +88,7 @@ export const BarChart = ({title, subtitle, data, label, color}: BarChartData) =>
                     stroke="black"
                     strokeWidth="4" 
                 />
-                <text x={50} y={data.length * 15 + 10} fontSize={5}>0</text>
-                <text x={100} y={data.length * 15 + 10} fontSize={5}>{numberPrefixed(biggestNum(data) / 4)}</text>
-                <text x={150} y={data.length * 15 + 10} fontSize={5}>{numberPrefixed(biggestNum(data) / 2)}</text>
-                <text x={200} y={data.length * 15 + 10} fontSize={5}>{numberPrefixed(3 * biggestNum(data) / 4)}</text>
-                <text x={250} y={data.length * 15 + 10} fontSize={5}>{numberPrefixed(biggestNum(data))}</text>
+                {scaleXAxis(scale, data)};
             </svg>
         </div>
     </div>

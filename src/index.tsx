@@ -5,4 +5,4 @@ export interface TextProps {
 }
 
 export const Text = ({ text }: TextProps) => <h1>{text}</h1>;
-export {BarChart} from './components/bar-chart/BarChart';
+export {BarChart} from './components/bar-chart/BarChart'
