@@ -20,7 +20,6 @@ function getRandomColor(): string {
 }
 
 function biggestNum(data: number[]): number {
-
     return (data.length > 0) ? Math.max(...data) : 0;
 }
 
