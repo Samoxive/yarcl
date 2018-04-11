@@ -1,0 +1,36 @@
+.pie-chart {}
+
+.pie-chart-svg {
+    width: 70%;
+    height: 100%;
+    margin: 32px 32px 32px 32px;
+}
+
+.pie-chart-container-vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.pie-chart-container-horizontal {
+    display: flex;
+    align-content: space-between;
+    flex-direction: row;
+}
+
+.pie-chart-title {
+    margin: 8px 8px 8px 8px;
+    font-size: 24px;
+    align-self: center;
+}
+
+.pie-chart-labels {
+    margin: 8px 8px 8px 8px;
+    width: 25%;
+    align-self: center;
+}
+
+.pie-chart-label-svg {
+    width: 13px;
+    height: 13px;
+    margin: 2px 4px 2px 4px;
+}
