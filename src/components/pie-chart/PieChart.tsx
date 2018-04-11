@@ -40,10 +40,10 @@ export class Pie extends React.Component<PieProps> {
         const { coordinates, color, showPercentage } = this.props;
         const c = coordinates;
         const halfwayPercentage = (c.percentage / 2) + c.previousPercentage;
-        const percentageCoordinate = normalPointToSVG({
+        const percentageCoordinate = c.percentage > 0.1 ? normalPointToSVG({
             x: Math.cos(2 * Math.PI * halfwayPercentage) / 2,
             y: Math.sin(2 * Math.PI * halfwayPercentage) / 2
-        });
+        }) : null;
 
         if (c.percentage > 0.99999999) {
             return (
