@@ -26,7 +26,7 @@ function biggestNum(data: number[]): number {
 let SI_PREFIXES = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
 
 function numberPrefixed(num: number) {
-    let tier = Math.floor(Math.log10(num) / 3);
+    let tier = Math.log10(num) / 3 | 0;
     if (tier === 0) {return num; }
     let prefix = SI_PREFIXES[tier];
     let scale = Math.pow(10, tier * 3);
