@@ -1,6 +1,6 @@
 {
     "name": "yarcl",
-    "version": "0.0.6",
+    "version": "0.1.0",
     "description": "Yet another React charting library.",
     "main": "lib\\yarcl.cjs.min.js",
     "module": "lib\\yarcl.esm.min.js",
