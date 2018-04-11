@@ -19,7 +19,8 @@ function getRandomColor(): string {
 }
 
 function biggestNum(data: number[]): number {
-    return Math.max(...data);
+
+    return (data.length > 0) ? Math.max(...data) : 0;
 }
 
 export const BarChart = ({title, subtitle, data, label, color}: BarChartData) => (
@@ -30,13 +31,13 @@ export const BarChart = ({title, subtitle, data, label, color}: BarChartData) =>
         </p>
 
         <div className="chart-data">
-            <svg viewBox={`0 0 ${biggestNum(data) * 10 + 60} ${data.length * 17}`} >
+            <svg viewBox={`0 0 260 ${data.length * 17}`} >
             {label.map((num, i) => <text key={i} x={0} y={i * 15 + 10} fontSize={5}>
                 {num.length < 16 ? num : num.substring(0, 15) + '...'}
             </text>)}
                 <line 
-                    x1={50} 
-                    x2={50} 
+                    x1="50" 
+                    x2="50" 
                     y1="0" 
                     y2={data.length * 15}
                     stroke="black"
@@ -45,24 +46,24 @@ export const BarChart = ({title, subtitle, data, label, color}: BarChartData) =>
             {data.map((num, i) => 
                 <rect
                     key={i} 
-                    x={52}
+                    x="52"
                     y={15 * i + 3.5}
-                    width={10 * num}    
-                    height={7.5} 
+                    width={10 * num / (biggestNum(data) * 10 / 200)}    
+                    height="7.5" 
                     fill={color || getRandomColor()}
                 />)
             }
                 <line 
                     x1="48" 
-                    x2={biggestNum(data) * 10 + 52}
+                    x2="252"
                     y1={data.length * 15}
                     y2={data.length * 15}
                     stroke="black"
                     strokeWidth="4" 
                 />
                 <text x={50} y={data.length * 15 + 10} fontSize={5}>0</text>
-                <text x={biggestNum(data) * 5 + 50} y={data.length * 15 + 10} fontSize={5}>{biggestNum(data) / 2}</text>
-                <text x={biggestNum(data) * 10 + 50} y={data.length * 15 + 10} fontSize={5}>{biggestNum(data)}</text>
+                <text x={150} y={data.length * 15 + 10} fontSize={5}>{biggestNum(data) / 2}</text>
+                <text x={250} y={data.length * 15 + 10} fontSize={5}>{biggestNum(data)}</text>
             </svg>
         </div>
     </div>
