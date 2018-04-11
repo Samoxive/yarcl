@@ -23,6 +23,17 @@ function biggestNum(data: number[]): number {
     return (data.length > 0) ? Math.max(...data) : 0;
 }
 
+let SI_PREFIXES = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
+
+function numberPrefixed(num: number) {
+    let tier = Math.log10(num) / 3 | 0;
+    if (tier === 0) {return num; }
+    let prefix = SI_PREFIXES[tier];
+    let scale = Math.pow(10, tier * 3);
+    let scaled = num / scale;
+    return scaled.toFixed(2) + prefix;
+}
+
 export const BarChart = ({title, subtitle, data, label, color}: BarChartData) => (
     <div className="bar-chart">
         <p>
@@ -31,7 +42,7 @@ export const BarChart = ({title, subtitle, data, label, color}: BarChartData) =>
         </p>
 
         <div className="chart-data">
-            <svg viewBox={`0 0 260 ${data.length * 17}`} >
+            <svg viewBox={`0 0 275 ${data.length * 17}`} >
             {label.map((num, i) => <text key={i} x={0} y={i * 15 + 10} fontSize={5}>
                 {num.length < 16 ? num : num.substring(0, 15) + '...'}
             </text>)}
@@ -62,8 +73,8 @@ export const BarChart = ({title, subtitle, data, label, color}: BarChartData) =>
                     strokeWidth="4" 
                 />
                 <text x={50} y={data.length * 15 + 10} fontSize={5}>0</text>
-                <text x={150} y={data.length * 15 + 10} fontSize={5}>{biggestNum(data) / 2}</text>
-                <text x={250} y={data.length * 15 + 10} fontSize={5}>{biggestNum(data)}</text>
+                <text x={150} y={data.length * 15 + 10} fontSize={5}>{numberPrefixed(biggestNum(data) / 2)}</text>
+                <text x={250} y={data.length * 15 + 10} fontSize={5}>{numberPrefixed(biggestNum(data))}</text>
             </svg>
         </div>
     </div>
