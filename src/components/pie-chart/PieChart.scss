@@ -29,8 +29,12 @@
     align-self: center;
 }
 
+.pie-chart-label {
+    margin: 2px 4px 2px 4px;
+}
+
 .pie-chart-label-svg {
     width: 13px;
     height: 13px;
-    margin: 2px 4px 2px 4px;
+    margin-right: 4px;
 }

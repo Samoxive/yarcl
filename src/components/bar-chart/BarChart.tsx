@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './BarChart.scss';
+import '../common.scss';
 
 export interface BarChartData {
     title?: string;
@@ -52,14 +53,12 @@ function scaleXAxis(num: number | void, data: number[]) {
 }
 export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartData) => (
     <div className="bar-chart">
-        <p>
-            <h1>{title}</h1>
-            <h2>{subtitle}</h2>
-        </p>
+        <div className="chart-title">{title}</div>
+        <div className="chart-subtitle">{subtitle}</div>
 
         <div className="chart-data">
             <svg viewBox={`0 0 275 ${data.length * 17}`} >
-            {label.map((num, i) => <text key={i} x={0} y={i * 15 + 10} fontSize={5}>
+            {label.map((num, i) => <text key={i} x={0} y={i * 15 + 10} className="chart-label">
                 {num.length < 16 ? num : num.substring(0, 15) + '...'}
             </text>)}
                 <line 

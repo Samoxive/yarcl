@@ -1,4 +1,5 @@
 import './PieChart.scss';
+import '../common.scss';
 
 import * as React from 'react';
 import { getCircleCoordinates, PieCoordinates, normalPointToSVG } from './utils';
@@ -92,7 +93,7 @@ export const PieChart = ({title, data, options}: PieChartProps) => {
 
     return (
         <div className="pie-chart pie-chart-container-vertical">
-            <div className="pie-chart-title">
+            <div className="chart-title">
                 {title}
             </div>
             <div className="pie-chart-container-horizontal">
@@ -111,11 +112,11 @@ export const PieChart = ({title, data, options}: PieChartProps) => {
                 </div>
                 <div className="pie-chart-container-vertical pie-chart-labels">
                     {data.map((datum, i) => (
-                        <div key={i}>
+                        <div key={i} className="pie-chart-label">
                             <span><svg viewBox="0 0 2 2" className="pie-chart-label-svg">
                                 <circle cx="1" cy="1" r="1" strokeWidth="0" fill={colors[i]} />
                             </svg></span>
-                            <span>{datum.label}</span>
+                            <span className="chart-label">{datum.label}</span>
                         </div>)
                     )}
                 </div>

@@ -30,7 +30,13 @@ function PlaceNames(w: number, h: number, d: Data[]) {
         if (i % 5 === 0) {
             return (
                 <>
-                <text key={10 + i} className="dataBlock1-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
+                <text
+                    key={10 + i}
+                    className="dataBlock1-text chart-label"
+                    textAnchor="start"
+                    x={w - 140}
+                    y={(6 + i) * h / 16 + 25}
+                >
                     {data.name}
                 </text>
                 <line
@@ -53,7 +59,13 @@ function PlaceNames(w: number, h: number, d: Data[]) {
         } else if (i % 5 === 1) {
             return(
             <>
-            <text key={10 + i} className="dataBlock2-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
+            <text
+                key={10 + i}
+                className="dataBlock2-text chart-label"
+                textAnchor="start"
+                x={w - 140}
+                y={(6 + i) * h / 16 + 25}
+            >
                 {data.name}
             </text>
             <line 
@@ -77,7 +89,13 @@ function PlaceNames(w: number, h: number, d: Data[]) {
         } else if (i % 5 === 2) {
             return (
                 <>
-                <text key={10 + i} className="dataBlock3-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
+                <text
+                    key={10 + i}
+                    className="dataBlock3-text chart-label"
+                    textAnchor="start"
+                    x={w - 140}
+                    y={(6 + i) * h / 16 + 25}
+                >
                     {data.name}
                 </text>
                 <line 
@@ -102,7 +120,13 @@ function PlaceNames(w: number, h: number, d: Data[]) {
         } else if (i % 5 === 3) {
             return(
                 <>
-                <text key={10 + i} className="dataBlock4-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
+                <text
+                    key={10 + i}
+                    className="dataBlock4-text chart-label"
+                    textAnchor="start"
+                    x={w - 140}
+                    y={(6 + i) * h / 16 + 25}
+                >
                     {data.name}
                 </text>
                 <line 
@@ -129,7 +153,13 @@ function PlaceNames(w: number, h: number, d: Data[]) {
         } else if (i % 5 === 4) {
             return (
                 <>
-                <text key={10 + i} className="dataBlock5-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
+                <text
+                    key={10 + i}
+                    className="dataBlock5-text chart-label"
+                    textAnchor="start"
+                    x={w - 140}
+                    y={(6 + i) * h / 16 + 25}
+                >
                     {data.name}
                 </text>
                 <line 
@@ -438,10 +468,10 @@ export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, s
 
         {XAxisDatas(series, width, height, plotOptions.pointStart)}
 
-        <text className="title" key="2" textAnchor="middle" x={width / 2} y="30">
+        <text className="chart-title" key="2" textAnchor="middle" x={width / 2} y="30">
             {title.text}
         </text>
-        <text className="subtitle" key="3" textAnchor="middle" x={width / 2} y="60">
+        <text className="chart-subtitle" key="3" textAnchor="middle" x={width / 2} y="60">
             {subtitle.text}
         </text>
         <text 
