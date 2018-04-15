@@ -3,6 +3,7 @@ import '../common.scss';
 
 import * as React from 'react';
 import { getCircleCoordinates, PieCoordinates, normalPointToSVG } from './utils';
+import { getColorGenerator } from '../../utils/colors';
 
 export interface PieChartData {
     label: string;
@@ -89,7 +90,8 @@ export class Pie extends React.Component<PieProps> {
 
 export const PieChart = ({title, data, options}: PieChartProps) => {
     let coords = getCircleCoordinates(data);
-    let colors = data.map((datum) => datum.color ? datum.color : getRandomColor());
+    let colorGenerator = getColorGenerator();
+    let colors = data.map((datum) => datum.color ? datum.color : colorGenerator());
 
     return (
         <div className="pie-chart pie-chart-container-vertical">
