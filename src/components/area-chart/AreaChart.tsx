@@ -1,17 +1,11 @@
 import * as React from 'react';
 import './AreaChart.scss';
 
-export interface AreaChartData {
-    x: number;
-    y: number;
-    r: number;
-}
-
 export interface AreaChartProps {
     title?: string;
     subtitle?: string;
     label: string[];
-    data: AreaChartData[];
+    data: number[];
     color?: string;
     scale?: number;
 }
