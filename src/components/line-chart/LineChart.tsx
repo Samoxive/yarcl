@@ -13,7 +13,7 @@ export interface YAxis {
     title: Title;
 }
 
-function BigOne(series: Data[]) {
+function bigOne(series: Data[]) {
     let big = 0;
     for (let i = 0; i < series.length; i++) {
         for (let j = 0; j < series[i].data.length; j++) {
@@ -25,7 +25,7 @@ function BigOne(series: Data[]) {
     return big;
 }
 
-function PlaceNames(w: number, h: number, d: Data[]) {
+function placeNames(w: number, h: number, d: Data[]) {
     return d.map((data, i) => {
         if (i % 5 === 0) {
             return (
@@ -159,7 +159,7 @@ function PlaceNames(w: number, h: number, d: Data[]) {
     });
 }
 
-function GetMaxDataCount(series: Data[]) {
+function getMaxDataCount(series: Data[]) {
     let maxCount = 0;
     for (let i = 0; i < series.length; i++) {
         if (maxCount < series[i].data.length) {
@@ -169,8 +169,8 @@ function GetMaxDataCount(series: Data[]) {
     return maxCount;
 }
     
-function XAxisDatas(s: Data[], w: number, h: number, p: number) {
-    let c = GetMaxDataCount(s);
+function xAxisDatas(s: Data[], w: number, h: number, p: number) {
+    let c = getMaxDataCount(s);
     let arr = new Array(c);
     for (let i = 0; i < c; i++) {
         arr[i] = i;
@@ -198,10 +198,10 @@ function XAxisDatas(s: Data[], w: number, h: number, p: number) {
     ));
 }
 
-function Triangle (w: number, h: number, i: number, j: number , d: Data[]) {
-    let c = GetMaxDataCount(d);
+function triangle (w: number, h: number, i: number, j: number , d: Data[]) {
+    let c = getMaxDataCount(d);
     let x1, x2, x3, y1, y2, y3, x, y;
-    let b = BigOne(d);
+    let b = bigOne(d);
     x = 105 + j * ( w - 300 ) / ( c - 1 );
     y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2));
     x1 = x;
@@ -221,9 +221,9 @@ function Triangle (w: number, h: number, i: number, j: number , d: Data[]) {
     ) ;
 }
 
-function Star(w: number, h: number, i: number, j: number , d: Data[]) {
-    let c = GetMaxDataCount(d);
-    let b = BigOne(d);
+function star(w: number, h: number, i: number, j: number , d: Data[]) {
+    let c = getMaxDataCount(d);
+    let b = bigOne(d);
     let x1, x2, x3, x4, x5, y1, y2, y3, y4, y5, x, y;
     x = 105 + j * ( w - 300 ) / ( c - 1 );
     y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ));
@@ -257,9 +257,9 @@ function Star(w: number, h: number, i: number, j: number , d: Data[]) {
 
 }
 
-function Pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
-    let c = GetMaxDataCount(d);
-    let b = BigOne(d);
+function pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
+    let c = getMaxDataCount(d);
+    let b = bigOne(d);
     let x1, x2, x3, x4, x5, y1, y2, y3, y4, y5, x, y;
     x = 105 + j * ( w - 300 ) / ( c - 1 );
     y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ));
@@ -292,7 +292,7 @@ function Pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
     ); 
 }
 
-function DrawHorizontalLines(w: number, h: number) {
+function drawHorizontalLines(w: number, h: number) {
     let arr = [ 1, 2, 3, 4, 5];
     return arr.map((num, i) => (
         <line 
@@ -306,18 +306,18 @@ function DrawHorizontalLines(w: number, h: number) {
     ));
 }
 
-function YAxisInfos(w: number, h: number, d: Data[]) {
+function yAxisInfos(w: number, h: number, d: Data[]) {
     let arr = [ 1, 2, 3, 4, 5];
     return arr.map((num, i) => (
         <text className="yAxisInfos" key={i} textAnchor="end" x={100 - 5} y={(i + 2) * h / 8 + 5} >
-            {(4 - i) * BigOne(d) / 4}
+            {(4 - i) * bigOne(d) / 4}
         </text>
     ));
 }
 
-function DrawDataLines(w: number, h: number, d: Data[]) {
-    let c = GetMaxDataCount(d);
-    let b = BigOne(d);
+function drawDataLines(w: number, h: number, d: Data[]) {
+    let c = getMaxDataCount(d);
+    let b = bigOne(d);
     return d.map((ds, i) => (
         ds.data.map((nums, j) => (
             (j === ds.data.length - 1) ? null : (
@@ -376,9 +376,9 @@ function DrawDataLines(w: number, h: number, d: Data[]) {
     ));
 }
 
-function DrawPoint(w: number, h: number, d: Data[]) {
-    let c = GetMaxDataCount(d);
-    let b = BigOne(d);
+function drawPoint(w: number, h: number, d: Data[]) {
+    let c = getMaxDataCount(d);
+    let b = bigOne(d);
     return d.map((num, i) => (
         num.data.map((nums, j) => (
             (i % 5 === 0) ? (
@@ -401,11 +401,11 @@ function DrawPoint(w: number, h: number, d: Data[]) {
             />
             ) :
             (i % 5 === 2) ? 
-            Triangle(w, h, i, j, d) :
+            triangle(w, h, i, j, d) :
             (i % 5 === 3) ? 
-            Star(w, h, i, j, d) :
+            star(w, h, i, j, d) :
             (i % 5 === 4) ?
-             Pentagon(w, h, i, j, d) : null
+            pentagon(w, h, i, j, d) : null
         ))
     ));
 }
@@ -433,10 +433,10 @@ export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, s
     <svg width={width} height={height}>
         <rect className="background" key="1" width={width} height={height}/>
 
-        {DrawHorizontalLines(width, height)}
-        {YAxisInfos(width, height, series)}
+        {drawHorizontalLines(width, height)}
+        {yAxisInfos(width, height, series)}
 
-        {XAxisDatas(series, width, height, plotOptions.pointStart)}
+        {xAxisDatas(series, width, height, plotOptions.pointStart)}
 
         <text className="title" key="2" textAnchor="middle" x={width / 2} y="30">
             {title.text}
@@ -455,8 +455,8 @@ export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, s
         >
             {yAxis.title.text}
         </text>
-        {DrawDataLines(width, height, series)}
-        {DrawPoint(width, height, series)}
-        {PlaceNames(width, height, series)}
+        {drawDataLines(width, height, series)}
+        {drawPoint(width, height, series)}
+        {placeNames(width, height, series)}
     </svg>
 );
