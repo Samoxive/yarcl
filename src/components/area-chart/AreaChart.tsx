@@ -6,13 +6,12 @@ import { getColorGenerator } from '../../utils/colors';
 export interface AreaChartProps {
     title?: string;
     subtitle?: string;
-    label: string[];
     series: Series[];
     color?: string;
     scale?: number;
 }
 export interface Series {
-    name?: string;
+    label?: string;
     data: number[];
 }
 
@@ -73,8 +72,9 @@ function polygonPoints(data: number[]) {
     pointString +=  mar + i + ',200';
     return pointString;
 }
-export const AreaChart = ({title, subtitle, series, label, color, scale}: AreaChartProps) => {
+export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProps) => {
     const colorGenerator = getColorGenerator();
+    let seriesLen = series.length;
     return (
         <div className="area-chart">
             <p>
@@ -95,12 +95,14 @@ export const AreaChart = ({title, subtitle, series, label, color, scale}: AreaCh
                     {/*Polygon*/}
                     {/*<polygon points="0,100 50,25 50,75 100,0" />*/}
                     {series.map((num, i) =>
-                        <polygon
-                            key={i}
-                            points={polygonPoints(series[i].data)}
-                            fill={colorGenerator()}
-                        />
-                    )}
+                            <polygon
+                                key={i}
+                                points={polygonPoints(series[i].data)}
+                                fill={colorGenerator()}
+                                opacity={seriesLen === 1 ? 1 : 0.5}
+                            />
+                        )
+                    }
                     {/*X axis*/}
                     <line 
                         x1={mar - 4} 
