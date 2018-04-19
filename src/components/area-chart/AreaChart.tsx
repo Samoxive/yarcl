@@ -62,7 +62,7 @@ function scaleYAxis(num: number | void, biggest: number) {
             <text
                 key={i}
                 x={5}
-                y={(200 * (scale - i) / scale) + marY + 4}  
+                y={(chartY * (scale - i) / scale) + marY + 4}  
                 fontSize={5}
             >
             {numberPrefixed(i * biggest / (scale))}
@@ -72,14 +72,14 @@ function scaleYAxis(num: number | void, biggest: number) {
 }
 
 function polygonPoints(data: number[], biggest: number) {
-    let pointString = marX + ',' + (marY + 200) + ' ';
+    let pointString = marX + ',' + (marY + chartY) + ' ';
     let i = 0;
     for (let datum of data) {
-        pointString += (marX + i) + ',' + (200 - (datum * (200 / biggest)) + marY) + ' ';
-        i += (200 / (data.length - 1));
+        pointString += (marX + i) + ',' + (chartY - (datum * (chartY / biggest)) + marY) + ' ';
+        i += (chartX / (data.length - 1));
     }
-    i -= (200 / (data.length - 1));
-    pointString +=  marX + i + ',' + (marY + 200) + ' ';
+    i -= (chartX / (data.length - 1));
+    pointString +=  marX + i + ',' + (marY + chartY) + ' ';
     return pointString;
 }
 export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProps) => {
@@ -89,7 +89,8 @@ export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProp
     return (
         <div className="area-chart">
             <div className="chart-data">
-                <svg viewBox={`0 0 275 250`} >
+                <svg viewBox={`0 0 ${chartX + 50} ${chartY + 50}`} >
+                    {/*TODO: Title*/}
                     {
                         scaleYAxis(scale, biggest)
                     }
@@ -98,12 +99,11 @@ export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProp
                         x1={marX - 2}
                         x2={marX - 2} 
                         y1={marY} 
-                        y2={marY + 200}
+                        y2={marY + chartY}
                         stroke="black"
                         strokeWidth="4" 
                     />
                     {/*Polygon*/}
-                    {/*<polygon points="0,100 50,25 50,75 100,0" />*/}
                     {series.map((num, i) =>
                             <polygon
                                 key={i}
@@ -113,12 +113,13 @@ export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProp
                             />
                         )
                     }
+                    {/*TODO: Legend based on colors*/}
                     {/*X axis*/}
                     <line 
                         x1={marX - 4} 
-                        x2={marX + 200}
-                        y1={marY + 200}
-                        y2={marY + 200}
+                        x2={marX + chartX}
+                        y1={marY + chartY}
+                        y2={marY + chartY}
                         stroke="black"
                         strokeWidth="4" 
                     />
