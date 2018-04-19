@@ -1,5 +1,7 @@
 import * as React from 'react';
 import './AreaChart.scss';
+import '../common.scss';
+import { getColorGenerator } from '../../utils/colors';
 
 export interface AreaChartProps {
     title?: string;
@@ -10,7 +12,7 @@ export interface AreaChartProps {
     scale?: number;
 }
 export interface Series {
-    name: string;
+    name?: string;
     data: number[];
 }
 
@@ -71,43 +73,46 @@ function polygonPoints(data: number[]) {
     pointString +=  mar + i + ',200';
     return pointString;
 }
-export const AreaChart = ({title, subtitle, series, label, color, scale}: AreaChartProps) => (
-    <div className="area-chart">
-        <p>
-            <h1>{title}</h1>
-            <h2>{subtitle}</h2>
-        </p>
-        <div className="chart-data">
-            <svg viewBox={`0 0 275 250`} >
-                {/*Y axis*/}
-                <line 
-                    x1={mar - 2}
-                    x2={mar - 2} 
-                    y1="0" 
-                    y2="200"
-                    stroke="black"
-                    strokeWidth="4" 
-                />
-                {/*Polygon*/}
-                {/*<polygon points="0,100 50,25 50,75 100,0" />*/}
-                {series.map((num, i) =>
-                    <polygon
-                        key={i}
-                        points={polygonPoints(series[i].data)}
-                        fill={'red'}
+export const AreaChart = ({title, subtitle, series, label, color, scale}: AreaChartProps) => {
+    const colorGenerator = getColorGenerator();
+    return (
+        <div className="area-chart">
+            <p>
+                <h1>{title}</h1>
+                <h2>{subtitle}</h2>
+            </p>
+            <div className="chart-data">
+                <svg viewBox={`0 0 275 250`} >
+                    {/*Y axis*/}
+                    <line 
+                        x1={mar - 2}
+                        x2={mar - 2} 
+                        y1="0" 
+                        y2="200"
+                        stroke="black"
+                        strokeWidth="4" 
                     />
-                )}
-                {/*X axis*/}
-                <line 
-                    x1={mar - 4} 
-                    x2={200 + mar}
-                    y1="200"
-                    y2="200"
-                    stroke="black"
-                    strokeWidth="4" 
-                />
+                    {/*Polygon*/}
+                    {/*<polygon points="0,100 50,25 50,75 100,0" />*/}
+                    {series.map((num, i) =>
+                        <polygon
+                            key={i}
+                            points={polygonPoints(series[i].data)}
+                            fill={colorGenerator()}
+                        />
+                    )}
+                    {/*X axis*/}
+                    <line 
+                        x1={mar - 4} 
+                        x2={200 + mar}
+                        y1="200"
+                        y2="200"
+                        stroke="black"
+                        strokeWidth="4" 
+                    />
 
-            </svg>
+                </svg>
+            </div>
         </div>
-    </div>
-);
+    );
+};
