@@ -5,9 +5,13 @@ export interface AreaChartProps {
     title?: string;
     subtitle?: string;
     label: string[];
-    data: number[];
+    series: Series[];
     color?: string;
     scale?: number;
+}
+export interface Series {
+    name: string;
+    data: number[];
 }
 
 const mar = 30;
@@ -67,7 +71,7 @@ function polygonPoints(data: number[]) {
     pointString +=  mar + i + ',200';
     return pointString;
 }
-export const AreaChart = ({title, subtitle, data, label, color, scale}: AreaChartProps) => (
+export const AreaChart = ({title, subtitle, series, label, color, scale}: AreaChartProps) => (
     <div className="area-chart">
         <p>
             <h1>{title}</h1>
@@ -86,10 +90,12 @@ export const AreaChart = ({title, subtitle, data, label, color, scale}: AreaChar
                 />
                 {/*Polygon*/}
                 {/*<polygon points="0,100 50,25 50,75 100,0" />*/}
-                <polygon 
-                    points={polygonPoints(data)}
-                    fill={'red'}
-                />
+                {series.map((num, i) =>
+                    <polygon
+                        key={i}
+                        points={polygonPoints(series[i].data)}
+                        fill={'red'}
+                    />
                 )}
                 {/*X axis*/}
                 <line 
