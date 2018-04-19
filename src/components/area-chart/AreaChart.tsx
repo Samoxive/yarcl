@@ -16,9 +16,10 @@ export interface Series {
 }
 
 const marX = 30;
-const marY = 10;
+const marY = 30;
 const chartX = 200;
 const chartY = 200;
+const labelX = 5;
 
 function biggestNum(series: Series[]): number {
     let big = 0;
@@ -47,8 +48,9 @@ function scaleYAxis(num: number | void, biggest: number) {
     for (let i = 0; i <= scale; i++) {
         texts.push(
             <text
+                className="chart-scale"
                 key={i}
-                x={5}
+                x={labelX}
                 y={(chartY * (scale - i) / scale) + marY + 4}  
                 fontSize={5}
             >
@@ -76,8 +78,10 @@ export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProp
     return (
         <div className="area-chart">
             <div className="chart-data">
-                <svg viewBox={`0 0 ${chartX + 50} ${chartY + 50}`} >
+                <svg viewBox={`0 0 ${chartX + marX + 50} ${chartY + marY + 50}`} >
                     {/*TODO: Title*/}
+                    <text className="chart-title" y={20}>{title}</text>
+                    <text className="chart-subtitle" y={40}>{subtitle}</text>
                     {
                         scaleYAxis(scale, biggest)
                     }
@@ -95,7 +99,7 @@ export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProp
                             <polygon
                                 key={i}
                                 points={polygonPoints(series[i].data, biggest)}
-                                fill={colorGenerator()}
+                                fill={color || colorGenerator()}
                                 opacity={seriesLen === 1 ? 1 : 0.5}
                             />
                         )

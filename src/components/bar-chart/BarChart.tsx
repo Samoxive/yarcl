@@ -12,10 +12,20 @@ export interface BarChartData {
     scale?: number;
 }
 
+const marX = 50;
+const marY = 50;
+const chartX = 250;
+const gap = 15;
+const labelX = 5;
+const barSize = 15;
+
 function biggestNum(data: number[]): number {
     return (data.length > 0) ? Math.max(...data) : 0;
 }
 
+{/* Credits: Waylon Flinn 
+  * Stackoverflow.com licensed under Creative Commons Attribution-Share Alike
+  */}
 let SI_PREFIXES = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
 
 function numberPrefixed(num: number) {
@@ -34,8 +44,9 @@ function scaleXAxis(num: number | void, data: number[]) {
         texts.push(
             <text
                 key={i}
-                x={50 + (200 * i / scale)} 
-                y={data.length * 15 + 10} 
+                className="chart-scale"
+                x={50 + (chartX * i / scale)} 
+                y={data.length * gap + 10 + marY} 
                 fontSize={5}
             >
             {numberPrefixed(i * biggestNum(data) / (scale))}
@@ -51,33 +62,33 @@ export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartD
             <div className="chart-subtitle">{subtitle}</div>
 
             <div className="chart-data">
-                <svg viewBox={`0 0 275 ${data.length * 17}`} >
-                {label.map((num, i) => <text key={i} x={0} y={i * 15 + 10} className="chart-label">
-                    {num.length < 16 ? num : num.substring(0, 15) + '...'}
+                <svg viewBox={`0 0 ${chartX + 75 + marX} ${data.length * gap + marY + 50}`} >
+                {label.map((num, i) => <text key={i} x={labelX} y={i * gap + marY + 10} className="chart-label">
+                    {num.length < marX * (16 / 50) ? num : num.substring(0, (marX * 15 / 50)) + '...'}
                 </text>)}
                     <line 
-                        x1="50" 
-                        x2="50" 
-                        y1="0" 
-                        y2={data.length * 15}
+                        x1={marX} 
+                        x2={marX}
+                        y1={marY}
+                        y2={data.length * gap + marY}
                         stroke="black"
                         strokeWidth="4" 
                     />
                 {data.map((num, i) => 
                     <rect
                         key={i} 
-                        x="52"
-                        y={15 * i + 3.5}
-                        width={10 * num / (biggestNum(data) * 10 / 200)}    
-                        height="7.5" 
+                        x={marX + 2}
+                        y={gap * i + marY}
+                        width={num / (biggestNum(data) / chartX)}    
+                        height={barSize} 
                         fill={color || colorGenerator()}
                     />)
                 }
                     <line 
-                        x1="48" 
-                        x2="252"
-                        y1={data.length * 15}
-                        y2={data.length * 15}
+                        x1={marX - 2} 
+                        x2={chartX + 2 + marX}
+                        y1={data.length * gap + marY}
+                        y2={data.length * gap + marY}
                         stroke="black"
                         strokeWidth="4" 
                     />
