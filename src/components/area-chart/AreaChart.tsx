@@ -20,15 +20,6 @@ const marY = 10;
 const chartX = 200;
 const chartY = 200;
 
-function getRandomColor(): string {
-    let letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
-
 function biggestNum(series: Series[]): number {
     let big = 0;
     for (let dataset of series) {
@@ -37,10 +28,6 @@ function biggestNum(series: Series[]): number {
         }
     }
     return big;
-}
-
-function smallestNum(data: number[]): number {
-    return (data.length > 0) ? Math.min(...data) : 0;
 }
 
 let SI_PREFIXES = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
