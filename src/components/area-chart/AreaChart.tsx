@@ -63,7 +63,7 @@ function polygonPoints(data: number[]) {
         pointString += (mar + i) + ',' + (200 - (datum * (200 / biggestNum(data)))) + ' ';
         i += (200 / data.length);
     }
-    pointString +=  mar + i + ',200';
+    pointString +=  mar + i - (200 / data.length) + ',200';
     return pointString;
 }
 export const AreaChart = ({title, subtitle, data, label, color, scale}: AreaChartProps) => (
