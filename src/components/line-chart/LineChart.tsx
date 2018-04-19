@@ -1,24 +1,12 @@
 import * as React from 'react';
 import './LineChart.scss';
 
-export interface Title {
-    text: string;
-}
-
-export interface PlotOptions {
-    pointStart: number;
-}
-
-export interface YAxis {
-    title: Title;
-}
-
 function bigOne(series: Data[]) {
     let big = 0;
-    for (let i = 0; i < series.length; i++) {
-        for (let j = 0; j < series[i].data.length; j++) {
-            if (big < series[i].data[j]) {
-                big = series[i].data[j];
+    for (const d of series) {
+        for (const n of d.data) {
+            if (big < n) {
+                big = n;
             }
         }
     }
@@ -26,152 +14,96 @@ function bigOne(series: Data[]) {
 }
 
 function placeNames(w: number, h: number, d: Data[]) {
-    return d.map((data, i) => {
-        if (i % 5 === 0) {
-            return (
-                <>
-                <text key={10 + i} className="dataBlock1-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
+    return d.map((data, i) => (
+            <>
+                <text 
+                    key={10 + i} 
+                    className={'dataBlock' + (i % 5 + 1) + '-text'}
+                    textAnchor="start" 
+                    x={w - 140} 
+                    y={(6 + i) * h / 16 + 25}
+                >
                     {data.name}
                 </text>
                 <line
-                    className="dataBlock1" 
+                    className={'dataBlock' + (i % 5 + 1)} 
                     key={20 + i}
                     x1={w - 180}
                     y1={(6 + i) * h / 16 + 25}
                     x2={w - 150} 
                     y2={(6 + i) * h / 16 + 25}
                 />
-                <circle  
-                    className="dataBlock1"
-                    key={i}
-                    cx={w - 165} 
-                    cy={(6 + i) * h / 16 + 25}  
-                    r={5} 
-                /> 
+                {
+                    (i % 5 === 0) ? (
+                        <circle  
+                            className="dataBlock1"
+                            key={i}
+                            cx={w - 165} 
+                            cy={(6 + i) * h / 16 + 25}  
+                            r={5} 
+                        />) :
+                    (i % 5 === 1) ? (
+                        <rect 
+                            className="dataBlock2"
+                            key={i}
+                            x={w - 170} 
+                            y={(6 + i) * h / 16 + 20} 
+                            width={10} 
+                            height={10} 
+                        />) :
+                    (i % 5 === 2) ? (
+                        <polygon 
+                            className="dataBlock3"
+                            key={i}
+                            points={
+                                ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 16) + 
+                                ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 28) + 
+                                ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 28) 
+                            } 
+                        />) :
+                    (i % 5 === 3) ? (
+                        <polygon 
+                            key={i}
+                            className="dataBlock4"
+                            points={
+                            ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
+                            ' ' + (w - 161) + ',' + ((6 + i) * h / 16 + 28) + 
+                            ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 22) + 
+                            ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
+                            ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) 
+                            } 
+                        />) :
+                    (i % 5 === 4) ? (
+                        <polygon 
+                            className="dataBlock5"
+                            key={i}
+                            points={
+                            ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
+                            ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
+                            ' ' + (w - 161) + ',' + ((6 + i) * h / 16 + 28) + 
+                            ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) +
+                            ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 22) 
+                            } 
+                        />) :
+                    null
+                }
             </>
-            );
-        } else if (i % 5 === 1) {
-            return(
-            <>
-            <text key={10 + i} className="dataBlock2-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
-                {data.name}
-            </text>
-            <line 
-                className="dataBlock2"
-                key={20 + i}
-                x1={w - 180}
-                y1={(6 + i) * h / 16 + 25}
-                x2={w - 150} 
-                y2={(6 + i) * h / 16 + 25}
-            />
-            <rect 
-                className="dataBlock2"
-                key={i}
-                x={w - 170} 
-                y={(6 + i) * h / 16 + 20} 
-                width={10} 
-                height={10} 
-            />
-        </>
-            );
-        } else if (i % 5 === 2) {
-            return (
-                <>
-                <text key={10 + i} className="dataBlock3-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
-                    {data.name}
-                </text>
-                <line 
-                    className="dataBlock3"
-                    key={20 + i}
-                    x1={w - 180}
-                    y1={(6 + i) * h / 16 + 25}
-                    x2={w - 150} 
-                    y2={(6 + i) * h / 16 + 25}
-                />
-                <polygon 
-                    className="dataBlock3"
-                    key={i}
-                    points={
-                        ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 16) + 
-                        ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 28) + 
-                        ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 28) 
-                    } 
-                />
-            </>
-            );
-        } else if (i % 5 === 3) {
-            return(
-                <>
-                <text key={10 + i} className="dataBlock4-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
-                    {data.name}
-                </text>
-                <line 
-                    key={20 + i}
-                    className="dataBlock4"
-                    x1={w - 180}
-                    y1={(6 + i) * h / 16 + 25}
-                    x2={w - 150} 
-                    y2={(6 + i) * h / 16 + 25}
-                />
-                <polygon 
-                    key={i}
-                    className="dataBlock4"
-                    points={
-                    ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
-                    ' ' + (w - 161) + ',' + ((6 + i) * h / 16 + 28) + 
-                    ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 22) + 
-                    ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
-                    ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) 
-                    } 
-                />
-            </>
-            );
-        } else if (i % 5 === 4) {
-            return (
-                <>
-                <text key={10 + i} className="dataBlock5-text" textAnchor="start" x={w - 140} y={(6 + i) * h / 16 + 25}>
-                    {data.name}
-                </text>
-                <line 
-                    className="dataBlock5"
-                    key={20 + i}
-                    x1={w - 180}
-                    y1={(6 + i) * h / 16 + 25}
-                    x2={w - 150} 
-                    y2={(6 + i) * h / 16 + 25}
-                />
-                <polygon 
-                    className="dataBlock5"
-                    key={i}
-                    points={
-                    ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
-                    ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
-                    ' ' + (w - 161) + ',' + ((6 + i) * h / 16 + 28) + 
-                    ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) +
-                    ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 22) 
-                    } 
-                />
-            </>
-            );
-        } else {
-            return null;
-        }
-    });
+            ));
 }
 
 function getMaxDataCount(series: Data[]) {
     let maxCount = 0;
-    for (let i = 0; i < series.length; i++) {
-        if (maxCount < series[i].data.length) {
-            maxCount = series[i].data.length;
+    for (const d of series) {
+        if (maxCount < d.data.length) {
+            maxCount = d.data.length;
         }
     }
     return maxCount;
 }
     
 function xAxisDatas(s: Data[], w: number, h: number, p: number) {
-    let c = getMaxDataCount(s);
-    let arr = new Array(c);
+    const c = getMaxDataCount(s);
+    const arr = new Array(c);
     for (let i = 0; i < c; i++) {
         arr[i] = i;
     }
@@ -194,24 +126,23 @@ function xAxisDatas(s: Data[], w: number, h: number, p: number) {
             >
                 {(p + num)}
             </text>
-    </> 
+        </> 
     ));
 }
 
 function triangle (w: number, h: number, i: number, j: number , d: Data[]) {
-    let c = getMaxDataCount(d);
-    let x1, x2, x3, y1, y2, y3, x, y;
-    let b = bigOne(d);
-    x = 105 + j * ( w - 300 ) / ( c - 1 );
-    y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2));
-    x1 = x;
-    y1 = y - 9;
+    const c = getMaxDataCount(d);
+    const b = bigOne(d);
+    const x = 105 + j * ( w - 300 ) / ( c - 1 );
+    const y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2));
+    const x1 = x;
+    const y1 = y - 9;
 
-    x2 = x - 6;
-    y2 = y + 3;
+    const x2 = x - 6;
+    const y2 = y + 3;
 
-    x3 = x + 6;
-    y3 = y + 3;
+    const x3 = x + 6;
+    const y3 = y + 3;
     return (
         <polygon 
             className="dataBlock3"
@@ -222,25 +153,24 @@ function triangle (w: number, h: number, i: number, j: number , d: Data[]) {
 }
 
 function star(w: number, h: number, i: number, j: number , d: Data[]) {
-    let c = getMaxDataCount(d);
-    let b = bigOne(d);
-    let x1, x2, x3, x4, x5, y1, y2, y3, y4, y5, x, y;
-    x = 105 + j * ( w - 300 ) / ( c - 1 );
-    y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ));
-    x1 = x;
-    y1 = y - 8;
+    const c = getMaxDataCount(d);
+    const b = bigOne(d);
+    const x = 105 + j * ( w - 300 ) / ( c - 1 );
+    const y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ));
+    const x1 = x;
+    const y1 = y - 8;
 
-    x2 = x + 4;
-    y2 = y + 3;
+    const x2 = x + 4;
+    const y2 = y + 3;
 
-    x3 = x - 6;
-    y3 = y - 3;
+    const x3 = x - 6;
+    const y3 = y - 3;
 
-    x4 = x + 6;
-    y4 = y - 3;
+    const x4 = x + 6;
+    const y4 = y - 3;
 
-    x5 = x - 4;
-    y5 = y + 3;
+    const x5 = x - 4;
+    const y5 = y + 3;
     return(
     <polygon 
         className="dataBlock4"
@@ -258,25 +188,24 @@ function star(w: number, h: number, i: number, j: number , d: Data[]) {
 }
 
 function pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
-    let c = getMaxDataCount(d);
-    let b = bigOne(d);
-    let x1, x2, x3, x4, x5, y1, y2, y3, y4, y5, x, y;
-    x = 105 + j * ( w - 300 ) / ( c - 1 );
-    y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ));
-    x1 = x;
-    y1 = y - 8;
+    const c = getMaxDataCount(d);
+    const b = bigOne(d);
+    const x = 105 + j * ( w - 300 ) / ( c - 1 );
+    const y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ));
+    const x1 = x;
+    const y1 = y - 8;
 
-    x2 = x + 6;
-    y2 = y - 3;
+    const x2 = x + 6;
+    const y2 = y - 3;
 
-    x3 = x + 4;
-    y3 = y + 3;
+    const x3 = x + 4;
+    const y3 = y + 3;
 
-    x4 = x - 4;
-    y4 = y + 3;
+    const x4 = x - 4;
+    const y4 = y + 3;
 
-    x5 = x - 6;
-    y5 = y - 3;
+    const x5 = x - 6;
+    const y5 = y - 3;
     return(
     <polygon 
         className="dataBlock5"
@@ -293,7 +222,7 @@ function pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
 }
 
 function drawHorizontalLines(w: number, h: number) {
-    let arr = [ 1, 2, 3, 4, 5];
+    const arr = [ 1, 2, 3, 4, 5];
     return arr.map((num, i) => (
         <line 
             className="backgroundLines"
@@ -307,7 +236,7 @@ function drawHorizontalLines(w: number, h: number) {
 }
 
 function yAxisInfos(w: number, h: number, d: Data[]) {
-    let arr = [ 1, 2, 3, 4, 5];
+    const arr = [ 1, 2, 3, 4, 5];
     return arr.map((num, i) => (
         <text className="yAxisInfos" key={i} textAnchor="end" x={100 - 5} y={(i + 2) * h / 8 + 5} >
             {(4 - i) * bigOne(d) / 4}
@@ -315,70 +244,34 @@ function yAxisInfos(w: number, h: number, d: Data[]) {
     ));
 }
 
+function lineForData(cn: string, w: number, h: number, i: number, j: number , d: Data[]) {
+    const c = getMaxDataCount(d);
+    const b = bigOne(d);
+    return(
+        <line
+            className={cn}
+            key={i * 10 + j} 
+            x1={105 + j * ( w - 300 ) / ( c - 1)} 
+            y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
+            x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1 )} 
+            y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
+        />
+    );
+}
+
 function drawDataLines(w: number, h: number, d: Data[]) {
-    let c = getMaxDataCount(d);
-    let b = bigOne(d);
     return d.map((ds, i) => (
         ds.data.map((nums, j) => (
-            (j === ds.data.length - 1) ? null : (
-                (i % 5 === 0) ? (
-                    <line
-                        className="dataBlock1"
-                        key={i * 10 + j} 
-                        x1={105 + j * ( w - 300 ) / ( c - 1)} 
-                        y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
-                        x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1 )} 
-                        y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                    />
-                ) :
-                (i % 5 === 1) ? (
-                    <line 
-                        className="dataBlock2"
-                        key={i * 10 + j}
-                        x1={105 + j * ( w - 300 ) / ( c - 1 )} 
-                        y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
-                        x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1 )} 
-                        y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                    />
-                    ) :
-                (i % 5 === 2) ? (
-                    <line
-                        className="dataBlock3"
-                        key={i * 10 + j}
-                        x1={105 + j * ( w - 300 ) / ( c - 1 )} 
-                        y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
-                        x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1)} 
-                        y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                    />
-                    ) :
-                (i % 5 === 3) ? (
-                    <line 
-                        className="dataBlock4"
-                        key={i * 10 + j}
-                        x1={105 + j * ( w - 300) / ( c - 1 )} 
-                        y1={(3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ))}
-                        x2={105 + ( j + 1 ) * ( w - 300) / ( c - 1 )} 
-                        y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                    />
-                    ) :
-                (i % 5 === 4) ? (
-                    <line 
-                        className="dataBlock5"
-                        key={i * 10 + j}
-                        x1={105 + j * ( w - 300) / ( c - 1 )} 
-                        y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2))}
-                        x2={105 + ( j + 1 ) * ( w - 300) / ( c - 1)} 
-                        y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2))}
-                    />
-                    ) : null 
-            ) 
+            (j === ds.data.length - 1) ? 
+                null : 
+                lineForData('dataBlock' + (i % 5 + 1), w, h, i, j, d)
         ))
     ));
 }
 
 function drawPoint(w: number, h: number, d: Data[]) {
-    let c = getMaxDataCount(d);
-    let b = bigOne(d);
+    const c = getMaxDataCount(d);
+    const b = bigOne(d);
     return d.map((num, i) => (
         num.data.map((nums, j) => (
             (i % 5 === 0) ? (
@@ -409,9 +302,20 @@ function drawPoint(w: number, h: number, d: Data[]) {
         ))
     ));
 }
+export interface Title {
+    text: string;
+}
 
 export interface Subtitle {
     text: string;
+}
+
+export interface YAxis {
+    title: Title;
+}
+
+export interface PlotOptions {
+    pointStart: number;
 }
 
 export interface Data {
