@@ -51,8 +51,7 @@ function scaleYAxis(num: number | void, biggest: number) {
                 className="chart-scale"
                 key={i}
                 x={labelX}
-                y={(chartY * (scale - i) / scale) + marY + 4}  
-                fontSize={5}
+                y={(chartY * (scale - i) / scale) + marY + 4}
             >
             {numberPrefixed(i * biggest / (scale))}
             </text>);
