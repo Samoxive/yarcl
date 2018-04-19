@@ -10,6 +10,8 @@ export interface AreaChartProps {
     scale?: number;
 }
 
+const mar = 30;
+
 function getRandomColor(): string {
     let letters = '0123456789ABCDEF';
     let color = '#';
@@ -21,6 +23,10 @@ function getRandomColor(): string {
 
 function biggestNum(data: number[]): number {
     return (data.length > 0) ? Math.max(...data) : 0;
+}
+
+function smallestNum(data: number[]): number {
+    return (data.length > 0) ? Math.min(...data) : 0;
 }
 
 let SI_PREFIXES = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
@@ -50,28 +56,46 @@ function scaleXAxis(num: number | void, data: number[]) {
     }
     return texts;
 }
+function polygonPoints(data: number[]) {
+    let pointString = mar + ',200 ';
+    let i = 0;
+    for (let datum of data) {
+        pointString += (mar + i) + ',' + (200 - (datum * (200 / biggestNum(data)))) + ' ';
+        i += (200 / data.length);
+    }
+    pointString +=  mar + i + ',200';
+    return pointString;
+}
 export const AreaChart = ({title, subtitle, data, label, color, scale}: AreaChartProps) => (
     <div className="area-chart">
         <p>
             <h1>{title}</h1>
             <h2>{subtitle}</h2>
         </p>
-
         <div className="chart-data">
-            <svg viewBox={`0 0 275 ${data.length * 17}`} >
+            <svg viewBox={`0 0 275 250`} >
+                {/*Y axis*/}
                 <line 
-                    x1="50" 
-                    x2="50" 
+                    x1={mar - 2}
+                    x2={mar - 2} 
                     y1="0" 
-                    y2={data.length * 15}
+                    y2="200"
                     stroke="black"
                     strokeWidth="4" 
                 />
+                {/*Polygon*/}
+                {/*<polygon points="0,100 50,25 50,75 100,0" />*/}
+                <polygon 
+                    points={polygonPoints(data)}
+                    fill={'red'}
+                />
+                )}
+                {/*X axis*/}
                 <line 
-                    x1="48" 
-                    x2="252"
-                    y1={data.length * 15}
-                    y2={data.length * 15}
+                    x1={mar - 4} 
+                    x2={200 + mar}
+                    y1="200"
+                    y2="200"
                     stroke="black"
                     strokeWidth="4" 
                 />
