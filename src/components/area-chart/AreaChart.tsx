@@ -15,7 +15,10 @@ export interface Series {
     data: number[];
 }
 
-const mar = 30;
+const marX = 30;
+const marY = 10;
+const chartX = 200;
+const chartY = 200;
 
 function getRandomColor(): string {
     let letters = '0123456789ABCDEF';
@@ -26,8 +29,14 @@ function getRandomColor(): string {
     return color;
 }
 
-function biggestNum(data: number[]): number {
-    return (data.length > 0) ? Math.max(...data) : 0;
+function biggestNum(series: Series[]): number {
+    let big = 0;
+    for (let dataset of series) {
+        if (Math.max(...(dataset.data)) > big) {
+            big = Math.max(...(dataset.data));
+        }
+    }
+    return big;
 }
 
 function smallestNum(data: number[]): number {
@@ -45,50 +54,51 @@ function numberPrefixed(num: number) {
     return scaled.toFixed(2) + prefix;
 }
 
-function scaleXAxis(num: number | void, data: number[]) {
+function scaleYAxis(num: number | void, biggest: number) {
     let scale = num || 4;
     let texts = [];
     for (let i = 0; i <= scale; i++) {
         texts.push(
             <text
                 key={i}
-                x={50 + (200 * i / scale)} 
-                y={data.length * 15 + 10} 
+                x={5}
+                y={(200 * (scale - i) / scale) + marY + 4}  
                 fontSize={5}
             >
-            {numberPrefixed(i * biggestNum(data) / (scale))}
+            {numberPrefixed(i * biggest / (scale))}
             </text>);
     }
     return texts;
 }
-function polygonPoints(data: number[]) {
-    let pointString = mar + ',200 ';
+
+function polygonPoints(data: number[], biggest: number) {
+    let pointString = marX + ',' + (marY + 200) + ' ';
     let i = 0;
     for (let datum of data) {
-        pointString += (mar + i) + ',' + (200 - (datum * (200 / biggestNum(data)))) + ' ';
+        pointString += (marX + i) + ',' + (200 - (datum * (200 / biggest)) + marY) + ' ';
         i += (200 / (data.length - 1));
     }
     i -= (200 / (data.length - 1));
-    pointString +=  mar + i + ',200';
+    pointString +=  marX + i + ',' + (marY + 200) + ' ';
     return pointString;
 }
 export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProps) => {
     const colorGenerator = getColorGenerator();
     let seriesLen = series.length;
+    let biggest = biggestNum(series);
     return (
         <div className="area-chart">
-            <p>
-                <h1>{title}</h1>
-                <h2>{subtitle}</h2>
-            </p>
             <div className="chart-data">
                 <svg viewBox={`0 0 275 250`} >
+                    {
+                        scaleYAxis(scale, biggest)
+                    }
                     {/*Y axis*/}
                     <line 
-                        x1={mar - 2}
-                        x2={mar - 2} 
-                        y1="0" 
-                        y2="200"
+                        x1={marX - 2}
+                        x2={marX - 2} 
+                        y1={marY} 
+                        y2={marY + 200}
                         stroke="black"
                         strokeWidth="4" 
                     />
@@ -97,7 +107,7 @@ export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProp
                     {series.map((num, i) =>
                             <polygon
                                 key={i}
-                                points={polygonPoints(series[i].data)}
+                                points={polygonPoints(series[i].data, biggest)}
                                 fill={colorGenerator()}
                                 opacity={seriesLen === 1 ? 1 : 0.5}
                             />
@@ -105,10 +115,10 @@ export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProp
                     }
                     {/*X axis*/}
                     <line 
-                        x1={mar - 4} 
-                        x2={200 + mar}
-                        y1="200"
-                        y2="200"
+                        x1={marX - 4} 
+                        x2={marX + 200}
+                        y1={marY + 200}
+                        y2={marY + 200}
                         stroke="black"
                         strokeWidth="4" 
                     />
