@@ -142,15 +142,19 @@ export const AreaChart = ({title, subtitle, series, scale, scaleLabel}: AreaChar
                         stroke="black"
                         strokeWidth="4" 
                     />
-                    {/*Polygon*/}
-                    {series.map((num, i) =>
-                            <polygon
-                                key={i}
-                                points={polygonPoints(series[i].data, biggest, maxLen)}
-                                fill={series[i].color || colors[i]}
-                                opacity={seriesLen === 1 ? 1 : 0.5}
-                            />
-                        )
+                    {/*Plots*/}
+                    {// TODO: now, these x and ys are on viewbox, make it only in xy canvas.
+                        series.map((num) =>
+                        num.data.map((dat, i) => 
+                        <circle
+                            key={i}
+                            cx={dat.x}
+                            cy={dat.y}
+                            r={num.r}
+                            fill={series[i].color || colors[i]}
+                            opacity={seriesLen === 1 ? 1 : 1}
+                        />
+                    ))
                     }
                     {/*TODO: Legend based on colors*/}
                     {/*X axis*/}
