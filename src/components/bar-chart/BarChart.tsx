@@ -1,5 +1,7 @@
 import * as React from 'react';
 import './BarChart.scss';
+import '../common.scss';
+import { getColorGenerator } from '../../utils/colors';
 
 export interface BarChartData {
     title?: string;
@@ -50,46 +52,47 @@ function scaleXAxis(num: number | void, data: number[]) {
     }
     return texts;
 }
-export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartData) => (
-    <div className="bar-chart">
-        <p>
-            <h1>{title}</h1>
-            <h2>{subtitle}</h2>
-        </p>
+export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartData) => {
+    const colorGenerator = getColorGenerator();
+    return (
+        <div className="bar-chart">
+            <div className="chart-title">{title}</div>
+            <div className="chart-subtitle">{subtitle}</div>
 
-        <div className="chart-data">
-            <svg viewBox={`0 0 275 ${data.length * 17}`} >
-            {label.map((num, i) => <text key={i} x={0} y={i * 15 + 10} fontSize={5}>
-                {num.length < 16 ? num : num.substring(0, 15) + '...'}
-            </text>)}
-                <line 
-                    x1="50" 
-                    x2="50" 
-                    y1="0" 
-                    y2={data.length * 15}
-                    stroke="black"
-                    strokeWidth="4" 
-                />
-            {data.map((num, i) => 
-                <rect
-                    key={i} 
-                    x="52"
-                    y={15 * i + 3.5}
-                    width={10 * num / (biggestNum(data) * 10 / 200)}    
-                    height="7.5" 
-                    fill={color || getRandomColor()}
-                />)
-            }
-                <line 
-                    x1="48" 
-                    x2="252"
-                    y1={data.length * 15}
-                    y2={data.length * 15}
-                    stroke="black"
-                    strokeWidth="4" 
-                />
-                {scaleXAxis(scale, data)};
-            </svg>
+            <div className="chart-data">
+                <svg viewBox={`0 0 275 ${data.length * 17}`} >
+                {label.map((num, i) => <text key={i} x={0} y={i * 15 + 10} className="chart-label">
+                    {num.length < 16 ? num : num.substring(0, 15) + '...'}
+                </text>)}
+                    <line 
+                        x1="50" 
+                        x2="50" 
+                        y1="0" 
+                        y2={data.length * 15}
+                        stroke="black"
+                        strokeWidth="4" 
+                    />
+                {data.map((num, i) => 
+                    <rect
+                        key={i} 
+                        x="52"
+                        y={15 * i + 3.5}
+                        width={10 * num / (biggestNum(data) * 10 / 200)}    
+                        height="7.5" 
+                        fill={color || colorGenerator()}
+                    />)
+                }
+                    <line 
+                        x1="48" 
+                        x2="252"
+                        y1={data.length * 15}
+                        y2={data.length * 15}
+                        stroke="black"
+                        strokeWidth="4" 
+                    />
+                    {scaleXAxis(scale, data)};
+                </svg>
+            </div>
         </div>
-    </div>
-);
+    );
+};
