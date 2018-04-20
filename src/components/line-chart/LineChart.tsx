@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './LineChart.scss';
+import { getColorGenerator } from '../../utils/colors';
 
 function bigOne(series: Data[]) {
     let big = 0;
@@ -14,6 +15,8 @@ function bigOne(series: Data[]) {
 }
 
 function placeNames(w: number, h: number, d: Data[]) {
+    let colorGenerator = getColorGenerator();
+    let colors = d.map((datum) =>  colorGenerator());
     return d.map((data, i) => (
             <>
                 <text 
@@ -22,6 +25,7 @@ function placeNames(w: number, h: number, d: Data[]) {
                     textAnchor="start" 
                     x={w - 140} 
                     y={(6 + i) * h / 16 + 25}
+                    fill="black" 
                 >
                     {data.name}
                 </text>
@@ -32,6 +36,7 @@ function placeNames(w: number, h: number, d: Data[]) {
                     y1={(6 + i) * h / 16 + 25}
                     x2={w - 150} 
                     y2={(6 + i) * h / 16 + 25}
+                    stroke={colors[i]} 
                 />
                 {
                     (i % 5 === 0) ? (
@@ -40,7 +45,8 @@ function placeNames(w: number, h: number, d: Data[]) {
                             key={i}
                             cx={w - 165} 
                             cy={(6 + i) * h / 16 + 25}  
-                            r={5} 
+                            r={5}
+                            fill={colors[i]}  
                         />) :
                     (i % 5 === 1) ? (
                         <rect 
@@ -50,6 +56,7 @@ function placeNames(w: number, h: number, d: Data[]) {
                             y={(6 + i) * h / 16 + 20} 
                             width={10} 
                             height={10} 
+                            fill={colors[i]} 
                         />) :
                     (i % 5 === 2) ? (
                         <polygon 
@@ -60,6 +67,7 @@ function placeNames(w: number, h: number, d: Data[]) {
                                 ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 28) + 
                                 ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 28) 
                             } 
+                            fill={colors[i]} 
                         />) :
                     (i % 5 === 3) ? (
                         <polygon 
@@ -72,6 +80,7 @@ function placeNames(w: number, h: number, d: Data[]) {
                             ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
                             ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) 
                             } 
+                            fill={colors[i]} 
                         />) :
                     (i % 5 === 4) ? (
                         <polygon 
@@ -84,6 +93,7 @@ function placeNames(w: number, h: number, d: Data[]) {
                             ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) +
                             ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 22) 
                             } 
+                            fill={colors[i]} 
                         />) :
                     null
                 }
@@ -116,6 +126,7 @@ function xAxisDatas(s: Data[], w: number, h: number, p: number) {
                 y1={6 * h / 8}
                 x2={105 + num * (w - 300) / (c - 1)}
                 y2={6 * h / 8 + 10}
+                stroke="black"
             />
             <text 
                 className="xAxisInfos-text" 
@@ -135,6 +146,8 @@ function triangle (w: number, h: number, i: number, j: number , d: Data[]) {
     const b = bigOne(d);
     const x = 105 + j * ( w - 300 ) / ( c - 1 );
     const y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2));
+    let colorGenerator = getColorGenerator();
+    let colors = d.map((datum) =>  colorGenerator());
     const x1 = x;
     const y1 = y - 9;
 
@@ -147,7 +160,12 @@ function triangle (w: number, h: number, i: number, j: number , d: Data[]) {
         <polygon 
             className="dataBlock3"
             key={i * 10 + j} 
-            points={'' + x1 + ',' + y1 + ' ' + x2 + ',' + y2 + ' ' + x3 + ',' + y3 + ''} 
+            points={
+                ' ' + x1 + ',' + y1 + 
+                ' ' + x2 + ',' + y2 + 
+                ' ' + x3 + ',' + y3 + 
+                ''} 
+            fill={colors[i]} 
         />
     ) ;
 }
@@ -157,6 +175,8 @@ function star(w: number, h: number, i: number, j: number , d: Data[]) {
     const b = bigOne(d);
     const x = 105 + j * ( w - 300 ) / ( c - 1 );
     const y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ));
+    let colorGenerator = getColorGenerator();
+    let colors = d.map((datum) =>  colorGenerator());
     const x1 = x;
     const y1 = y - 8;
 
@@ -182,6 +202,7 @@ function star(w: number, h: number, i: number, j: number , d: Data[]) {
         ' ' + x4 + ',' + y4 + 
         ' ' + x5 + ',' + y5 + 
         ''} 
+        fill={colors[i]} 
     />
     );
 
@@ -192,6 +213,8 @@ function pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
     const b = bigOne(d);
     const x = 105 + j * ( w - 300 ) / ( c - 1 );
     const y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ));
+    let colorGenerator = getColorGenerator();
+    let colors = d.map((datum) =>  colorGenerator());
     const x1 = x;
     const y1 = y - 8;
 
@@ -216,7 +239,8 @@ function pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
         ' ' + x3 + ',' + y3 + 
         ' ' + x4 + ',' + y4 + 
         ' ' + x5 + ',' + y5 + 
-        ''} 
+        ''}
+        fill={colors[i]} 
     />
     ); 
 }
@@ -247,6 +271,8 @@ function yAxisInfos(w: number, h: number, d: Data[]) {
 function lineForData(cn: string, w: number, h: number, i: number, j: number , d: Data[]) {
     const c = getMaxDataCount(d);
     const b = bigOne(d);
+    let colorGenerator = getColorGenerator();
+    let colors = d.map((datum) =>  colorGenerator());
     return(
         <line
             className={cn}
@@ -255,6 +281,7 @@ function lineForData(cn: string, w: number, h: number, i: number, j: number , d:
             y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
             x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1 )} 
             y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
+            stroke={colors[i]}
         />
     );
 }
@@ -272,6 +299,8 @@ function drawDataLines(w: number, h: number, d: Data[]) {
 function drawPoint(w: number, h: number, d: Data[]) {
     const c = getMaxDataCount(d);
     const b = bigOne(d);
+    let colorGenerator = getColorGenerator();
+    let colors = d.map((datum) =>  colorGenerator());
     return d.map((num, i) => (
         num.data.map((nums, j) => (
             (i % 5 === 0) ? (
@@ -281,6 +310,7 @@ function drawPoint(w: number, h: number, d: Data[]) {
                 cx={105 + j * ( w - 300 ) / ( c - 1)} 
                 cy={(3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2))} 
                 r={5} 
+                fill={colors[i]} 
             /> 
             ) :
             (i % 5 === 1) ? (
@@ -291,6 +321,7 @@ function drawPoint(w: number, h: number, d: Data[]) {
                 y={(3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2)) - 5} 
                 width={10} 
                 height={10} 
+                fill={colors[i]} 
             />
             ) :
             (i % 5 === 2) ? 
