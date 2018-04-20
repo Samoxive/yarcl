@@ -47,7 +47,7 @@ function scaleXAxis(num: number | void, data: number[]) {
             <text
                 key={i}
                 className="chart-scale"
-                x={marX + (chartX * i / scale)} 
+                x={marX - 10 + (chartX * i / scale)} 
                 y={data.length * gap + labelY + marY}
             >
             {numberPrefixed(i * biggestNum(data) / (scale))}

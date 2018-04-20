@@ -59,21 +59,33 @@ function scaleYAxis(num: number | void, biggest: number) {
     return texts;
 }
 
-function polygonPoints(data: number[], biggest: number) {
+function polygonPoints(data: number[], biggest: number, maxLength: number) {
     let pointString = marX + ',' + (marY + chartY) + ' ';
     let i = 0;
     for (let datum of data) {
         pointString += (marX + i) + ',' + (chartY - (datum * (chartY / biggest)) + marY) + ' ';
-        i += (chartX / (data.length - 1));
+        i += (chartX / (maxLength - 1));
     }
-    i -= (chartX / (data.length - 1));
+    i -= (chartX / (maxLength - 1));
     pointString +=  marX + i + ',' + (marY + chartY) + ' ';
     return pointString;
 }
+
+function maxArray(series: Series[]) {
+    let maxLength = 0;
+    for (let datum of series) {
+        if (datum.data.length > maxLength) {
+            maxLength = datum.data.length;
+        }
+    }
+    return maxLength;
+}
+
 export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProps) => {
     const colorGenerator = getColorGenerator();
     let seriesLen = series.length;
     let biggest = biggestNum(series);
+    let maxLen = maxArray(series);
     return (
         <div className="area-chart">
             <div className="chart-data">
@@ -97,7 +109,7 @@ export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProp
                     {series.map((num, i) =>
                             <polygon
                                 key={i}
-                                points={polygonPoints(series[i].data, biggest)}
+                                points={polygonPoints(series[i].data, biggest, maxLen)}
                                 fill={color || colorGenerator()}
                                 opacity={seriesLen === 1 ? 1 : 0.5}
                             />
