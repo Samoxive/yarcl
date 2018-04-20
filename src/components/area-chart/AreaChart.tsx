@@ -61,7 +61,7 @@ function scaleYAxis(num: number | void, biggest: number) {
     return texts;
 }
 
-function scaleXAxis(num: number | void, biggest: number, scaleLabel?: string) {
+function scaleXAxis(num: number | void, biggest: number, scaleLabel?: string[]) {
     let scale = biggest - 1;
     let texts = [];
     for (let i = 0; i <= scale; i++) {
@@ -121,6 +121,7 @@ export const AreaChart = ({title, subtitle, series, scale, scaleLabel}: AreaChar
     return (
         <div className="area-chart">
                 <svg viewBox={`0 0 ${chartX + marX + 100} ${chartY + marY + 50}`}>
+                <rect width="100%" height="100%" fill="white"/>
                     {/*Title*/}
                     <text className="chart-title" y={20}>{title}</text>
                     <text className="chart-subtitle" y={40}>{subtitle}</text>
