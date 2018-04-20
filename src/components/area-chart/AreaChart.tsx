@@ -77,12 +77,24 @@ function scaleXAxis(num: number | void, biggest: number) {
     return texts;
 }
 
+function whereTheFirstPoint(data: number[]) {
+    // data.min maybe?
+    let i = 9999999;
+    for (let j = 0; j < data.length; j++) {
+        if (data[j] !== null && j < i) {
+            i = j;
+        }
+    }
+    return i;
+}
 function polygonPoints(data: number[], biggest: number, maxLength: number) {
     let i = 0;
     // TODO: add non 0 start with nulls, hint: get first non null's i and start i,0
-    let pointString = marX + ',' + (marY + chartY) + ' ';
+    let pointString = marX + (whereTheFirstPoint(data) * (chartX / (maxLength - 1))) + ',' + (marY + chartY) + ' ';
     for (let datum of data) {
-        pointString += (marX + i) + ',' + (chartY - (datum * (chartY / biggest)) + marY) + ' ';
+        if (datum !== null) {
+            pointString += (marX + i) + ',' + (chartY - (datum * (chartY / biggest)) + marY) + ' ';
+        }
         i += (chartX / (maxLength - 1));
     }
     i -= (chartX / (maxLength - 1));
