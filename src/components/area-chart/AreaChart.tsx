@@ -20,6 +20,7 @@ const marY = 90;
 const chartX = 200;
 const chartY = 200;
 const labelX = 5;
+const labelY = 20;
 
 function biggestNum(series: Series[]): number {
     let big = 0;
@@ -59,9 +60,27 @@ function scaleYAxis(num: number | void, biggest: number) {
     return texts;
 }
 
+function scaleXAxis(num: number | void, biggest: number) {
+    let scale = biggest - 1;
+    let texts = [];
+    for (let i = 0; i <= scale; i++) {
+        texts.push(
+            <text
+                className="chart-scale"
+                key={i}
+                x={((chartX - 4) * (i) / scale) + marX}
+                y={marY + chartY + labelY}
+            >
+            {numberPrefixed(i)}
+            </text>);
+    }
+    return texts;
+}
+
 function polygonPoints(data: number[], biggest: number, maxLength: number) {
-    let pointString = marX + ',' + (marY + chartY) + ' ';
     let i = 0;
+    // TODO: add non 0 start with nulls, hint: get first non null's i and start i,0
+    let pointString = marX + ',' + (marY + chartY) + ' ';
     for (let datum of data) {
         pointString += (marX + i) + ',' + (chartY - (datum * (chartY / biggest)) + marY) + ' ';
         i += (chartX / (maxLength - 1));
@@ -90,7 +109,7 @@ export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProp
         <div className="area-chart">
             <div className="chart-data">
                 <svg viewBox={`0 0 ${chartX + marX + 50} ${chartY + marY + 50}`} width="100%" >
-                    {/*TODO: Title*/}
+                    {/*Title*/}
                     <text className="chart-title" y={20}>{title}</text>
                     <text className="chart-subtitle" y={40}>{subtitle}</text>
                     {
@@ -125,6 +144,9 @@ export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProp
                         stroke="black"
                         strokeWidth="4" 
                     />
+                    {
+                        scaleXAxis(scale, maxLen)
+                    }
                 </svg>
             </div>    
         </div>
