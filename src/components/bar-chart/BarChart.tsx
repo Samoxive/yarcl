@@ -14,11 +14,11 @@ export interface BarChartData {
 
 const marX = 50; // margin X
 const marY = 50;
-const chartX = 250; // chart X
-const gap = 20; // gap size
-const barSize = 20; // barSize SHOULD NOT BE bigger than gap.
-const labelX = 5; // x axis label size
-const labelY = 10; // y axis scale size
+const chartX = 400; // chart X
+const gap = 40; // gap size
+const barSize = 40; // barSize SHOULD NOT BE bigger than gap.
+const labelX = 0; // x axis label size
+const labelY = 20; // y axis scale size
 
 function biggestNum(data: number[]): number {
     return (data.length > 0) ? Math.max(...data) : 0;
@@ -63,14 +63,15 @@ export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartD
             <div className="chart-subtitle">{subtitle}</div>
 
             <div className="chart-data">
-                <svg viewBox={`0 0 ${chartX + 75 + marX} ${data.length * gap + marY + 50}`} >
+                <svg viewBox={`0 0 ${chartX + 75 + marX} ${data.length * gap + marY + 50}`} width="100%">
                 {label.map((num, i) => 
                     <text 
                         key={i}
                         x={labelX} 
                         y={(i + 2 / 3) * gap + marY}
+                        className="chart-label"
                     >
-                        {num.length < marX * (16 / 50) ? num : num.substring(0, (marX * 15 / 50)) + '...'}
+                        {num.length < marX * (9 / 50) ? num : num.substring(0, (marX * 7 / 50)) + '...'}
                     </text>
                 )}
                     <line 

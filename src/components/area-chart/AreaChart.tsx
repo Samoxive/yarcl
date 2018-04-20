@@ -15,8 +15,8 @@ export interface Series {
     data: number[];
 }
 
-const marX = 30;
-const marY = 30;
+const marX = 50;
+const marY = 90;
 const chartX = 200;
 const chartY = 200;
 const labelX = 5;
@@ -77,7 +77,7 @@ export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProp
     return (
         <div className="area-chart">
             <div className="chart-data">
-                <svg viewBox={`0 0 ${chartX + marX + 50} ${chartY + marY + 50}`} >
+                <svg viewBox={`0 0 ${chartX + marX + 50} ${chartY + marY + 50}`} width="100%" >
                     {/*TODO: Title*/}
                     <text className="chart-title" y={20}>{title}</text>
                     <text className="chart-subtitle" y={40}>{subtitle}</text>
@@ -113,9 +113,8 @@ export const AreaChart = ({title, subtitle, series, color, scale}: AreaChartProp
                         stroke="black"
                         strokeWidth="4" 
                     />
-
                 </svg>
-            </div>
+            </div>    
         </div>
     );
 };
