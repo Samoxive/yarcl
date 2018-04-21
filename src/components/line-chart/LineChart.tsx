@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './LineChart.scss';
+import '../common.scss';
 import { getColorGenerator } from '../../utils/colors';
 
 function bigOne(series: Data[]) {
@@ -21,7 +22,7 @@ function placeNames(w: number, h: number, d: Data[]) {
             <>
                 <text 
                     key={10 + i} 
-                    className={'dataBlock' + (i % 5 + 1) + '-text'}
+                    className={'chart-label'}
                     textAnchor="start" 
                     x={w - 140} 
                     y={(6 + i) * h / 16 + 25}
@@ -129,7 +130,7 @@ function xAxisDatas(s: Data[], w: number, h: number, p: number) {
                 stroke="black"
             />
             <text 
-                className="xAxisInfos-text" 
+                className="chart-label" 
                 key={i} 
                 textAnchor="middle" 
                 x={105 + num * (w - 300) / (c - 1)} 
@@ -262,7 +263,7 @@ function drawHorizontalLines(w: number, h: number) {
 function yAxisInfos(w: number, h: number, d: Data[]) {
     const arr = [ 1, 2, 3, 4, 5];
     return arr.map((num, i) => (
-        <text className="yAxisInfos" key={i} textAnchor="end" x={100 - 5} y={(i + 2) * h / 8 + 5} >
+        <text className="chart-label" key={i} textAnchor="end" x={100 - 5} y={(i + 2) * h / 8 + 5} >
             {(4 - i) * bigOne(d) / 4}
         </text>
     ));
@@ -373,14 +374,14 @@ export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, s
 
         {xAxisDatas(series, width, height, plotOptions.pointStart)}
 
-        <text className="title" key="2" textAnchor="middle" x={width / 2} y="30">
+        <text className="chart-title" key="2" textAnchor="middle" x={width / 2} y="30">
             {title.text}
         </text>
-        <text className="subtitle" key="3" textAnchor="middle" x={width / 2} y="60">
+        <text className="chart-subtitle" key="3" textAnchor="middle" x={width / 2} y="60">
             {subtitle.text}
         </text>
         <text 
-            className="yAxis"
+            className="chart-label"
             key="4"
             textAnchor="middle" 
             x="30" 
