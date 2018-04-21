@@ -12,13 +12,15 @@ export interface PieChartData {
 }
 
 export interface PieChartOptions {
-    showPercentage: boolean;
+    showPercentage?: boolean;
+    isDonut?: boolean;
+    donutPercentage?: number;
 }
 
 export interface PieChartProps {
     title: string;
     data: PieChartData[];
-    options: PieChartOptions;
+    options?: PieChartOptions;
 }
 
 export interface PieProps {
@@ -26,16 +28,18 @@ export interface PieProps {
     color: string;
     coordinates: PieCoordinates;
     showPercentage: boolean;
+    isDonut: boolean;
+    donutPercentage: number;
 }
 
 export class Pie extends React.Component<PieProps> {
     render() {
-        const { coordinates, color, showPercentage } = this.props;
+        const { coordinates, color, showPercentage, isDonut, donutPercentage } = this.props;
         const c = coordinates;
         const halfwayPercentage = (c.percentage / 2) + c.previousPercentage;
         const percentageCoordinate = c.percentage > 0.1 ? normalPointToSVG({
-            x: Math.cos(2 * Math.PI * halfwayPercentage) / 2,
-            y: Math.sin(2 * Math.PI * halfwayPercentage) / 2
+            x: Math.cos(2 * Math.PI * halfwayPercentage) * (isDonut ? ((2 - donutPercentage) / 2) : 0.5),
+            y: Math.sin(2 * Math.PI * halfwayPercentage) * (isDonut ? ((2 - donutPercentage) / 2) : 0.5)
         }) : null;
 
         if (c.percentage > 0.99999999) {
@@ -53,6 +57,44 @@ export class Pie extends React.Component<PieProps> {
             return null;
         }
 
+        const bigArch = c.percentage > 0.5 ? 1 : 0;
+
+        if (isDonut) {
+            const per = donutPercentage;
+            const startp1 = normalPointToSVG({
+                x: Math.cos(2 * Math.PI * c.previousPercentage) * per,
+                y: Math.sin(2 * Math.PI * c.previousPercentage) * per
+            });
+            const startp2 = normalPointToSVG({
+                x: Math.cos(2 * Math.PI * (c.previousPercentage + c.percentage)) * per,
+                y: Math.sin(2 * Math.PI * (c.previousPercentage + c.percentage)) * per 
+            });
+
+            return (
+                <React.Fragment>
+                    <path
+                        className="pie"
+                        d={`M ${startp1.x} ${startp1.y}
+                            L ${c.p1.x} ${c.p1.y}
+                            A 1 1 0 ${bigArch} 1 ${c.p2.x} ${c.p2.y}
+                            L ${startp2.x} ${startp2.y}
+                            A ${per} ${per} 0 ${bigArch} 0 ${startp1.x} ${startp1.y}
+                            Z`}
+                        fill={color}
+                    />
+                    {showPercentage && percentageCoordinate ? 
+                        (<text
+                            x={percentageCoordinate.x}
+                            y={percentageCoordinate.y}
+                            fontSize={0.1}
+                            textAnchor={'middle'}
+                        >
+                            {`${Math.floor(c.percentage * 1000) / 10}%`}
+                        </text>) : null}
+                </React.Fragment>
+            );
+        }
+
         return (
             <React.Fragment>
                 <path
@@ -60,7 +102,7 @@ export class Pie extends React.Component<PieProps> {
                     d={`M 1 1
                         L ${c.p1.x} ${c.p1.y}
                         M ${c.p1.x} ${c.p1.y}
-                        A 1 1 0 ${c.percentage > 0.5 ? 1 : 0} 1 ${c.p2.x} ${c.p2.y}
+                        A 1 1 0 ${bigArch} 1 ${c.p2.x} ${c.p2.y}
                         L 1 1
                         Z`}
                     fill={color}
@@ -79,10 +121,15 @@ export class Pie extends React.Component<PieProps> {
     }
 }
 
-export const PieChart = ({title, data, options}: PieChartProps) => {
+export const PieChart = ({title,
+                          data,
+                          options = {showPercentage: true, donutPercentage: 0.5, isDonut: false}}: PieChartProps) => {
     let coords = getCircleCoordinates(data);
     let colorGenerator = getColorGenerator();
     let colors = data.map((datum) => datum.color ? datum.color : colorGenerator());
+    const showPercentage = options.showPercentage || true;
+    const donutPercentage = options.donutPercentage || 0.5;
+    const isDonut = options.isDonut || false;
 
     return (
         <div className="pie-chart pie-chart-container-vertical">
@@ -98,7 +145,9 @@ export const PieChart = ({title, data, options}: PieChartProps) => {
                                 label={data[i].label}
                                 coordinates={c}
                                 color={colors[i]}
-                                showPercentage={options.showPercentage}
+                                showPercentage={showPercentage}
+                                donutPercentage={donutPercentage}
+                                isDonut={isDonut}
                             />)
                         )}
                     </svg>
