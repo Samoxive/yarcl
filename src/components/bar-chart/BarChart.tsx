@@ -14,7 +14,7 @@ export interface BarChartData {
 
 const marX = 50; // margin X
 const marY = 90;
-const chartX = 400; // chart X
+const chartX = 350; // chart X
 const gap = 40; // gap size
 const barSize = 40; // barSize SHOULD NOT BE bigger than gap.
 const labelX = 0; // x axis label size
@@ -59,7 +59,7 @@ export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartD
     const colorGenerator = getColorGenerator();
     return (
         <div className="bar-chart">
-                <svg viewBox={`0 0 ${chartX + 50 + marX} ${data.length * gap + marY + 50}`} width="100%">
+            <svg viewBox={`0 0 ${chartX + 50 + marX} ${data.length * gap + marY + 50}`} width="100%">
                 <rect width="100%" height="100%" fill="white"/>
                 <text className="chart-title" y={20}>{title}</text>
                 <text className="chart-subtitle" y={40}>{subtitle}</text>
@@ -100,7 +100,7 @@ export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartD
                         strokeWidth="4" 
                     />
                     {scaleXAxis(scale, data)};
-                </svg>
+            </svg>
         </div>
     );
 };

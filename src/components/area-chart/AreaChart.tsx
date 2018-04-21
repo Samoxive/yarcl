@@ -33,6 +33,10 @@ function biggestNum(series: Series[]): number {
     return big;
 }
 
+function biggestNumInArray(data: number[]): number {
+    return (data.length > 0) ? Math.max(...data) : 0;
+}
+
 let SI_PREFIXES = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
 
 function numberPrefixed(num: number) {
@@ -79,8 +83,7 @@ function scaleXAxis(num: number | void, biggest: number, scaleLabel?: string[]) 
 }
 
 function whereTheFirstPoint(data: number[]) {
-    // data.min maybe?
-    let i = 9999999;
+    let i = biggestNumInArray(data);
     for (let j = 0; j < data.length; j++) {
         if (data[j] !== null && j < i) {
             i = j;
@@ -88,6 +91,7 @@ function whereTheFirstPoint(data: number[]) {
     }
     return i;
 }
+
 function polygonPoints(data: number[], biggest: number, maxLength: number) {
     let i = 0;
     let pointString = marX + (whereTheFirstPoint(data) * (chartX / (maxLength - 1))) + ',' + (marY + chartY) + ' ';
@@ -102,7 +106,7 @@ function polygonPoints(data: number[], biggest: number, maxLength: number) {
     return pointString;
 }
 
-function maxArray(series: Series[]) {
+function maxLengthOfAllArrays(series: Series[]) {
     let maxLength = 0;
     for (let datum of series) {
         if (datum.data.length > maxLength) {
@@ -116,76 +120,75 @@ export const AreaChart = ({title, subtitle, series, scale, scaleLabel}: AreaChar
     const colorGenerator = getColorGenerator();
     let seriesLen = series.length;
     let biggest = biggestNum(series);
-    let maxLen = maxArray(series);
+    let maxLen = maxLengthOfAllArrays(series);
     let colors = series.map((datum) => datum.color ? datum.color : colorGenerator());
     return (
         <div className="area-chart">
-                <svg viewBox={`0 0 ${chartX + marX + 100} ${chartY + marY + 50}`}>
+            <svg viewBox={`0 0 ${chartX + marX + 100} ${chartY + marY + 50}`}>
                 <rect width="100%" height="100%" fill="white"/>
-                    {/*Title*/}
-                    <text className="chart-title" y={20}>{title}</text>
-                    <text className="chart-subtitle" y={40}>{subtitle}</text>
+                {/*Title*/}
+                <text className="chart-title" y={20}>{title}</text>
+                <text className="chart-subtitle" y={40}>{subtitle}</text>
                     {
-                        scaleYAxis(scale, biggest)
+                    scaleYAxis(scale, biggest)
                     }
-                    {/*Y axis*/}
-                    <line 
-                        x1={marX - 2}
-                        x2={marX - 2} 
-                        y1={marY} 
-                        y2={marY + chartY}
-                        stroke="black"
-                        strokeWidth="4" 
-                    />
-                    {/*Polygon*/}
-                    {series.map((num, i) =>
-                            <polygon
-                                key={i}
-                                points={polygonPoints(series[i].data, biggest, maxLen)}
-                                fill={series[i].color || colors[i]}
-                                opacity={seriesLen === 1 ? 1 : 0.5}
-                            />
-                        )
-                    }
-                    {/*TODO: Legend based on colors*/}
-                    {/*X axis*/}
-                    <line 
-                        x1={marX - 4} 
-                        x2={marX + chartX}
-                        y1={marY + chartY}
-                        y2={marY + chartY}
-                        stroke="black"
-                        strokeWidth="4" 
-                    />
-                    {/* Scale of X axis*/}
+                {/*Y axis*/}
+                <line 
+                    x1={marX - 2}
+                    x2={marX - 2} 
+                    y1={marY} 
+                    y2={marY + chartY}
+                    stroke="black"
+                    strokeWidth="4" 
+                />
+                {/*Polygon*/}
+                {series.map((num, i) =>
+                        <polygon
+                            key={i}
+                            points={polygonPoints(series[i].data, biggest, maxLen)}
+                            fill={series[i].color || colors[i]}
+                            opacity={seriesLen === 1 ? 1 : 0.5}
+                        />
+                    )
+                }
+                {/*X axis*/}
+                <line 
+                    x1={marX - 4} 
+                    x2={marX + chartX}
+                    y1={marY + chartY}
+                    y2={marY + chartY}
+                    stroke="black"
+                    strokeWidth="4" 
+                />
+                {/*Scale of X axis*/}
                     {
                         scaleXAxis(scale, maxLen, scaleLabel)
                     }
-                    {/*TODO: Legend*/}
-                    {series.map((num, i) =>
-                            <circle
-                                key={i}
-                                cx={marX + chartX + 20}
-                                cy={marY + i * 20}
-                                r={5}
-                                fill={series[i].color || colors[i]}
-                                opacity={seriesLen === 1 ? 1 : 0.5}
-                            />
-                        )
-                    }
-                    {series.map((num, i) =>
-                            <text
-                                key={i}
-                                x={marX + chartX + 30}
-                                y={marY + 5 + i * 20}
-                                // fill={series[i].color || colors[i]}
-                                className="chart-label"
-                            >
-                            {series[i].label}
-                            </text>
-                        )
-                    }
-                </svg>  
+                {/*Legend*/}
+                {series.map((num, i) =>
+                        <circle
+                            key={i}
+                            cx={marX + chartX + 20}
+                            cy={marY + i * 20}
+                            r={5}
+                            fill={series[i].color || colors[i]}
+                            opacity={seriesLen === 1 ? 1 : 0.5}
+                        />
+                    )
+                }
+                {series.map((num, i) =>
+                        <text
+                            key={i}
+                            x={marX + chartX + 30}
+                            y={marY + 5 + i * 20}
+                            // fill={series[i].color || colors[i]}
+                            className="chart-label"
+                        >
+                        {series[i].label}
+                        </text>
+                    )
+                }
+            </svg>  
         </div>
     );
 };
