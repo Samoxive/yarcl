@@ -3,5 +3,5 @@ lib
 test/**/*.js
 !test/setup.js
 src/**/*.js
-examples/**/*.js
 .DS_Store
+examples

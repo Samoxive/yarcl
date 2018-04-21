@@ -12,18 +12,21 @@ export interface BarChartData {
     scale?: number;
 }
 
-function getRandomColor(): string {
-    let letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
+const marX = 50; // margin X
+const marY = 90;
+const chartX = 350; // chart X
+const gap = 40; // gap size
+const barSize = 40; // barSize SHOULD NOT BE bigger than gap.
+const labelX = 0; // x axis label size
+const labelY = 20; // y axis scale size
 
 function biggestNum(data: number[]): number {
     return (data.length > 0) ? Math.max(...data) : 0;
 }
+
+{/* Credits: Waylon Flinn 
+  * Stackoverflow.com licensed under Creative Commons Attribution-Share Alike
+  */}
 
 let SI_PREFIXES = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
 
@@ -43,9 +46,9 @@ function scaleXAxis(num: number | void, data: number[]) {
         texts.push(
             <text
                 key={i}
-                x={50 + (200 * i / scale)} 
-                y={data.length * 15 + 10} 
-                fontSize={5}
+                className="chart-scale"
+                x={marX - 10 + (chartX * i / scale)} 
+                y={data.length * gap + labelY + marY}
             >
             {numberPrefixed(i * biggestNum(data) / (scale))}
             </text>);
@@ -56,43 +59,48 @@ export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartD
     const colorGenerator = getColorGenerator();
     return (
         <div className="bar-chart">
-            <div className="chart-title">{title}</div>
-            <div className="chart-subtitle">{subtitle}</div>
-
-            <div className="chart-data">
-                <svg viewBox={`0 0 275 ${data.length * 17}`} >
-                {label.map((num, i) => <text key={i} x={0} y={i * 15 + 10} className="chart-label">
-                    {num.length < 16 ? num : num.substring(0, 15) + '...'}
-                </text>)}
+            <svg viewBox={`0 0 ${chartX + 50 + marX} ${data.length * gap + marY + 50}`} width="100%">
+                <rect width="100%" height="100%" fill="white"/>
+                <text className="chart-title" y={20}>{title}</text>
+                <text className="chart-subtitle" y={40}>{subtitle}</text>
+                {label.map((num, i) => 
+                    <text 
+                        key={i}
+                        x={labelX} 
+                        y={(i + 2 / 3) * gap + marY}
+                        className="chart-label"
+                    >
+                        {num.length < marX * (9 / 50) ? num : num.substring(0, (marX * 7 / 50)) + '...'}
+                    </text>
+                )}
                     <line 
-                        x1="50" 
-                        x2="50" 
-                        y1="0" 
-                        y2={data.length * 15}
+                        x1={marX} 
+                        x2={marX}
+                        y1={marY}
+                        y2={data.length * gap + marY}
                         stroke="black"
                         strokeWidth="4" 
                     />
                 {data.map((num, i) => 
                     <rect
                         key={i} 
-                        x="52"
-                        y={15 * i + 3.5}
-                        width={10 * num / (biggestNum(data) * 10 / 200)}    
-                        height="7.5" 
+                        x={marX + 2}
+                        y={gap * i + marY}
+                        width={num / (biggestNum(data) / chartX)}    
+                        height={barSize} 
                         fill={color || colorGenerator()}
                     />)
                 }
                     <line 
-                        x1="48" 
-                        x2="252"
-                        y1={data.length * 15}
-                        y2={data.length * 15}
+                        x1={marX - 2} 
+                        x2={chartX + 2 + marX}
+                        y1={data.length * gap + marY}
+                        y2={data.length * gap + marY}
                         stroke="black"
                         strokeWidth="4" 
                     />
                     {scaleXAxis(scale, data)};
-                </svg>
-            </div>
+            </svg>
         </div>
     );
 };

@@ -28,15 +28,6 @@ export interface PieProps {
     showPercentage: boolean;
 }
 
-function getRandomColor(): string {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
-
 export class Pie extends React.Component<PieProps> {
     render() {
         const { coordinates, color, showPercentage } = this.props;
