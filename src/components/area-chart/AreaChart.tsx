@@ -106,14 +106,8 @@ function polygonPoints(data: number[], biggest: number, maxLength: number) {
     return pointString;
 }
 
-function maxLengthOfAllArrays(series: Series[]) {
-    let maxLength = 0;
-    for (let datum of series) {
-        if (datum.data.length > maxLength) {
-            maxLength = datum.data.length;
-        }
-    }
-    return maxLength;
+function maxLengthOfAllArrays(series: Series[]): number {
+    return Math.max(...(series.map((serie) => serie.data.length)));
 }
 
 export const AreaChart = ({title, subtitle, series, scale, scaleLabel}: AreaChartProps) => {
