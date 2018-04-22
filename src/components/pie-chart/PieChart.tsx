@@ -64,6 +64,8 @@ export class Pie extends React.Component<PieProps> {
                         L 1 1
                         Z`}
                     fill={color}
+                    stroke={'white'}
+                    strokeWidth={0.01}
                 />
                 {showPercentage && percentageCoordinate ? 
                     (<text
