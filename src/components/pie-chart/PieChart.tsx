@@ -2,6 +2,7 @@ import './PieChart.scss';
 import '../common.scss';
 
 import * as React from 'react';
+import * as ReactTooltip from 'react-tooltip';
 import { getCircleCoordinates, PieCoordinates, normalPointToSVG } from './utils';
 import { getColorGenerator } from '../../utils/colors';
 
@@ -21,16 +22,22 @@ export interface PieChartProps {
     options: PieChartOptions;
 }
 
+export interface PieChartState {
+    hoverId: number;
+}
+
 export interface PieProps {
     label: string;
     color: string;
     coordinates: PieCoordinates;
     showPercentage: boolean;
+    onMouseEnter: () => void;
+    onMouseLeave: () => void;
 }
 
 export class Pie extends React.Component<PieProps> {
     render() {
-        const { coordinates, color, showPercentage } = this.props;
+        const { coordinates, color, showPercentage, onMouseEnter, onMouseLeave } = this.props;
         const c = coordinates;
         const halfwayPercentage = (c.percentage / 2) + c.previousPercentage;
         const percentageCoordinate = c.percentage > 0.1 ? normalPointToSVG({
@@ -66,6 +73,8 @@ export class Pie extends React.Component<PieProps> {
                     fill={color}
                     stroke={'white'}
                     strokeWidth={0.01}
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}
                 />
                 {showPercentage && percentageCoordinate ? 
                     (<text
@@ -81,41 +90,66 @@ export class Pie extends React.Component<PieProps> {
     }
 }
 
-export const PieChart = ({title, data, options}: PieChartProps) => {
-    let coords = getCircleCoordinates(data);
-    let colorGenerator = getColorGenerator();
-    let colors = data.map((datum) => datum.color ? datum.color : colorGenerator());
+export class PieChart extends React.Component<PieChartProps, PieChartState> {
+    state = {
+        hoverId: 0,
+        hovering: false,
+    };
 
-    return (
-        <div className="pie-chart pie-chart-container-vertical">
-            <div className="chart-title">
-                {title}
-            </div>
-            <div className="pie-chart-container-horizontal">
-                <div className="pie-chart-svg">
-                    <svg viewBox="0 0 2 2">
-                        {coords.map((c, i) => (
-                            <Pie
-                                key={i}
-                                label={data[i].label}
-                                coordinates={c}
-                                color={colors[i]}
-                                showPercentage={options.showPercentage}
-                            />)
+    render() {
+        const {title, data, options} = this.props;
+        const {hoverId} = this.state;
+        let coords = getCircleCoordinates(data);
+        let colorGenerator = getColorGenerator();
+        let colors = data.map((datum) => datum.color ? datum.color : colorGenerator());
+
+        return (
+            <div className="pie-chart pie-chart-container-vertical">
+                <div className="chart-title">
+                    {title}
+                </div>
+                <div className="pie-chart-container-horizontal">
+                    <div className="pie-chart-svg">
+                        <svg viewBox="0 0 2 2" data-tip="" data-for="pie-chart-tooltip">
+                            {coords.map((c, i) => (
+                                <Pie
+                                    key={i}
+                                    label={data[i].label}
+                                    coordinates={c}
+                                    color={colors[i]}
+                                    showPercentage={options.showPercentage}
+                                    onMouseEnter={() => this.setState({hoverId: i})}
+                                    onMouseLeave={() => this.setState({hoverId: -1})}
+                                />)
+                            )}
+                        </svg>
+                        <ReactTooltip
+                            place="top"
+                            type="light"
+                            effect="float"
+                            id="pie-chart-tooltip"
+                            className="chart-tooltip"
+                        >
+                            {hoverId !== -1 ? (
+                                <div>
+                                    <div>{data[hoverId].label}</div>
+                                    <div>{`${Math.floor(coords[hoverId].percentage * 1000) / 10}%`}</div>
+                                </div>
+                            ) : null}
+                        </ReactTooltip>
+                    </div>
+                    <div className="pie-chart-container-vertical pie-chart-labels">
+                        {data.map((datum, i) => (
+                            <div key={i} className="pie-chart-label">
+                                <span><svg viewBox="0 0 2 2" className="pie-chart-label-svg">
+                                    <circle cx="1" cy="1" r="1" strokeWidth="0" fill={colors[i]} />
+                                </svg></span>
+                                <span className="chart-label">{datum.label}</span>
+                            </div>)
                         )}
-                    </svg>
-                </div>
-                <div className="pie-chart-container-vertical pie-chart-labels">
-                    {data.map((datum, i) => (
-                        <div key={i} className="pie-chart-label">
-                            <span><svg viewBox="0 0 2 2" className="pie-chart-label-svg">
-                                <circle cx="1" cy="1" r="1" strokeWidth="0" fill={colors[i]} />
-                            </svg></span>
-                            <span className="chart-label">{datum.label}</span>
-                        </div>)
-                    )}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
-};
+        );
+    }
+}
