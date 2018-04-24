@@ -58,15 +58,13 @@ function scaleXAxis(num: number | void, data: number[]) {
 export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartData) => {
     const colorGenerator = getColorGenerator();
     return (
-        <div className="bar-chart">
+        <div className="yarcl-chart bar-chart">
             {/*Title*/}
-            <div className="chart-title-area">
-            <p>
-            <div className="chart-title">{title}</div>
-            </p>
-            <p>
-            <div className="chart-subtitle">{subtitle}</div>
-            </p>
+            <div className="chart-title">{
+                title}
+            </div>
+            <div className="chart-subtitle">
+                {subtitle}
             </div>
             <svg viewBox={`0 0 ${chartX + 50 + marX} ${data.length * gap + marY + 50}`} width="100%">
                 <rect width="100%" height="100%" fill="white"/>

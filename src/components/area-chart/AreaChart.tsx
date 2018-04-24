@@ -117,15 +117,13 @@ export const AreaChart = ({title, subtitle, series, scale, scaleLabel}: AreaChar
     let maxLen = maxLengthOfAllArrays(series);
     let colors = series.map((datum) => datum.color ? datum.color : colorGenerator());
     return (
-        <div className="area-chart">
+        <div className="yarcl-chart area-chart">
             {/*Title*/}
-            <div className="chart-title-area">
-            <p>
-            <div className="chart-title">{title}</div>
-            </p>
-            <p>
-            <div className="chart-subtitle">{subtitle}</div>
-            </p>
+            <div className="chart-title">
+                {title}
+            </div>
+            <div className="chart-subtitle">
+                {subtitle}
             </div>
             <svg viewBox={`0 0 ${chartX + marX + 100} ${chartY + marY + 50}`}>
                 <rect width="100%" height="100%" fill="white"/>

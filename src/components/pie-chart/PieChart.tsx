@@ -175,7 +175,7 @@ export class PieChart extends React.Component<PieChartProps, PieChartState> {
         let colors = data.map((datum) => datum.color ? datum.color : colorGenerator());
 
         return (
-            <div className="pie-chart pie-chart-container-vertical">
+            <div className="yarcl-chart pie-chart-container-vertical">
                 <div className="chart-title">
                     {title}
                 </div>
