@@ -50,6 +50,7 @@ export class Pie extends React.Component<PieProps> {
         }) : null;
 
         if (c.percentage > 0.99999999) {
+            const isOnlyPie = c.percentage === 1;
             return (
                 <React.Fragment>
                     <circle
@@ -61,7 +62,22 @@ export class Pie extends React.Component<PieProps> {
                         onMouseLeave={onMouseLeave}
                     />
                     {showPercentage && (
-                        <text x={1} y={1} fontSize={0.1} textAnchor={'middle'}>~100%</text>
+                        <text
+                            x={1}
+                            y={isDonut ? (donutPercentage / 2) : 1}
+                            fontSize={0.1}
+                            textAnchor={'middle'}
+                        >
+                            {isOnlyPie ? '100%' : '~100%'} 
+                        </text>
+                    )}
+                    {isDonut && (
+                        <circle
+                            cx={1}
+                            cy={1}
+                            r={donutPercentage}
+                            fill={'white'}
+                        />
                     )}
                 </React.Fragment>
             );
