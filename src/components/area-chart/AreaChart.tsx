@@ -118,11 +118,13 @@ export const AreaChart = ({title, subtitle, series, scale, scaleLabel}: AreaChar
     let colors = series.map((datum) => datum.color ? datum.color : colorGenerator());
     return (
         <div className="area-chart">
+            {/*Title*/}
+            <div className="title-area">
+            <text className="chart-title" y={20}>{title}</text>
+            <text className="chart-subtitle" y={40}>{subtitle}</text>
+            </div>
             <svg viewBox={`0 0 ${chartX + marX + 100} ${chartY + marY + 50}`}>
                 <rect width="100%" height="100%" fill="white"/>
-                {/*Title*/}
-                <text className="chart-title" y={20}>{title}</text>
-                <text className="chart-subtitle" y={40}>{subtitle}</text>
                     {
                     scaleYAxis(scale, biggest)
                     }

@@ -59,10 +59,13 @@ export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartD
     const colorGenerator = getColorGenerator();
     return (
         <div className="bar-chart">
+            {/*Title*/}
+            <div className="title-area">
+            <text className="chart-title" y={20}>{title}</text>
+            <text className="chart-subtitle" y={40}>{subtitle}</text>
+            </div>
             <svg viewBox={`0 0 ${chartX + 50 + marX} ${data.length * gap + marY + 50}`} width="100%">
                 <rect width="100%" height="100%" fill="white"/>
-                <text className="chart-title" y={20}>{title}</text>
-                <text className="chart-subtitle" y={40}>{subtitle}</text>
                 {label.map((num, i) => 
                     <text 
                         key={i}
