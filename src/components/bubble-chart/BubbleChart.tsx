@@ -153,7 +153,7 @@ function PutCircles(x1: number, y1: number, x2: number, y2: number, s: Data[]) {
     const smallZ = SmallZ(s);
 
     return (
-        s.map((d,index) => (
+        s.map((d, index) => (
             <circle
                 cx={Map(s[index].x, smallX, bigX, x1, x2)} 
                 cy={Map(s[index].y, smallY, bigY, y2, y1)}
@@ -171,13 +171,13 @@ function PutDataShortNames(x1: number, y1: number, x2: number, y2: number, s: Da
     const smallY = SmallY(s);
 
     return (
-        s.map((d,index) => (
+        s.map((d, index) => (
             <text
-            x={Map(s[index].x, smallX, bigX, x1, x2)}
-            y={Map(s[index].y, smallY, bigY, y2, y1) + 5}
-            textAnchor="middle"
-            fill="black"
-            fontWeight="bold"
+                x={Map(s[index].x, smallX, bigX, x1, x2)}
+                y={Map(s[index].y, smallY, bigY, y2, y1) + 5}
+                textAnchor="middle"
+                fill="black"
+                fontWeight="bold"
             >
             {s[index].shortName}
             </text>
@@ -185,12 +185,12 @@ function PutDataShortNames(x1: number, y1: number, x2: number, y2: number, s: Da
     );
 }
 
-function PutYAxisInfos(x: number, y1: number, y2: number,yAxis: YAxis, s: Data[]) {
+function PutYAxisInfos(x: number, y1: number, y2: number, yAxis: YAxis, s: Data[]) {
     const bigY = BigY(s);
     const smallY = SmallY(s);
     const a = [1, 2, 3];
     return (
-        a.map((i) =>
+        a.map((i) => (
             <text
                 key={i}
                 x={x - 50}
@@ -198,9 +198,9 @@ function PutYAxisInfos(x: number, y1: number, y2: number,yAxis: YAxis, s: Data[]
                 strokeWidth="1"
                 stroke="gray"
             >
-            { "" + Math.floor(i * (bigY - smallY) / (a.length + 1) + smallY) + " " + yAxis.unitName}
+            {'' + Math.floor(i * (bigY - smallY) / (a.length + 1) + smallY) + ' ' + yAxis.unitName}
             </text>
-        )
+        ))
     );
 }
 
@@ -209,7 +209,7 @@ function PutXAxisInfos(x1: number, x2: number, y: number, xAxis: XAxis, s: Data[
     const smallX = SmallX(s);
     const b = [1, 2, 3, 4];
     return (
-        b.map((i) =>
+        b.map((i) => (
             <text
                 key={i}
                 textAnchor="middle"
@@ -218,13 +218,13 @@ function PutXAxisInfos(x1: number, x2: number, y: number, xAxis: XAxis, s: Data[
                 strokeWidth="1"
                 stroke="gray"
             >
-            { "" + Math.floor(i * (bigX - smallX) / (b.length + 1) + smallX) + " " + xAxis.unitName}
+            {'' + Math.floor(i * (bigX - smallX) / (b.length + 1) + smallX) + ' ' + xAxis.unitName}
             </text>
-        )
+        ))
     );
 }
 
-function DrawGridLines(x1: number, y1: number, x2: number, y2: number, xAxis: XAxis, yAxis: YAxis,s: Data[]) {
+function DrawGridLines(x1: number, y1: number, x2: number, y2: number, xAxis: XAxis, yAxis: YAxis, s: Data[]) {
     const bigX = BigX(s);
     const smallX = SmallX(s);
     const bigY = BigY(s);
@@ -234,18 +234,18 @@ function DrawGridLines(x1: number, y1: number, x2: number, y2: number, xAxis: XA
             {xAxis.plotLines.map( (v) =>
             <>
                 <line 
-                x1={x1}
-                x2={x2}
-                y1={Map(v.value, smallY, bigY, y2, y1)}
-                y2={Map(v.value, smallY, bigY, y2, y1)}
-                strokeWidth={1}
-                strokeDasharray={v.dashStyle}
-                stroke="black"
+                    x1={x1}
+                    x2={x2}
+                    y1={Map(v.value, smallY, bigY, y2, y1)}
+                    y2={Map(v.value, smallY, bigY, y2, y1)}
+                    strokeWidth={1}
+                    strokeDasharray={v.dashStyle}
+                    stroke="black"
                 />
                 <text
                     textAnchor="end"
                     x={x2 - 10 + v.label.x} 
-                    y={Map(v.value, smallY, bigY, y2, y1)-10 + v.label.y} 
+                    y={Map(v.value, smallY, bigY, y2, y1) - 10 + v.label.y} 
                     fill="black" 
                 >
                 {
@@ -253,7 +253,7 @@ function DrawGridLines(x1: number, y1: number, x2: number, y2: number, xAxis: XA
                     v.label.text + 
                     v.value +
                     xAxis.unitName + 
-                    "/" + 
+                    '/' + 
                     xAxis.per  : null
                 }
                 </text>
@@ -280,7 +280,7 @@ function DrawGridLines(x1: number, y1: number, x2: number, y2: number, xAxis: XA
                     v.label.text + 
                     v.value +
                     yAxis.unitName + 
-                    "/" + 
+                    '/' + 
                     yAxis.per  : null
                 }
                 </text>
@@ -301,7 +301,7 @@ export const BubbleChart = ({title, subtitle, xAxis, yAxis, width, height, serie
         fill="white"
     />
     <rect  
-           key="2" 
+        key="2" 
         x="100" 
         y="100" 
         width={width - 150} 
@@ -339,7 +339,7 @@ export const BubbleChart = ({title, subtitle, xAxis, yAxis, width, height, serie
         className="yAxis"
         key="6"
         textAnchor="middle" 
-        x={width /2} 
+        x={width / 2} 
         y={height - 10} 
         fill="gray" 
     >
