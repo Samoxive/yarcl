@@ -1,207 +1,120 @@
 import * as React from 'react';
 import './LineChart.scss';
+import '../common.scss';
+import { getColorGenerator } from '../../utils/colors';
 
-export interface Title {
-    text: string;
-}
-
-export interface PlotOptions {
-    pointStart: number;
-}
-
-export interface YAxis {
-    title: Title;
-}
-
-function BigOne(series: Data[]) {
+function bigOne(series: Data[]) {
     let big = 0;
-    for (let i = 0; i < series.length; i++) {
-        for (let j = 0; j < series[i].data.length; j++) {
-            if (big < series[i].data[j]) {
-                big = series[i].data[j];
+    for (const d of series) {
+        for (const n of d.data) {
+            if (big < n) {
+                big = n;
             }
         }
     }
     return big;
 }
 
-function PlaceNames(w: number, h: number, d: Data[]) {
-    return d.map((data, i) => {
-        if (i % 5 === 0) {
-            return (
-                <>
-                <text
-                    key={10 + i}
-                    className="dataBlock1-text chart-label"
-                    textAnchor="start"
-                    x={w - 140}
+function placeNames(w: number, h: number, d: Data[]) {
+    let colorGenerator = getColorGenerator();
+    let colors = d.map((datum) =>  colorGenerator());
+    return d.map((data, i) => (
+            <>
+                <text 
+                    key={10 + i} 
+                    className={'chart-label'}
+                    textAnchor="start" 
+                    x={w - 140} 
                     y={(6 + i) * h / 16 + 25}
+                    fill="black" 
                 >
                     {data.name}
                 </text>
                 <line
-                    className="dataBlock1" 
+                    className={'dataBlock' + (i % 5 + 1)} 
                     key={20 + i}
                     x1={w - 180}
                     y1={(6 + i) * h / 16 + 25}
                     x2={w - 150} 
                     y2={(6 + i) * h / 16 + 25}
+                    stroke={colors[i]} 
                 />
-                <circle  
-                    className="dataBlock1"
-                    key={i}
-                    cx={w - 165} 
-                    cy={(6 + i) * h / 16 + 25}  
-                    r={5} 
-                /> 
+                {
+                    (i % 5 === 0) ? (
+                        <circle  
+                            className="dataBlock1"
+                            key={i}
+                            cx={w - 165} 
+                            cy={(6 + i) * h / 16 + 25}  
+                            r={5}
+                            fill={colors[i]}  
+                        />) :
+                    (i % 5 === 1) ? (
+                        <rect 
+                            className="dataBlock2"
+                            key={i}
+                            x={w - 170} 
+                            y={(6 + i) * h / 16 + 20} 
+                            width={10} 
+                            height={10} 
+                            fill={colors[i]} 
+                        />) :
+                    (i % 5 === 2) ? (
+                        <polygon 
+                            className="dataBlock3"
+                            key={i}
+                            points={
+                                ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 16) + 
+                                ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 28) + 
+                                ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 28) 
+                            } 
+                            fill={colors[i]} 
+                        />) :
+                    (i % 5 === 3) ? (
+                        <polygon 
+                            key={i}
+                            className="dataBlock4"
+                            points={
+                            ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
+                            ' ' + (w - 161) + ',' + ((6 + i) * h / 16 + 28) + 
+                            ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 22) + 
+                            ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
+                            ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) 
+                            } 
+                            fill={colors[i]} 
+                        />) :
+                    (i % 5 === 4) ? (
+                        <polygon 
+                            className="dataBlock5"
+                            key={i}
+                            points={
+                            ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
+                            ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
+                            ' ' + (w - 161) + ',' + ((6 + i) * h / 16 + 28) + 
+                            ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) +
+                            ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 22) 
+                            } 
+                            fill={colors[i]} 
+                        />) :
+                    null
+                }
             </>
-            );
-        } else if (i % 5 === 1) {
-            return(
-            <>
-            <text
-                key={10 + i}
-                className="dataBlock2-text chart-label"
-                textAnchor="start"
-                x={w - 140}
-                y={(6 + i) * h / 16 + 25}
-            >
-                {data.name}
-            </text>
-            <line 
-                className="dataBlock2"
-                key={20 + i}
-                x1={w - 180}
-                y1={(6 + i) * h / 16 + 25}
-                x2={w - 150} 
-                y2={(6 + i) * h / 16 + 25}
-            />
-            <rect 
-                className="dataBlock2"
-                key={i}
-                x={w - 170} 
-                y={(6 + i) * h / 16 + 20} 
-                width={10} 
-                height={10} 
-            />
-        </>
-            );
-        } else if (i % 5 === 2) {
-            return (
-                <>
-                <text
-                    key={10 + i}
-                    className="dataBlock3-text chart-label"
-                    textAnchor="start"
-                    x={w - 140}
-                    y={(6 + i) * h / 16 + 25}
-                >
-                    {data.name}
-                </text>
-                <line 
-                    className="dataBlock3"
-                    key={20 + i}
-                    x1={w - 180}
-                    y1={(6 + i) * h / 16 + 25}
-                    x2={w - 150} 
-                    y2={(6 + i) * h / 16 + 25}
-                />
-                <polygon 
-                    className="dataBlock3"
-                    key={i}
-                    points={
-                        ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 16) + 
-                        ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 28) + 
-                        ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 28) 
-                    } 
-                />
-            </>
-            );
-        } else if (i % 5 === 3) {
-            return(
-                <>
-                <text
-                    key={10 + i}
-                    className="dataBlock4-text chart-label"
-                    textAnchor="start"
-                    x={w - 140}
-                    y={(6 + i) * h / 16 + 25}
-                >
-                    {data.name}
-                </text>
-                <line 
-                    key={20 + i}
-                    className="dataBlock4"
-                    x1={w - 180}
-                    y1={(6 + i) * h / 16 + 25}
-                    x2={w - 150} 
-                    y2={(6 + i) * h / 16 + 25}
-                />
-                <polygon 
-                    key={i}
-                    className="dataBlock4"
-                    points={
-                    ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
-                    ' ' + (w - 161) + ',' + ((6 + i) * h / 16 + 28) + 
-                    ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 22) + 
-                    ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
-                    ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) 
-                    } 
-                />
-            </>
-            );
-        } else if (i % 5 === 4) {
-            return (
-                <>
-                <text
-                    key={10 + i}
-                    className="dataBlock5-text chart-label"
-                    textAnchor="start"
-                    x={w - 140}
-                    y={(6 + i) * h / 16 + 25}
-                >
-                    {data.name}
-                </text>
-                <line 
-                    className="dataBlock5"
-                    key={20 + i}
-                    x1={w - 180}
-                    y1={(6 + i) * h / 16 + 25}
-                    x2={w - 150} 
-                    y2={(6 + i) * h / 16 + 25}
-                />
-                <polygon 
-                    className="dataBlock5"
-                    key={i}
-                    points={
-                    ' ' + (w - 165) + ',' + ((6 + i) * h / 16 + 17) + 
-                    ' ' + (w - 159) + ',' + ((6 + i) * h / 16 + 22) + 
-                    ' ' + (w - 161) + ',' + ((6 + i) * h / 16 + 28) + 
-                    ' ' + (w - 169) + ',' + ((6 + i) * h / 16 + 28) +
-                    ' ' + (w - 171) + ',' + ((6 + i) * h / 16 + 22) 
-                    } 
-                />
-            </>
-            );
-        } else {
-            return null;
-        }
-    });
+            ));
 }
 
-function GetMaxDataCount(series: Data[]) {
+function getMaxDataCount(series: Data[]) {
     let maxCount = 0;
-    for (let i = 0; i < series.length; i++) {
-        if (maxCount < series[i].data.length) {
-            maxCount = series[i].data.length;
+    for (const d of series) {
+        if (maxCount < d.data.length) {
+            maxCount = d.data.length;
         }
     }
     return maxCount;
 }
     
-function XAxisDatas(s: Data[], w: number, h: number, p: number) {
-    let c = GetMaxDataCount(s);
-    let arr = new Array(c);
+function xAxisDatas(s: Data[], w: number, h: number, p: number) {
+    const c = getMaxDataCount(s);
+    const arr = new Array(c);
     for (let i = 0; i < c; i++) {
         arr[i] = i;
     }
@@ -214,9 +127,10 @@ function XAxisDatas(s: Data[], w: number, h: number, p: number) {
                 y1={6 * h / 8}
                 x2={105 + num * (w - 300) / (c - 1)}
                 y2={6 * h / 8 + 10}
+                stroke="black"
             />
             <text 
-                className="xAxisInfos-text" 
+                className="chart-label" 
                 key={i} 
                 textAnchor="middle" 
                 x={105 + num * (w - 300) / (c - 1)} 
@@ -224,56 +138,62 @@ function XAxisDatas(s: Data[], w: number, h: number, p: number) {
             >
                 {(p + num)}
             </text>
-    </> 
+        </> 
     ));
 }
 
-function Triangle (w: number, h: number, i: number, j: number , d: Data[]) {
-    let c = GetMaxDataCount(d);
-    let x1, x2, x3, y1, y2, y3, x, y;
-    let b = BigOne(d);
-    x = 105 + j * ( w - 300 ) / ( c - 1 );
-    y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2));
-    x1 = x;
-    y1 = y - 9;
+function triangle (w: number, h: number, i: number, j: number , d: Data[]) {
+    const c = getMaxDataCount(d);
+    const b = bigOne(d);
+    const x = 105 + j * ( w - 300 ) / ( c - 1 );
+    const y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2));
+    let colorGenerator = getColorGenerator();
+    let colors = d.map((datum) =>  colorGenerator());
+    const x1 = x;
+    const y1 = y - 9;
 
-    x2 = x - 6;
-    y2 = y + 3;
+    const x2 = x - 6;
+    const y2 = y + 3;
 
-    x3 = x + 6;
-    y3 = y + 3;
+    const x3 = x + 6;
+    const y3 = y + 3;
     return (
         <polygon 
-            className="dataBlock3"
             key={i * 10 + j} 
-            points={'' + x1 + ',' + y1 + ' ' + x2 + ',' + y2 + ' ' + x3 + ',' + y3 + ''} 
+            points={
+                ' ' + x1 + ',' + y1 + 
+                ' ' + x2 + ',' + y2 + 
+                ' ' + x3 + ',' + y3 + 
+                ''} 
+            fill={colors[i]} 
+            stroke-width={1}
         />
     ) ;
 }
 
-function Star(w: number, h: number, i: number, j: number , d: Data[]) {
-    let c = GetMaxDataCount(d);
-    let b = BigOne(d);
-    let x1, x2, x3, x4, x5, y1, y2, y3, y4, y5, x, y;
-    x = 105 + j * ( w - 300 ) / ( c - 1 );
-    y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ));
-    x1 = x;
-    y1 = y - 8;
+function star(w: number, h: number, i: number, j: number , d: Data[]) {
+    const c = getMaxDataCount(d);
+    const b = bigOne(d);
+    const x = 105 + j * ( w - 300 ) / ( c - 1 );
+    const y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ));
+    let colorGenerator = getColorGenerator();
+    let colors = d.map((datum) =>  colorGenerator());
+    const x1 = x;
+    const y1 = y - 8;
 
-    x2 = x + 4;
-    y2 = y + 3;
+    const x2 = x + 4;
+    const y2 = y + 3;
 
-    x3 = x - 6;
-    y3 = y - 3;
+    const x3 = x - 6;
+    const y3 = y - 3;
 
-    x4 = x + 6;
-    y4 = y - 3;
+    const x4 = x + 6;
+    const y4 = y - 3;
 
-    x5 = x - 4;
-    y5 = y + 3;
+    const x5 = x - 4;
+    const y5 = y + 3;
     return(
     <polygon 
-        className="dataBlock4"
         key={i * 10 + j}
         points={
         ' ' + x1 + ',' + y1 + 
@@ -282,34 +202,36 @@ function Star(w: number, h: number, i: number, j: number , d: Data[]) {
         ' ' + x4 + ',' + y4 + 
         ' ' + x5 + ',' + y5 + 
         ''} 
+        fill={colors[i]} 
+        stroke-width={1}
     />
     );
 
 }
 
-function Pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
-    let c = GetMaxDataCount(d);
-    let b = BigOne(d);
-    let x1, x2, x3, x4, x5, y1, y2, y3, y4, y5, x, y;
-    x = 105 + j * ( w - 300 ) / ( c - 1 );
-    y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ));
-    x1 = x;
-    y1 = y - 8;
+function pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
+    const c = getMaxDataCount(d);
+    const b = bigOne(d);
+    const x = 105 + j * ( w - 300 ) / ( c - 1 );
+    const y = (3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ));
+    let colorGenerator = getColorGenerator();
+    let colors = d.map((datum) =>  colorGenerator());
+    const x1 = x;
+    const y1 = y - 8;
 
-    x2 = x + 6;
-    y2 = y - 3;
+    const x2 = x + 6;
+    const y2 = y - 3;
 
-    x3 = x + 4;
-    y3 = y + 3;
+    const x3 = x + 4;
+    const y3 = y + 3;
 
-    x4 = x - 4;
-    y4 = y + 3;
+    const x4 = x - 4;
+    const y4 = y + 3;
 
-    x5 = x - 6;
-    y5 = y - 3;
+    const x5 = x - 6;
+    const y5 = y - 3;
     return(
     <polygon 
-        className="dataBlock5"
         key={i * 10 + j}
         points={
         ' ' + x1 + ',' + y1 + 
@@ -317,13 +239,15 @@ function Pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
         ' ' + x3 + ',' + y3 + 
         ' ' + x4 + ',' + y4 + 
         ' ' + x5 + ',' + y5 + 
-        ''} 
+        ''}
+        fill={colors[i]} 
+        stroke-width={1}
     />
     ); 
 }
 
-function DrawHorizontalLines(w: number, h: number) {
-    let arr = [ 1, 2, 3, 4, 5];
+function drawHorizontalLines(w: number, h: number) {
+    const arr = [ 1, 2, 3, 4, 5];
     return arr.map((num, i) => (
         <line 
             className="backgroundLines"
@@ -336,112 +260,94 @@ function DrawHorizontalLines(w: number, h: number) {
     ));
 }
 
-function YAxisInfos(w: number, h: number, d: Data[]) {
-    let arr = [ 1, 2, 3, 4, 5];
+function yAxisInfos(w: number, h: number, d: Data[]) {
+    const arr = [ 1, 2, 3, 4, 5];
     return arr.map((num, i) => (
-        <text className="yAxisInfos" key={i} textAnchor="end" x={100 - 5} y={(i + 2) * h / 8 + 5} >
-            {(4 - i) * BigOne(d) / 4}
+        <text className="chart-label" key={i} textAnchor="end" x={100 - 5} y={(i + 2) * h / 8 + 5} >
+            {(4 - i) * bigOne(d) / 4}
         </text>
     ));
 }
 
-function DrawDataLines(w: number, h: number, d: Data[]) {
-    let c = GetMaxDataCount(d);
-    let b = BigOne(d);
+function lineForData(w: number, h: number, i: number, j: number , d: Data[]) {
+    const c = getMaxDataCount(d);
+    const b = bigOne(d);
+    let colorGenerator = getColorGenerator();
+    let colors = d.map((datum) =>  colorGenerator());
+    return(
+        <line
+            key={i * 10 + j} 
+            x1={105 + j * ( w - 300 ) / ( c - 1)} 
+            y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
+            x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1 )} 
+            y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
+            stroke={colors[i]}
+            stroke-width={1}
+        />
+    );
+}
+
+function drawDataLines(w: number, h: number, d: Data[]) {
     return d.map((ds, i) => (
         ds.data.map((nums, j) => (
-            (j === ds.data.length - 1) ? null : (
-                (i % 5 === 0) ? (
-                    <line
-                        className="dataBlock1"
-                        key={i * 10 + j} 
-                        x1={105 + j * ( w - 300 ) / ( c - 1)} 
-                        y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
-                        x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1 )} 
-                        y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                    />
-                ) :
-                (i % 5 === 1) ? (
-                    <line 
-                        className="dataBlock2"
-                        key={i * 10 + j}
-                        x1={105 + j * ( w - 300 ) / ( c - 1 )} 
-                        y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
-                        x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1 )} 
-                        y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                    />
-                    ) :
-                (i % 5 === 2) ? (
-                    <line
-                        className="dataBlock3"
-                        key={i * 10 + j}
-                        x1={105 + j * ( w - 300 ) / ( c - 1 )} 
-                        y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
-                        x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1)} 
-                        y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                    />
-                    ) :
-                (i % 5 === 3) ? (
-                    <line 
-                        className="dataBlock4"
-                        key={i * 10 + j}
-                        x1={105 + j * ( w - 300) / ( c - 1 )} 
-                        y1={(3 * h / 4 - ((d[i].data[j] * 1) / b) * ( h / 2 ))}
-                        x2={105 + ( j + 1 ) * ( w - 300) / ( c - 1 )} 
-                        y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
-                    />
-                    ) :
-                (i % 5 === 4) ? (
-                    <line 
-                        className="dataBlock5"
-                        key={i * 10 + j}
-                        x1={105 + j * ( w - 300) / ( c - 1 )} 
-                        y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2))}
-                        x2={105 + ( j + 1 ) * ( w - 300) / ( c - 1)} 
-                        y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2))}
-                    />
-                    ) : null 
-            ) 
+            (j === ds.data.length - 1) ? 
+                null : 
+                lineForData(w, h, i, j, d)
         ))
     ));
 }
 
-function DrawPoint(w: number, h: number, d: Data[]) {
-    let c = GetMaxDataCount(d);
-    let b = BigOne(d);
+function drawPoint(w: number, h: number, d: Data[]) {
+    const c = getMaxDataCount(d);
+    const b = bigOne(d);
+    let colorGenerator = getColorGenerator();
+    let colors = d.map((datum) =>  colorGenerator());
     return d.map((num, i) => (
         num.data.map((nums, j) => (
             (i % 5 === 0) ? (
             <circle 
-                className="dataBlock1"
                 key={i * 10 + j}
                 cx={105 + j * ( w - 300 ) / ( c - 1)} 
                 cy={(3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2))} 
                 r={5} 
+                fill={colors[i]} 
+                stroke-width={1}
             /> 
             ) :
             (i % 5 === 1) ? (
             <rect 
-                className="dataBlock2"
                 key={i * 10 + j}
                 x={105 + j * ( w - 300) / ( c - 1 ) - 5} 
                 y={(3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2)) - 5} 
                 width={10} 
                 height={10} 
+                fill={colors[i]} 
+                stroke-width={1}
             />
             ) :
             (i % 5 === 2) ? 
-            Triangle(w, h, i, j, d) :
+            triangle(w, h, i, j, d) :
             (i % 5 === 3) ? 
-            Star(w, h, i, j, d) :
+            star(w, h, i, j, d) :
             (i % 5 === 4) ?
-             Pentagon(w, h, i, j, d) : null
+            pentagon(w, h, i, j, d) : null
         ))
     ));
+}
+export interface Title {
+    text: string;
 }
 
 export interface Subtitle {
     text: string;
+}
+
+export interface YAxis {
+    title: Title;
+}
+
+export interface PlotOptions {
+    pointStart: number;
 }
 
 export interface Data {
@@ -463,10 +369,10 @@ export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, s
     <svg width={width} height={height}>
         <rect className="background" key="1" width={width} height={height}/>
 
-        {DrawHorizontalLines(width, height)}
-        {YAxisInfos(width, height, series)}
+        {drawHorizontalLines(width, height)}
+        {yAxisInfos(width, height, series)}
 
-        {XAxisDatas(series, width, height, plotOptions.pointStart)}
+        {xAxisDatas(series, width, height, plotOptions.pointStart)}
 
         <text className="chart-title" key="2" textAnchor="middle" x={width / 2} y="30">
             {title.text}
@@ -475,7 +381,7 @@ export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, s
             {subtitle.text}
         </text>
         <text 
-            className="yAxis"
+            className="chart-label"
             key="4"
             textAnchor="middle" 
             x="30" 
@@ -485,8 +391,8 @@ export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, s
         >
             {yAxis.title.text}
         </text>
-        {DrawDataLines(width, height, series)}
-        {DrawPoint(width, height, series)}
-        {PlaceNames(width, height, series)}
+        {drawDataLines(width, height, series)}
+        {drawPoint(width, height, series)}
+        {placeNames(width, height, series)}
     </svg>
 );
