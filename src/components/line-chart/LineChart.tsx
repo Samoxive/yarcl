@@ -159,7 +159,6 @@ function triangle (w: number, h: number, i: number, j: number , d: Data[]) {
     const y3 = y + 3;
     return (
         <polygon 
-            className="dataBlock3"
             key={i * 10 + j} 
             points={
                 ' ' + x1 + ',' + y1 + 
@@ -167,6 +166,7 @@ function triangle (w: number, h: number, i: number, j: number , d: Data[]) {
                 ' ' + x3 + ',' + y3 + 
                 ''} 
             fill={colors[i]} 
+            stroke-width={1}
         />
     ) ;
 }
@@ -194,7 +194,6 @@ function star(w: number, h: number, i: number, j: number , d: Data[]) {
     const y5 = y + 3;
     return(
     <polygon 
-        className="dataBlock4"
         key={i * 10 + j}
         points={
         ' ' + x1 + ',' + y1 + 
@@ -204,6 +203,7 @@ function star(w: number, h: number, i: number, j: number , d: Data[]) {
         ' ' + x5 + ',' + y5 + 
         ''} 
         fill={colors[i]} 
+        stroke-width={1}
     />
     );
 
@@ -232,7 +232,6 @@ function pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
     const y5 = y - 3;
     return(
     <polygon 
-        className="dataBlock5"
         key={i * 10 + j}
         points={
         ' ' + x1 + ',' + y1 + 
@@ -242,6 +241,7 @@ function pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
         ' ' + x5 + ',' + y5 + 
         ''}
         fill={colors[i]} 
+        stroke-width={1}
     />
     ); 
 }
@@ -269,20 +269,20 @@ function yAxisInfos(w: number, h: number, d: Data[]) {
     ));
 }
 
-function lineForData(cn: string, w: number, h: number, i: number, j: number , d: Data[]) {
+function lineForData(w: number, h: number, i: number, j: number , d: Data[]) {
     const c = getMaxDataCount(d);
     const b = bigOne(d);
     let colorGenerator = getColorGenerator();
     let colors = d.map((datum) =>  colorGenerator());
     return(
         <line
-            className={cn}
             key={i * 10 + j} 
             x1={105 + j * ( w - 300 ) / ( c - 1)} 
             y1={(3 * h / 4 - ((d[i].data[j] * 1 ) / b ) * ( h / 2 ))}
             x2={105 + ( j + 1 ) * ( w - 300 ) / ( c - 1 )} 
             y2={(3 * h / 4 - ((d[i].data[j + 1] * 1 ) / b ) * ( h / 2 ))}
             stroke={colors[i]}
+            stroke-width={1}
         />
     );
 }
@@ -292,7 +292,7 @@ function drawDataLines(w: number, h: number, d: Data[]) {
         ds.data.map((nums, j) => (
             (j === ds.data.length - 1) ? 
                 null : 
-                lineForData('dataBlock' + (i % 5 + 1), w, h, i, j, d)
+                lineForData(w, h, i, j, d)
         ))
     ));
 }
@@ -306,23 +306,23 @@ function drawPoint(w: number, h: number, d: Data[]) {
         num.data.map((nums, j) => (
             (i % 5 === 0) ? (
             <circle 
-                className="dataBlock1"
                 key={i * 10 + j}
                 cx={105 + j * ( w - 300 ) / ( c - 1)} 
                 cy={(3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2))} 
                 r={5} 
                 fill={colors[i]} 
+                stroke-width={1}
             /> 
             ) :
             (i % 5 === 1) ? (
             <rect 
-                className="dataBlock2"
                 key={i * 10 + j}
                 x={105 + j * ( w - 300) / ( c - 1 ) - 5} 
                 y={(3 * h / 4 - ((d[i].data[j] * 1) / b) * (h / 2)) - 5} 
                 width={10} 
                 height={10} 
                 fill={colors[i]} 
+                stroke-width={1}
             />
             ) :
             (i % 5 === 2) ? 
