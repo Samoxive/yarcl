@@ -119,12 +119,12 @@ export const AreaChart = ({title, subtitle, series, scale, scaleLabel}: AreaChar
     return (
         <div className="area-chart">
             {/*Title*/}
-            <div className="title-area">
+            <div className="chart-title-area">
             <p>
-            <text className="chart-title" y={20}>{title}</text>
+            <div className="chart-title">{title}</div>
             </p>
             <p>
-            <text className="chart-subtitle" y={40}>{subtitle}</text>
+            <div className="chart-subtitle">{subtitle}</div>
             </p>
             </div>
             <svg viewBox={`0 0 ${chartX + marX + 100} ${chartY + marY + 50}`}>
