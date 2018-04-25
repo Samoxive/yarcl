@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './BubbleChart.scss';
+// import './BubbleChart.scss';
 
 export interface Title {
     text: string;
@@ -292,12 +292,10 @@ function DrawGridLines(x1: number, y1: number, x2: number, y2: number, xAxis: XA
 
 export const BubbleChart = ({title, subtitle, xAxis, yAxis, width, height, series}: BubbleChartData) => (
 <svg width={width} height={height}>
-    <rect 
-        className="background" 
+    <rect  
         key="1" 
         width={width} 
-        height={height} 
-        stroke="black" 
+        height={height}
         fill="white"
     />
     <rect  

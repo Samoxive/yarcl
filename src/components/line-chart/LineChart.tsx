@@ -367,7 +367,7 @@ export interface LineChartData {
 
 export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, series}: LineChartData) => (
     <svg width={width} height={height}>
-        <rect className="background" key="1" width={width} height={height}/>
+        <rect fill="white" key="1" width={width} height={height}/>
 
         {drawHorizontalLines(width, height)}
         {yAxisInfos(width, height, series)}
