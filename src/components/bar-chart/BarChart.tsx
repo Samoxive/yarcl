@@ -16,7 +16,7 @@ const marX = 50; // margin X
 const marY = 30;
 const chartX = 350; // chart X
 const gap = 40; // gap size
-const barSize = 40; // barSize SHOULD NOT BE bigger than gap.
+const barSize = 35; // barSize SHOULD NOT BE bigger than gap.
 const labelX = 0; // x axis label size
 const labelY = 20; // y axis scale size
 
