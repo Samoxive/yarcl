@@ -111,6 +111,8 @@ export class Pie extends React.Component<PieProps> {
                             A ${per} ${per} 0 ${bigArch} 0 ${startp1.x} ${startp1.y}
                             Z`}
                         fill={color}
+                        stroke={'white'}
+                        strokeWidth={0.01}
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
                     />
