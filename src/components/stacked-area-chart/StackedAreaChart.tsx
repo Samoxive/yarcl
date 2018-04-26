@@ -92,6 +92,13 @@ function whereTheFirstPoint(data: number[]) {
     return i;
 }
 
+function polygonStackPoints(series: Series[]) {
+    let i = 0;
+    let polygonStrings = [];
+
+    return polygonStrings;
+}
+
 function polygonPoints(data: number[], biggest: number, maxLength: number) {
     let i = 0;
     let pointString = marX + (whereTheFirstPoint(data) * (chartX / (maxLength - 1))) + ',' + (marY + chartY) + ' ';
