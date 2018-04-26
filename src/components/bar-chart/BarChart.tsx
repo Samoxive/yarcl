@@ -16,7 +16,7 @@ const marX = 50; // margin X
 const marY = 30;
 const chartX = 350; // chart X
 const gap = 40; // gap size
-const barSize = 40; // barSize SHOULD NOT BE bigger than gap.
+const barSize = 35; // barSize SHOULD NOT BE bigger than gap.
 const labelX = 0; // x axis label size
 const labelY = 20; // y axis scale size
 
@@ -66,13 +66,13 @@ export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartD
             <div className="chart-subtitle">
                 {subtitle}
             </div>
-            <svg viewBox={`0 0 ${chartX + 50 + marX} ${data.length * gap + marY + 50}`} width="100%">
+            <svg viewBox={`0 0 ${chartX + 60 + marX} ${data.length * gap + marY + 50}`} width="100%">
                 <rect width="100%" height="100%" fill="white"/>
                 {label.map((num, i) => 
                     <text 
                         key={i}
                         x={labelX} 
-                        y={(i + 2 / 3) * gap + marY}
+                        y={marY + gap * 3 / 5 + (i * gap)}
                         className="chart-label"
                     >
                         {num.length < marX * (9 / 50) ? num : num.substring(0, (marX * 7 / 50)) + '...'}
@@ -95,6 +95,17 @@ export const BarChart = ({title, subtitle, data, label, color, scale}: BarChartD
                         height={barSize} 
                         fill={color || colorGenerator()}
                     />)
+                }
+                {data.map((num, i) =>
+                    <text
+                        key={i}
+                        x={marX + 5 + num / (biggestNum(data) / chartX)}
+                        y={marY + gap * 3 / 5 + (i * gap)}
+                        className="chart-label"
+                    >
+                        {numberPrefixed(data[i])}
+                    </text>
+                    )
                 }
                     <line 
                         x1={marX - 2} 
