@@ -10,3 +10,4 @@ export { PieChart } from './components/pie-chart/PieChart';
 export { BarChart } from './components/bar-chart/BarChart';
 export { AreaChart } from './components/area-chart/AreaChart';
 export { BubbleChart } from './components/bubble-chart/BubbleChart';
+export { StackedAreaChart } from './components/stacked-area-chart/StackedAreaChart';
