@@ -2,7 +2,6 @@ import * as React from 'react';
 import './StackedAreaChart.scss';
 import '../common.scss';
 import { getColorGenerator } from '../../utils/colors';
-import { reverse } from 'dns';
 
 export interface StackedAreaChartProps {
     title?: string;
@@ -102,22 +101,14 @@ function stacker (series: Series[]) {
 
 function polygonStackPoints(series: Series[]) {
     let polygonStrings = [];
-    //biggest should be the total biggest, for now i set it to 500
     stacker(series);
     let biggest = biggestNumInArray(series[series.length - 1].data);
     let maxLength = maxLengthOfAllArrays(series);
 
     for (let n = 0; n < series.length; n++) {
-        
         let firstPoint = whereTheFirstPoint(series[n].data);
-        let lastPoint = series[n].data.length;
         let pointString = '';
         let i = 0;
-        // dataBefore and dataNow;
-        let dB = series[n - 1];
-        let dN = series[n];
-
-        let reverseArray = series[n].data.reverse;
 
         if (n === 0) {
             pointString = marX + (firstPoint * (chartX / (maxLength - 1))) + ',' + (marY + chartY) + ' ';
@@ -143,7 +134,8 @@ function polygonStackPoints(series: Series[]) {
 
             for (let k = series[n - 1].data.length - 1 ; k >= 0; k--) {
                 if (series[n - 1].data[k] !== null) {
-                    pointString += (marX + i) + ',' + (chartY - (series[n - 1].data[k] * (chartY / biggest)) + marY) + ' ';
+                    pointString += (marX + i) + ',' + 
+                                   (chartY - (series[n - 1].data[k] * (chartY / biggest)) + marY) + ' ';
                 }
                 i -= (chartX / (maxLength - 1));
 
@@ -164,7 +156,6 @@ function maxLengthOfAllArrays(series: Series[]): number {
 
 export const StackedAreaChart = ({title, subtitle, series, scale, scaleLabel}: StackedAreaChartProps) => {
     const colorGenerator = getColorGenerator();
-    let seriesLen = series.length;
     let biggest = biggestNum(series);
     let maxLen = maxLengthOfAllArrays(series);
     let colors = series.map((datum) => datum.color ? datum.color : colorGenerator());
