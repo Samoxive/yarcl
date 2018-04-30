@@ -63,7 +63,7 @@ function PlaceDataCells(xl: number, yl: number, w: number, h: number, s: Series)
         <>
             <rect
                 key={index}
-                x={50 + i[0] * ((w - 100) / xl)}
+                x={100 + i[0] * ((w - 150) / xl)}
                 y={50 + i[1] * ((h - 100) / yl)}
                 width={((w - 100) / xl)}
                 height={((h - 100) / yl)}
@@ -81,7 +81,7 @@ function PlaceDataCells(xl: number, yl: number, w: number, h: number, s: Series)
                 <text
                     key={index + s.data.length}
                     textAnchor="middle"
-                    x={50 + i[0] * ((w - 100) / xl) + ((w - 100) / (2 * xl))}
+                    x={100 + i[0] * ((w - 150) / xl) + ((w - 150) / (2 * xl))}
                     y={50 + i[1] * ((h - 100) / yl) + ((h - 100) / (2 * yl))}
                     fill={s.dataLabels.colorCode}
                 >
@@ -90,6 +90,20 @@ function PlaceDataCells(xl: number, yl: number, w: number, h: number, s: Series)
             ) : null}
             
         </>
+    )));
+}
+
+function PlaceYAxisInfos(ya: YAxis, xo: number, yo: number, h: number) {
+    return (ya.categories.map((i, index) => (
+        <text
+            key={index}
+            x={xo - 10}
+            y={Map(index , 0, ya.categories.length , yo, h - 50) + ((h - 100) / (ya.categories.length * 2))}
+            textAnchor="end"
+            fill="black"
+        >
+            {i}
+        </text>
     )));
 }
 
@@ -105,6 +119,7 @@ export const HeatmapChart = ({title, xAxis, yAxis, width, height, series}: Heatm
              {title.text}
          </text>
         {PlaceDataCells(xAxis.categories.length, yAxis.categories.length, width, height, series)}
+        {PlaceYAxisInfos(yAxis, 100, 50, height)}
 
     </svg>
 );
