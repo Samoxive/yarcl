@@ -127,12 +127,13 @@ function polygonStackPoints(series: Series[]) {
                 if (datum !== null) {
                     pointString += (marX + i) + ',' + (chartY - (datum * (chartY / biggest)) + marY) + ' ';
                 }
+
                 i += (chartX / (maxLength - 1));
 
             }
             i -= (chartX / (maxLength - 1));
 
-            for (let k = series[n - 1].data.length - 1 ; k >= 0; k--) {
+            for (let k = series[n - 1].data.length - 1 ; k >= firstPoint; k--) {
                 if (series[n - 1].data[k] !== null) {
                     pointString += (marX + i) + ',' + 
                                    (chartY - (series[n - 1].data[k] * (chartY / biggest)) + marY) + ' ';
