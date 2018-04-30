@@ -2,6 +2,7 @@ import * as React from 'react';
 import './StackedAreaChart.scss';
 import '../common.scss';
 import { getColorGenerator } from '../../utils/colors';
+import { reverse } from 'dns';
 
 export interface StackedAreaChartProps {
     title?: string;
@@ -91,26 +92,70 @@ function whereTheFirstPoint(data: number[]) {
     }
     return i;
 }
-
-function polygonStackPoints(series: Series[]) {
-    let i = 0;
-    let polygonStrings = [];
-
-    return polygonStrings;
+function stacker (series: Series[]) {
+    for (let n = 1; n < series.length; n++) {
+        for (let i = 0; i < series[n].data.length; i++) {
+            series[n].data[i] += series[n - 1].data[i]; 
+        }
+    }
 }
 
-function polygonPoints(data: number[], biggest: number, maxLength: number) {
-    let i = 0;
-    let pointString = marX + (whereTheFirstPoint(data) * (chartX / (maxLength - 1))) + ',' + (marY + chartY) + ' ';
-    for (let datum of data) {
-        if (datum !== null) {
-            pointString += (marX + i) + ',' + (chartY - (datum * (chartY / biggest)) + marY) + ' ';
+function polygonStackPoints(series: Series[]) {
+    let polygonStrings = [];
+    //biggest should be the total biggest, for now i set it to 500
+    stacker(series);
+    let biggest = biggestNumInArray(series[series.length - 1].data);
+    let maxLength = maxLengthOfAllArrays(series);
+
+    for (let n = 0; n < series.length; n++) {
+        
+        let firstPoint = whereTheFirstPoint(series[n].data);
+        let lastPoint = series[n].data.length;
+        let pointString = '';
+        let i = 0;
+        // dataBefore and dataNow;
+        let dB = series[n - 1];
+        let dN = series[n];
+
+        let reverseArray = series[n].data.reverse;
+
+        if (n === 0) {
+            pointString = marX + (firstPoint * (chartX / (maxLength - 1))) + ',' + (marY + chartY) + ' ';
+            for (let datum of series[n].data) {
+                if (datum !== null) {
+                    pointString += (marX + i) + ',' + (chartY - (datum * (chartY / biggest)) + marY) + ' ';
+                }
+                i += (chartX / (maxLength - 1));
+
+            }
+            i -= (chartX / (maxLength - 1));
+            pointString +=  marX + i + ',' + (marY + chartY) + ' ';
+        } else {
+            
+            for (let datum of series[n].data) {
+                if (datum !== null) {
+                    pointString += (marX + i) + ',' + (chartY - (datum * (chartY / biggest)) + marY) + ' ';
+                }
+                i += (chartX / (maxLength - 1));
+
+            }
+            i -= (chartX / (maxLength - 1));
+
+            for (let k = series[n - 1].data.length - 1 ; k >= 0; k--) {
+                if (series[n - 1].data[k] !== null) {
+                    pointString += (marX + i) + ',' + (chartY - (series[n - 1].data[k] * (chartY / biggest)) + marY) + ' ';
+                }
+                i -= (chartX / (maxLength - 1));
+
+            }
+            i += (chartX / (maxLength - 1));
+
         }
-        i += (chartX / (maxLength - 1));
+        
+        polygonStrings.push(pointString);
     }
-    i -= (chartX / (maxLength - 1));
-    pointString +=  marX + i + ',' + (marY + chartY) + ' ';
-    return pointString;
+
+    return polygonStrings;
 }
 
 function maxLengthOfAllArrays(series: Series[]): number {
@@ -123,6 +168,7 @@ export const StackedAreaChart = ({title, subtitle, series, scale, scaleLabel}: S
     let biggest = biggestNum(series);
     let maxLen = maxLengthOfAllArrays(series);
     let colors = series.map((datum) => datum.color ? datum.color : colorGenerator());
+    let polyPoints = polygonStackPoints(series);
     return (
         <div className="yarcl-chart stacked-area-chart">
             {/*Title*/}
@@ -147,14 +193,15 @@ export const StackedAreaChart = ({title, subtitle, series, scale, scaleLabel}: S
                     strokeWidth="4" 
                 />
                 {/*Polygon*/}
-                {series.map((num, i) =>
+                {
+                    polyPoints.map((num, i ) =>
                         <polygon
                             key={i}
-                            points={polygonPoints(series[i].data, biggest, maxLen)}
+                            points={num}
                             fill={series[i].color || colors[i]}
-                            opacity={seriesLen === 1 ? 1 : 0.5}
+                            opacity="1"
                         />
-                    )
+                    )   
                 }
                 {/*X axis*/}
                 <line 
@@ -174,10 +221,10 @@ export const StackedAreaChart = ({title, subtitle, series, scale, scaleLabel}: S
                         <circle
                             key={i}
                             cx={marX + chartX + 20}
-                            cy={marY + i * 20}
+                            cy={marY + chartY + (i * - 20)}
                             r={5}
                             fill={series[i].color || colors[i]}
-                            opacity={seriesLen === 1 ? 1 : 0.5}
+                            opacity="1"
                         />
                     )
                 }
@@ -185,7 +232,7 @@ export const StackedAreaChart = ({title, subtitle, series, scale, scaleLabel}: S
                         <text
                             key={i}
                             x={marX + chartX + 30}
-                            y={marY + 5 + i * 20}
+                            y={marY + 5 + chartY + (i * - 20)}
                             // fill={series[i].color || colors[i]}
                             className="chart-label"
                         >
