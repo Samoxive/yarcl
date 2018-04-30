@@ -24,7 +24,7 @@ Example:
     data={[14000000, 4700000, 2800000, 1900000, 1600000]}
 />
 ```
-Barchart has these attributes:
+Bar chart has these attributes:
 
     title (optional): The main title
     
@@ -37,3 +37,67 @@ Barchart has these attributes:
     color (optional): You can change the bars color to one chosen color. eg. "orange"
     
     scale (optional): This number changes the X line scale. eg. "5" splits the scale to 5 points.
+
+## Area Chart
+Example:
+```javascript
+<AreaChart
+    title="Population of countries by years (in millions)"
+    subtitle="in 1950, 1965, 1980, 1995 and 2010"
+    series={[
+        {label: 'Turkey', data: [21, 30, 43, 58, 71]},
+        {label: 'Germany', data: [69, 75, 78, 81, 80]},
+        {label: 'Canada', data: [14, 19, 24, 29, 34]},
+        {label: 'Israel', data: [null, 2, 3, 5, 7]}
+    ]}
+/>
+```
+Area chart has these attributes:
+
+    title (optional): The main title
+    
+    subtitle (optional): Explanatory subtitle
+    
+    series: This contains label, data and color.
+
+        label: This string array contains the names of the bars.
+    
+        data: This number array contains the values.
+    
+        color (optional): You can change the bars color to one chosen color. eg. "orange"
+    
+    scale (optional): This number changes the X line scale. eg. "5" splits the scale to 5 points.
+    
+    scaleLabel (optional): You can directly give labels to x axis with string array.
+
+## Stacked Area Chart
+Example:
+```javascript
+<StackedAreaChart
+    title="Population of countries by years (in millions)"
+    subtitle="in 1950, 1965, 1980, 1995 and 2010"
+    series={[
+        {label: 'Turkey', data: [21, 30, 43, 58, 71]},
+        {label: 'Germany', data: [69, 75, 78, 81, 80]},
+        {label: 'Canada', data: [14, 19, 24, 29, 34]},
+        {label: 'Israel', data: [null, 2, 3, 5, 7]}
+    ]}
+/>
+```
+Stacked area chart has these attributes:
+
+    title (optional): The main title
+    
+    subtitle (optional): Explanatory subtitle
+    
+    series: This contains label, data and color.
+
+        label: This string array contains the names of the bars.
+    
+        data: This number array contains the values.
+    
+        color (optional): You can change the bars color to one chosen color. eg. "orange"
+    
+    scale (optional): This number changes the X line scale. eg. "5" splits the scale to 5 points.
+    
+    scaleLabel (optional): You can directly give labels to x axis with string array.
