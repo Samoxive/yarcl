@@ -94,14 +94,15 @@ function whereTheFirstPoint(data: number[]) {
 function stacker (series: Series[]) {
     for (let n = 1; n < series.length; n++) {
         for (let i = 0; i < series[n].data.length; i++) {
-            series[n].data[i] += series[n - 1].data[i]; 
+            if (series[n].data[i] !== null) {
+                series[n].data[i] += series[n - 1].data[i]; 
+            }
         }
     }
 }
 
 function polygonStackPoints(series: Series[]) {
     let polygonStrings = [];
-    stacker(series);
     let biggest = biggestNumInArray(series[series.length - 1].data);
     let maxLength = maxLengthOfAllArrays(series);
 
@@ -156,11 +157,13 @@ function maxLengthOfAllArrays(series: Series[]): number {
 }
 
 export const StackedAreaChart = ({title, subtitle, series, scale, scaleLabel}: StackedAreaChartProps) => {
+    stacker(series);
     const colorGenerator = getColorGenerator();
     let biggest = biggestNum(series);
     let maxLen = maxLengthOfAllArrays(series);
     let colors = series.map((datum) => datum.color ? datum.color : colorGenerator());
     let polyPoints = polygonStackPoints(series);
+
     return (
         <div className="yarcl-chart stacked-area-chart">
             {/*Title*/}
