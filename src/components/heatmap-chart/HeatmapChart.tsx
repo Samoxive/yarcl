@@ -63,9 +63,9 @@ function PlaceDataCells(xl: number, yl: number, w: number, h: number, s: Series)
         <>
             <rect
                 key={index}
-                x={100 + i[0] * ((w - 150) / xl)}
+                x={100 + i[0] * ((w - 250) / xl)}
                 y={50 + i[1] * ((h - 150) / yl)}
-                width={((w - 100) / xl)}
+                width={((w - 250) / xl)}
                 height={((h - 150) / yl)}
                 strokeWidth={s.borderWidth}
                 stroke="white"
@@ -81,7 +81,7 @@ function PlaceDataCells(xl: number, yl: number, w: number, h: number, s: Series)
                 <text
                     key={index + s.data.length}
                     textAnchor="middle"
-                    x={100 + i[0] * ((w - 150) / xl) + ((w - 150) / (2 * xl))}
+                    x={100 + i[0] * ((w - 250) / xl) + ((w - 250) / (2 * xl))}
                     y={50 + i[1] * ((h - 150) / yl) + ((h - 150) / (2 * yl))}
                     fill={s.dataLabels.colorCode}
                 >
@@ -111,13 +111,13 @@ function PlaceXAxisInfos(xa: XAxis, xo: number, yo: number, w: number, h: number
     return (xa.categories.map((i, index) => (
         <text
             key={index}
-            x={Map(index, 0, xa.categories.length, xo, w - 50) + ((w - 150) / (xa.categories.length * 2))}
+            x={Map(index, 0, xa.categories.length, xo, w - 150) + ((w - 250) / (xa.categories.length * 2))}
             y={yo + 10}
             textAnchor="end"
             fill="black"
             transform={
                 'rotate(-45 ' +
-                (Map(index, 0, xa.categories.length, xo, w - 50) + ((w - 150) / (xa.categories.length * 2))) +
+                (Map(index, 0, xa.categories.length, xo, w - 150) + ((w - 250) / (xa.categories.length * 2))) +
                 ',' + 
                 (yo + 10) + 
                 ' )'
@@ -126,6 +126,28 @@ function PlaceXAxisInfos(xa: XAxis, xo: number, yo: number, w: number, h: number
             {i}
         </text>
     )));
+}
+
+function PlaceColorBar(xo: number, yo: number, h: number) {
+    return(
+        <>
+            <defs>
+                <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="rgb(255,255,255)" stopOpacity={1} />
+                    <stop offset="100%" stopColor="rgb(0,0,255)" stopOpacity={1} />
+                </linearGradient>
+            </defs>
+            <rect 
+                x={xo} 
+                y={yo} 
+                width="30" 
+                height={h - 150} 
+                fill="url(#grad2)" 
+                strokeWidth="1"
+                stroke="rgb(100,100,200)"
+            />
+        </>
+    );
 }
 
 export const HeatmapChart = ({title, xAxis, yAxis, width, height, series}: HeatmapChartData) => (
@@ -142,6 +164,7 @@ export const HeatmapChart = ({title, xAxis, yAxis, width, height, series}: Heatm
         {PlaceDataCells(xAxis.categories.length, yAxis.categories.length, width, height, series)}
         {PlaceYAxisInfos(yAxis, 100, 50, height)}
         {PlaceXAxisInfos(xAxis, 100, height - 100, width, height)}
+        {PlaceColorBar(width - 120, 50, height)}
 
     </svg>
 );
