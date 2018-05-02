@@ -101,3 +101,51 @@ Stacked area chart has these attributes:
     scale (optional): This number changes the X line scale. eg. "5" splits the scale to 5 points.
     
     scaleLabel (optional): You can directly give labels to x axis with string array.
+
+## Stacked Line Chart
+Example:
+```javascript
+<LineChart
+    title={{text: 'Population of countries by years (in millions)'}}
+    subtitle={{text: 'in 1950, 1965, 1980, 1995 and 2010'}}
+    yAxis={{title: {text: 'Population'}}}
+    plotOptions={{pointStart: 10}}
+    width={1000}
+    height={400}
+    series={[
+        {name: 'Turkey', data: [21, 30, 43, 58, 71]},
+        {name: 'Germany', data: [69, 75, 78, 81, 80]},
+        {name: 'Canada', data: [14, 19, 24, 29, 34]},
+        {name: 'Israel', data: [0, 2, 3, 5, 7]}
+    ]}
+/>
+```
+Line chart has these attributes:
+
+    title: This contains text.
+
+        text: The main title.
+    
+    subtitle: This contains text.
+
+        text: Explanatory subtitle.
+
+    yAxis: This contains title.
+
+        title:  ---
+
+            text: Y Axis title.
+    
+    plotOptions: This contains pointStart.
+
+        pointStart: Starting point for X Axis.
+
+    width: Width of the chart.
+
+    height: Height of the chart.
+    
+    series: This contains name and data.
+
+        name: Name of the Data.
+    
+        data: This number array contains the values.
