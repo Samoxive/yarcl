@@ -102,7 +102,7 @@ Stacked area chart has these attributes:
     
     scaleLabel (optional): You can directly give labels to x axis with string array.
 
-## Stacked Line Chart
+## Line Chart
 Example:
 ```javascript
 <LineChart
