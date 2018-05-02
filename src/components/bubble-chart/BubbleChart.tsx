@@ -1,5 +1,6 @@
 import * as React from 'react';
 // import './BubbleChart.scss';
+import '../common.scss';
 
 export interface Title {
     text: string;
@@ -157,7 +158,7 @@ function PutCircles(x1: number, y1: number, x2: number, y2: number, s: Data[]) {
             <circle
                 cx={Map(s[index].x, smallX, bigX, x1, x2)} 
                 cy={Map(s[index].y, smallY, bigY, y2, y1)}
-                r={Map(s[index].z, smallZ, bigZ, 3, 40)}
+                r={Map(Math.pow(s[index].z, 2), Math.pow(smallZ, 2), Math.pow(bigZ, 2), 3, 40)} // FIXED
                 stroke="rgba(255,0,0,0.8)"
                 fill="rgba(255,0,0,0.5)"
             />
@@ -323,7 +324,7 @@ export const BubbleChart = ({title, subtitle, xAxis, yAxis, width, height, serie
         {subtitle.text}
     </text>
     <text // Y Name
-        className="yAxis"
+        className="chart-label"
         key="5"
         textAnchor="middle" 
         x="30" 
@@ -334,7 +335,7 @@ export const BubbleChart = ({title, subtitle, xAxis, yAxis, width, height, serie
         {yAxis.title.text}
     </text>
     <text // X Name
-        className="yAxis"
+        className="chart-label"
         key="6"
         textAnchor="middle" 
         x={width / 2} 
