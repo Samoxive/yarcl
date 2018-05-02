@@ -150,6 +150,32 @@ function PlaceColorBar(xo: number, yo: number, h: number) {
     );
 }
 
+function PlaceBarInfos(xo: number, yo: number, h: number, s: Series) {
+    const a = [0, 1, 2, 3, 4, 5, 6];
+    return(a.map((i, index) => (
+        <>
+            <text
+                key={index}
+                x={xo + 40}
+                y={yo + i * (h - yo * 2) / a.length}
+                textAnchor="start"
+                fill="black"
+            >
+                {Math.floor(Map(i, a[0], a[a.length - 1], Small(s), Big(s)))}
+            </text>
+            <line
+                key={index + a.length}
+                x1={xo}
+                y1={yo + i * (h - yo * 2) / a.length}
+                x2={xo + 30}
+                y2={yo + i * (h - yo * 2) / a.length}
+                strokeWidth={2}
+                stroke="rgb(235,235,255)"
+            />
+        </>
+    )));
+}
+
 export const HeatmapChart = ({title, xAxis, yAxis, width, height, series}: HeatmapChartData) => (
     <svg width={width} height={height}>
         <rect  
@@ -165,6 +191,7 @@ export const HeatmapChart = ({title, xAxis, yAxis, width, height, series}: Heatm
         {PlaceYAxisInfos(yAxis, 100, 50, height)}
         {PlaceXAxisInfos(xAxis, 100, height - 100, width, height)}
         {PlaceColorBar(width - 120, 50, height)}
+        {PlaceBarInfos(width - 120, 50, height, series)}
 
     </svg>
 );
