@@ -18,7 +18,6 @@ export interface DataLabel {
 }
 
 export interface Series {
-    name: string;
     borderWidth: number;
     data: number[][];
     dataLabels: DataLabel;
