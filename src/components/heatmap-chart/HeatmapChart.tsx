@@ -79,6 +79,7 @@ function PlaceDataCells(xl: number, yl: number, w: number, h: number, s: Series)
             {(s.dataLabels.enabled) ? (
                 <text
                     key={index + s.data.length}
+                    className="chart-label"
                     textAnchor="middle"
                     x={100 + i[0] * ((w - 250) / xl) + ((w - 250) / (2 * xl))}
                     y={50 + i[1] * ((h - 150) / yl) + ((h - 150) / (2 * yl))}
