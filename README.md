@@ -149,3 +149,36 @@ Line chart has these attributes:
         name: Name of the Data.
     
         data: This number array contains the values.
+
+## Pie Chart
+Example:
+```javascript
+<PieChart
+    title={'Spread of population in top 5 districts in Kayseri '}
+    data={[
+        {label: 'Melikgazi', value: 562000},
+        {label: 'Kocasinan', value: 394000},
+        {label: 'Talas', value: 155000},
+        {label: 'Develi', value: 64000},
+        {label: 'Yahyalı', value: 36000},
+    ]}
+    options={{ showPercentage: true, isDonut: true, donutPercentage: 0.5 }}
+/>
+```
+Pie chart has these attributes
+
+    title: String value for the chart's title
+
+    data: Array of objects for data to be displayed
+
+        label: Label of the given serie
+
+        value: Value of type number for the serie
+
+    options (optional): Customization options for the chart
+
+        showPercentage (optional): A boolean value to enable percentage text on pies (default: true)
+
+        isDonut (optional): A boolean value to enable donut chart (default: false)
+
+        donutPercentage (optional): A number value between 0 and 1 that determines the size of empty circle inside donut chart (default: 0.5)
