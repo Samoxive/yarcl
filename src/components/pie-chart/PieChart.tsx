@@ -219,7 +219,9 @@ export class PieChart extends React.Component<PieChartProps, PieChartState> {
                                 <span><svg viewBox="0 0 2 2" className="pie-chart-label-svg">
                                     <circle cx="1" cy="1" r="1" strokeWidth="0" fill={colors[i]} />
                                 </svg></span>
-                                <span className="chart-label">{datum.label}</span>
+                                <span className="chart-label">
+                                    {`${datum.label} (${Math.floor(coords[i].percentage * 1000) / 10}%)`}
+                                </span>
                             </div>)
                         )}
                     </div>
