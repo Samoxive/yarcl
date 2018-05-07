@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './StackedAreaChart.scss';
+import '../../components/area-chart/AreaChart.scss';
 import '../common.scss';
 import { getColorGenerator } from '../../utils/colors';
 
