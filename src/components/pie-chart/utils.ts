@@ -12,34 +12,40 @@ export interface PieCoordinates {
     p2: Point;
 }
 
+export function getPointOnCircle(topLeftPoint: Point,
+                                 radius: number,
+                                 percentage: number,
+                                 startingPercentage: number): Point {
+    const middlePoint: Point = { x: topLeftPoint.x + radius, y: topLeftPoint.y + radius };
+    const rawX = middlePoint.x + (radius * Math.cos(2 * Math.PI * ((percentage + startingPercentage))));
+    const rawY = middlePoint.y + (radius * Math.sin(2 * Math.PI * ((percentage + startingPercentage))));
+    return {
+        x: rawX,
+        y: rawY
+    };
+}
+
 export function getCircleCoordinates(data: PieChartData[]): PieCoordinates[] {
     const sum = data.reduce((acc, datum) => acc + datum.value, 0);
     let percentageUsed = 0;
 
     const percentages = data.map((datum) => datum.value / sum);
-    let previousPie: PieCoordinates = { percentage: 0, previousPercentage: 0, p1: { x: 0, y: 0 }, p2: { x: 1, y: 0 } };
     const coordinates: PieCoordinates[] = new Array(data.length);
     let i = 0;
 
     for (const percentage of percentages) {
-        percentageUsed += percentage;
         const newCoordinate = {
             percentage,
-            previousPercentage: percentageUsed - percentage,
-            p1: { x: previousPie.p2.x , y: previousPie.p2.y },
-            p2: { x: Math.cos(2 * Math.PI * percentageUsed), y: Math.sin(2 * Math.PI * percentageUsed) }
+            previousPercentage: percentageUsed,
+            p1: getPointOnCircle({x: 0, y: 0}, 1, percentageUsed, 0),
+            p2: getPointOnCircle({x: 0, y: 0}, 1, percentageUsed + percentage, 0)
         };
         coordinates[i] = newCoordinate;
         i++;
-        previousPie =  { ...newCoordinate };
+        percentageUsed += percentage;
     }
 
-    return coordinates.map(({ percentage, previousPercentage, p1, p2 }) => ({
-        percentage,
-        previousPercentage,
-        p1: normalPointToSVG(p1),
-        p2: normalPointToSVG(p2),
-    }));
+    return coordinates;
 }
 
 export function normalPointToSVG(point: Point): Point {
