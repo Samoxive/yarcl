@@ -3,7 +3,7 @@ import '../common.scss';
 
 import * as React from 'react';
 import * as ReactTooltip from 'react-tooltip';
-import { getCircleCoordinates, PieCoordinates, normalPointToSVG, getPointOnCircle, Point } from './utils';
+import { getCircleCoordinates, getPointOnCircle, Point } from './utils';
 import { getColorGenerator } from '../../utils/colors';
 
 export interface PieChartData {
@@ -13,7 +13,6 @@ export interface PieChartData {
 }
 
 export interface PieChartOptions {
-    showPercentage?: boolean;
     isDonut?: boolean;
     donutPercentage?: number;
     pieStartingPercentage?: number;
@@ -34,7 +33,6 @@ export interface PieProps {
     color: string;
     percentage: number;
     previousPercentage: number;
-    showPercentage: boolean;
     isDonut: boolean;
     donutPercentage: number;
     pieStartingPercentage: number;
@@ -47,20 +45,15 @@ export class Pie extends React.Component<PieProps> {
         const { percentage,
                 previousPercentage,
                 color,
-                showPercentage,
                 isDonut,
                 donutPercentage,
                 pieStartingPercentage,
                 onMouseEnter,
                 onMouseLeave } = this.props;
-        const halfwayPercentage = (percentage / 2) + previousPercentage;
-        const percentageCoordinate = percentage > 0.1 ? 
-            getPointOnCircle({x: 0, y: 0}, 0.5, halfwayPercentage, pieStartingPercentage) : null;
         const p1 = getPointOnCircle({x: 0, y: 0}, 1, previousPercentage, pieStartingPercentage);
         const p2 = getPointOnCircle({x: 0, y: 0}, 1, previousPercentage + percentage, pieStartingPercentage);
 
         if (percentage > 0.99999999) {
-            const isOnlyPie = percentage === 1;
             return (
                 <React.Fragment>
                     <circle
@@ -71,16 +64,6 @@ export class Pie extends React.Component<PieProps> {
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
                     />
-                    {showPercentage && (
-                        <text
-                            x={1}
-                            y={isDonut ? (donutPercentage / 2) : 1}
-                            fontSize={0.1}
-                            textAnchor={'middle'}
-                        >
-                            {isOnlyPie ? '100%' : '~100%'} 
-                        </text>
-                    )}
                     {isDonut && (
                         <circle
                             cx={1}
@@ -121,15 +104,6 @@ export class Pie extends React.Component<PieProps> {
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
                     />
-                    {showPercentage && percentageCoordinate ? 
-                        (<text
-                            x={percentageCoordinate.x}
-                            y={percentageCoordinate.y}
-                            fontSize={0.1}
-                            textAnchor={'middle'}
-                        >
-                            {`${Math.floor(percentage * 1000) / 10}%`}
-                        </text>) : null}
                 </React.Fragment>
             );
         }
@@ -150,15 +124,6 @@ export class Pie extends React.Component<PieProps> {
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
                 />
-                {showPercentage && percentageCoordinate ? 
-                    (<text
-                        x={percentageCoordinate.x}
-                        y={percentageCoordinate.y}
-                        fontSize={0.1}
-                        textAnchor={'middle'}
-                    >
-                        {`${Math.floor(percentage * 1000) / 10}%`}
-                    </text>) : null}
             </React.Fragment>
         );
     }
@@ -174,8 +139,7 @@ export class PieChart extends React.Component<PieChartProps, PieChartState> {
         let {title, data} = this.props;
         data = data.sort((a, b) => b.value - a.value);
         const options = this.props.options || 
-            ({showPercentage: true, donutPercentage: 0.5, isDonut: false, pieStartingPercentage: 0.25});
-        const showPercentage = options.showPercentage || true;
+            ({donutPercentage: 0.5, isDonut: false, pieStartingPercentage: 0.25});
         const donutPercentage = options.donutPercentage || 0.5;
         const isDonut = options.isDonut || false;
         const pieStartingPercentage = 1 - (options.pieStartingPercentage || 0.25);
@@ -199,7 +163,7 @@ export class PieChart extends React.Component<PieChartProps, PieChartState> {
                 </div>
                 <div className="pie-chart-container-horizontal">
                     <div className="pie-chart-svg">
-                        <svg viewBox="0 0 3 3" data-tip="" data-for="pie-chart-tooltip">
+                        <svg viewBox="0 0 2 2" data-tip="" data-for="pie-chart-tooltip">
                             {coords.map((c, i) => (
                                 <Pie
                                     key={i}
@@ -207,7 +171,6 @@ export class PieChart extends React.Component<PieChartProps, PieChartState> {
                                     color={colors[i]}
                                     percentage={percentages[i]}
                                     previousPercentage={coordPercentages[i + 1]}
-                                    showPercentage={showPercentage}
                                     donutPercentage={donutPercentage}
                                     isDonut={isDonut}
                                     pieStartingPercentage={pieStartingPercentage}
