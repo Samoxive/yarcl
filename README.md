@@ -122,27 +122,27 @@ Example:
 ```
 Line chart has these attributes:
 
-    title: This contains text.
+    title (optional): This contains text.
 
         text: The main title.
     
-    subtitle: This contains text.
+    subtitle (optional): This contains text.
 
         text: Explanatory subtitle.
 
-    yAxis: This contains title.
+    yAxis (optional): This contains title.
 
         title:  ---
 
             text: Y Axis title.
     
-    plotOptions: This contains pointStart.
+    plotOptions (optional): This contains pointStart.
 
         pointStart: Starting point for X Axis.
 
-    width: Width of the chart.
+    width (optional): Width of the chart.
 
-    height: Height of the chart.
+    height (optional): Height of the chart.
     
     series: This contains name and data.
 
