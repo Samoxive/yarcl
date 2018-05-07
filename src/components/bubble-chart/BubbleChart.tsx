@@ -10,29 +10,29 @@ export interface Subtitle {
 }
 export interface Label {
     text: string;
-    x: number;
-    y: number;
+    x?: number;
+    y?: number;
 }
 export interface PlotLines {
-    color: string;
-    dashStyle: string;
+    color?: string;
+    dashStyle?: string;
     label: Label;
     value: number;
-    width: number;
+    width?: number;
 }
 export interface XAxis {
-    gridLineWidth: number;
+    gridLineWidth?: number;
     per: string;
     plotLines: PlotLines[];
-    title: Title;
+    title?: Title;
     unitName: string;
 }
 
 export interface YAxis {
-    gridLineWidth: number;
+    gridLineWidth?: number;
     per: string;
     plotLines: PlotLines[];
-    title: Title;
+    title?: Title;
     unitName: string;
 }
 export interface Data {
@@ -40,15 +40,15 @@ export interface Data {
     y: number;
     z: number;
     shortName: string;
-    fullName: string;
+    fullName?: string;
 }
 export interface BubbleChartData {
-    title: Title;
-    subtitle: Subtitle;
+    title?: Title;
+    subtitle?: Subtitle;
     xAxis: XAxis;
     yAxis: YAxis;
-    width: number;
-    height: number;
+    width?: number;
+    height?: number;
     series: Data[];
 }
 
@@ -232,21 +232,21 @@ function DrawGridLines(x1: number, y1: number, x2: number, y2: number, xAxis: XA
     const smallY = SmallY(s);
     return(
         <>
-            {xAxis.plotLines.map( (v) =>
+            {xAxis.plotLines.map( (v, index) =>
             <>
                 <line 
                     x1={x1}
                     x2={x2}
                     y1={Map(v.value, smallY, bigY, y2, y1)}
                     y2={Map(v.value, smallY, bigY, y2, y1)}
-                    strokeWidth={1}
-                    strokeDasharray={v.dashStyle}
-                    stroke="black"
+                    strokeWidth={(xAxis.gridLineWidth || 1)}
+                    strokeDasharray={(v.dashStyle || '4, 4')}
+                    stroke={(xAxis.plotLines[index].color ||  'black')}
                 />
                 <text
                     textAnchor="end"
-                    x={x2 - 10 + v.label.x} 
-                    y={Map(v.value, smallY, bigY, y2, y1) - 10 + v.label.y} 
+                    x={x2 - 10 + (v.label.x || 0)} 
+                    y={Map(v.value, smallY, bigY, y2, y1) - 10 + (v.label.y || 0)} 
                     fill="black" 
                 >
                 {
@@ -260,20 +260,20 @@ function DrawGridLines(x1: number, y1: number, x2: number, y2: number, xAxis: XA
                 </text>
             </>
             )}
-            {yAxis.plotLines.map( (v) =>
+            {yAxis.plotLines.map( (v, index) =>
             <>
                 <line 
                     x1={Map(v.value, smallX, bigX, x1, x2)}
                     x2={Map(v.value, smallX, bigX, x1, x2)}
                     y1={y1}
                     y2={y2}
-                    strokeWidth={1}
-                    strokeDasharray={v.dashStyle}
-                    stroke="black"
+                    strokeWidth={(yAxis.gridLineWidth || 1)}
+                    strokeDasharray={(v.dashStyle || '4, 4')}
+                    stroke={(yAxis.plotLines[index].color ||  'black')}
                 />
                 <text
-                    x={Map(v.value, smallX, bigX, x1, x2) + 10 + v.label.x} 
-                    y={y1 + 20 + v.label.y} 
+                    x={Map(v.value, smallX, bigX, x1, x2) + 10 + (v.label.x || 0)} 
+                    y={y1 + 20 + (v.label.y || 0)} 
                     fill="black" 
                 >
                 {
@@ -303,47 +303,47 @@ export const BubbleChart = ({title, subtitle, xAxis, yAxis, width, height, serie
         key="2" 
         x="100" 
         y="100" 
-        width={width - 150} 
-        height={height - 150} 
+        width={(width || 900) - 150} 
+        height={(height || 600) - 150} 
         stroke="black" 
         fill="white" 
         opacity="0.3"
     />
             
-    {DrawBackgroundLines(100, 100, width - 50, height - 50)}
-    {PutCircles(100, 100, width - 50, height - 50, series)}
-    {PutYAxisInfos(100, 100, height - 50, yAxis, series)}
-    {PutXAxisInfos(100, width - 50, height - 50, xAxis, series)}
+    {DrawBackgroundLines(100, 100, (width || 900) - 50, (height || 600) - 50)}
+    {PutCircles(100, 100, (width || 900) - 50, (height || 600) - 50, series)}
+    {PutYAxisInfos(100, 100, (height || 600) - 50, yAxis, series)}
+    {PutXAxisInfos(100, (width || 900) - 50, (height || 600) - 50, xAxis, series)}
             
-    {DrawGridLines(100, 100, width - 50, height - 50, xAxis, yAxis, series)}
+    {DrawGridLines(100, 100, (width || 900) - 50, (height || 600) - 50, xAxis, yAxis, series)}
             
-   <text className="chart-title" key="3" textAnchor="middle" x={width / 2} y="30">
-        {title.text}
+   <text className="chart-title" key="3" textAnchor="middle" x={(width || 900) / 2} y="30">
+        {(title != null) ? title.text : ''}
     </text>
-    <text className="chart-subtitle" key="4" textAnchor="middle" x={width / 2} y="60">
-        {subtitle.text}
+    <text className="chart-subtitle" key="4" textAnchor="middle" x={(width || 900) / 2} y="60">
+        {(subtitle != null) ? subtitle.text : ''}
     </text>
     <text // Y Name
         className="chart-label"
         key="5"
         textAnchor="middle" 
         x="30" 
-        y={height / 2} 
+        y={(height || 600) / 2} 
         fill="gray" 
-        transform={'rotate(-90 30,' + ( height / 2 ) + ' )'}
+        transform={'rotate(-90 30,' + ( (height || 600) / 2 ) + ' )'}
     >
-        {yAxis.title.text}
+        {(yAxis.title != null) ? yAxis.title.text : ''}
     </text>
     <text // X Name
         className="chart-label"
         key="6"
         textAnchor="middle" 
-        x={width / 2} 
-        y={height - 10} 
+        x={(width || 900) / 2} 
+        y={(height || 600) - 10} 
         fill="gray" 
     >
-        {xAxis.title.text}
+        {(xAxis.title != null) ? xAxis.title.text : ''}
     </text>
-    {PutDataShortNames(100, 100, width - 50, height - 50, series)}
+    {PutDataShortNames(100, 100, (width || 900) - 50, (height || 600) - 50, series)}
  </svg>
 );
