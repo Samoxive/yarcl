@@ -112,7 +112,7 @@ function SmallZ(series: Data[]) {
     return small;
 }
 
-function DrawBackgroundLines(x1: number, y1: number, x2: number, y2: number) {
+function DrawBackgroundLines(x1: number, y1: number, wx: number, wh: number, x2: number, y2: number) {
     const a = [1, 2, 3];
     const b = [1, 2, 3, 4];
     return(
@@ -124,7 +124,7 @@ function DrawBackgroundLines(x1: number, y1: number, x2: number, y2: number) {
                     y1={i * (y2 - y1) / (a.length + 1) + y1}
                     x2={x2}
                     y2={i * (y2 - y1) / (a.length + 1) + y1}
-                    strokeWidth="1"
+                    strokeWidth={wh}
                     stroke="gray"
                     opacity="0.8"
                 />
@@ -136,7 +136,7 @@ function DrawBackgroundLines(x1: number, y1: number, x2: number, y2: number) {
                     y1={y1}
                     x2={i * (x2 - x1) / (b.length + 1) + x1}
                     y2={y2}
-                    strokeWidth="1"
+                    strokeWidth={wx}
                     stroke="gray"
                     opacity="0.8"
                 />
@@ -310,7 +310,16 @@ export const BubbleChart = ({title, subtitle, xAxis, yAxis, width, height, serie
         opacity="0.3"
     />
             
-    {DrawBackgroundLines(100, 100, (width || 900) - 50, (height || 600) - 50)}
+    {
+        DrawBackgroundLines(
+            100, 
+            100, 
+            (xAxis.gridLineWidth || 1),
+            (yAxis.gridLineWidth || 1), 
+            (width || 900) - 50, 
+            (height || 600) - 50
+        )
+    }
     {PutCircles(100, 100, (width || 900) - 50, (height || 600) - 50, series)}
     {PutYAxisInfos(100, 100, (height || 600) - 50, yAxis, series)}
     {PutXAxisInfos(100, (width || 900) - 50, (height || 600) - 50, xAxis, series)}
