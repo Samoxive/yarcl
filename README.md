@@ -244,3 +244,152 @@ HeatMap chart has these attributes
             enabled: Boolean value if data values be wanted to be shown on the data cells.
 
             color: Color of data values if enabled.
+
+
+## BubbleChart Chart
+Example:
+```javascript
+
+<BubbleChart
+    title={{text: 'Sugar and fat intake per country'}}
+    subtitle={{text: 'data taken from https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/demo/bubble/'}}
+    xAxis={{
+        gridLineWidth: 1,
+        per: 'day',
+        plotLines: [{
+            color: 'black',
+            dashStyle: '4, 4, 8, 4',
+            label:{
+                text: 'Safe fat intake ',
+                x: 0,
+                y: 0
+            },
+            value: 200,
+            width: 1
+        }],
+        title:{text: 'Daily fat intake'},
+        unitName: 'gr'
+    }}
+    yAxis={{
+        gridLineWidth: 1,
+        per: 'day',
+        plotLines:[{
+            color: 'black',
+            dashStyle: '4, 4',
+            label:{
+                text: 'Safe sugar intake ',
+                x: 0,
+                y: 0
+            },
+            value: 80,
+            width: 1
+        }],
+        title:{text: 'Daily sugar intake'},
+        unitName: 'gr'
+    }}
+    width={1000}
+    height={550}
+    series={[
+        { x: 85.1, y: 305.1, z: 50.8, shortName: 'BE', fullName: 'Belgium       ' },
+        { x: 86.5, y: 102.9, z: 14.7, shortName: 'DE', fullName: 'Germany       ' },
+        { x: 80.8, y: 191.5, z: 15.8, shortName: 'FI', fullName: 'Finland       ' },
+        { x: 80.4, y: 102.5, z: 12.1, shortName: 'NL', fullName: 'Netherlands   ' },
+        { x: 80.3, y: 186.1, z: 11.8, shortName: 'SE', fullName: 'Sweden        ' },
+        { x: 78.4, y: 170.1, z: 16.6, shortName: 'ES', fullName: 'Spain         ' },
+        { x: 74.2, y: 168.5, z: 14.5, shortName: 'FR', fullName: 'France        ' },
+        { x: 73.5, y: 183.1, z: 10.1, shortName: 'NO', fullName: 'Norway        ' },
+        { x: 71.1, y: 193.2, z: 24.7, shortName: 'UK', fullName: 'United Kingdom' },
+        { x: 69.2, y: 157.6, z: 10.4, shortName: 'IT', fullName: 'Italy         ' },
+        { x: 68.6, y: 120.1, z: 16.1, shortName: 'RU', fullName: 'Russia        ' },
+        { x: 65.5, y: 126.4, z: 35.3, shortName: 'US', fullName: 'United States ' },
+        { x: 65.4, y: 150.8, z: 28.5, shortName: 'HU', fullName: 'Hungary       ' },
+        { x: 63.4, y: 151.8, z: 15.4, shortName: 'PT', fullName: 'Portugal      ' },
+        { x: 64.1, y: 182.9, z: 31.3, shortName: 'NZ', fullName: 'New Zealand   ' }
+    ]}
+/>
+```
+BubbleChart chart has these attributes
+
+    title (optional): This contains text.
+
+        text: The main title.
+    
+    subtitle (optional): This contains text.
+
+        text: Explanatory subtitle.
+    
+    xAxis: This contains gridLineWidth, per, plotLines, title and unitName.
+
+        gridLineWidth (optional): Width of the vertical grid lines.
+        
+        per: UnitName of y where why is x/y
+        
+        plotLines: This contains color, dashStyle, label, value and width.
+
+            color: Color of plotline.
+            
+            dashStyle: DashStyle for plotline.
+            
+            label: This contains text, x and y.
+
+                tex: text of plot line.
+
+                x (optional): x offset from plotline for text.
+
+                y (optional): y offset from plotline for text.
+            
+            value: value for plotline for where it should be.
+            
+            width: Width of the plotline of xAxis.
+        
+        title (optional): ---
+
+            text: Title for xAxis.
+        
+        unitName: UnitName of x where why is x/y
+    
+    yAxis: This contains gridLineWidth, per, plotLines, title and unitName.
+
+        gridLineWidth (optional): Width of the horizontal grid lines.
+        
+        per: UnitName of y where why is x/y
+        
+        plotLines: This contains color, dashStyle, label, value and width.
+
+            color: Color of plotline.
+            
+            dashStyle: DashStyle for plotline.
+            
+            label: This contains text, x and y.
+
+                tex: text of plot line.
+
+                x (optional): x offset from plotline for text.
+
+                y (optional): y offset from plotline for text.
+            
+            value: value for plotline for where it should be.
+            
+            width: Width of the plotline of yAxis.
+        
+        title (optional): ---
+
+            text: Title for xAxis.
+        
+        unitName: UnitName of x where why is x/y
+
+    width (optional): Width of the chart.
+
+    height (optional): Height of the chart.
+    
+    series: This contains borderWidth, data and dataLabels.
+
+        borderWidth: Width of the border between each of the heatmap data cells if wanted else leave "0".
+
+        data: This 2D number array contains x index, y index and data value for each data.
+
+        dataLabels: This contains enabled and color.
+
+            enabled: Boolean value if data values be wanted to be shown on the data cells.
+
+            color: Color of data values if enabled.
