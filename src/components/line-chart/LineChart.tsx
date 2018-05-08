@@ -356,12 +356,12 @@ export interface Data {
 }
 
 export interface LineChartData {
-    title: Title;
-    subtitle: Subtitle;
-    yAxis: YAxis;
-    plotOptions: PlotOptions;
-    width: number;
-    height: number;
+    title?: Title;
+    subtitle?: Subtitle;
+    yAxis?: YAxis;
+    plotOptions?: PlotOptions;
+    width?: number;
+    height?: number;
     series: Data[];
 }
 
@@ -369,30 +369,30 @@ export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, s
     <svg width={width} height={height}>
         <rect fill="white" key="1" width={width} height={height}/>
 
-        {drawHorizontalLines(width, height)}
-        {yAxisInfos(width, height, series)}
+        {drawHorizontalLines((width || 900), (height || 600))}
+        {yAxisInfos((width || 900), (height || 600), series)}
 
-        {xAxisDatas(series, width, height, plotOptions.pointStart)}
+        {xAxisDatas(series, (width || 900), (height || 600), (plotOptions != null) ? plotOptions.pointStart : 0)}
 
-        <text className="chart-title" key="2" textAnchor="middle" x={width / 2} y="30">
-            {title.text}
+        <text className="chart-title" key="2" textAnchor="middle" x={(width || 900) / 2} y="30">
+            {(title != null) ? title.text : ''}
         </text>
-        <text className="chart-subtitle" key="3" textAnchor="middle" x={width / 2} y="60">
-            {subtitle.text}
+        <text className="chart-subtitle" key="3" textAnchor="middle" x={(width || 900) / 2} y="60">
+            {(subtitle != null) ? subtitle.text : ''}
         </text>
         <text 
             className="chart-label"
             key="4"
             textAnchor="middle" 
             x="30" 
-            y={height / 2} 
+            y={(height || 600) / 2} 
             fill="gray" 
-            transform={'rotate(-90 30,' + ( height / 2 ) + ' )'}
+            transform={'rotate(-90 30,' + ( (height || 600) / 2 ) + ' )'}
         >
-            {yAxis.title.text}
+            {(yAxis != null) ? yAxis.title.text : ''}
         </text>
-        {drawDataLines(width, height, series)}
-        {drawPoint(width, height, series)}
-        {placeNames(width, height, series)}
+        {drawDataLines((width || 900), (height || 600), series)}
+        {drawPoint((width || 900), (height || 600), series)}
+        {placeNames((width || 900), (height || 600), series)}
     </svg>
 );
