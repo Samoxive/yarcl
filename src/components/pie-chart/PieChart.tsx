@@ -6,6 +6,19 @@ import * as ReactTooltip from 'react-tooltip';
 import { getCircleCoordinates, getPointOnCircle, Point } from './utils';
 import { getColorGenerator } from '../../utils/colors';
 
+const SVG_SIZE = 500;
+const CENTER = SVG_SIZE / 2;
+const PIE_CHART_RADIUS = 150;
+const PIE_CHART_TOP_LEFT = 100;
+const PIE_CHART_TOP_LEFT_COORD: Point = {x: PIE_CHART_TOP_LEFT, y: PIE_CHART_TOP_LEFT};
+const PIE_STROKE_WIDTH = 1;
+const LABEL_LINE_RADIUS = 175;
+const LABEL_LINE_TOP_LEFT = 75;
+const LABEL_LINE_TOP_LEFT_COORD: Point = {x: LABEL_LINE_TOP_LEFT, y: LABEL_LINE_TOP_LEFT};
+const LABEL_RADIUS = 200;
+const LABEL_TOP_LEFT = 50;
+const LABEL_TOP_LEFT_COORD: Point = {x: LABEL_TOP_LEFT, y: LABEL_TOP_LEFT};
+
 export interface PieChartData {
     label: string;
     value: number;
@@ -45,30 +58,66 @@ export class Pie extends React.Component<PieProps> {
         const { percentage,
                 previousPercentage,
                 color,
+                label,
                 isDonut,
                 donutPercentage,
                 pieStartingPercentage,
                 onMouseEnter,
                 onMouseLeave } = this.props;
-        const p1 = getPointOnCircle({x: 0, y: 0}, 1, previousPercentage, pieStartingPercentage);
-        const p2 = getPointOnCircle({x: 0, y: 0}, 1, previousPercentage + percentage, pieStartingPercentage);
+        const p1 = getPointOnCircle(PIE_CHART_TOP_LEFT_COORD,
+                                    PIE_CHART_RADIUS,
+                                    previousPercentage,
+                                    pieStartingPercentage);
+        const p2 = getPointOnCircle(PIE_CHART_TOP_LEFT_COORD,
+                                    PIE_CHART_RADIUS,
+                                    previousPercentage + percentage,
+                                    pieStartingPercentage);
+        const topLeftDonut: Point = {
+            x: PIE_CHART_TOP_LEFT + PIE_CHART_RADIUS * (1 - donutPercentage),
+            y: PIE_CHART_TOP_LEFT + PIE_CHART_RADIUS * (1 - donutPercentage)
+        };
+        const innerDonutRadius = donutPercentage * PIE_CHART_RADIUS;
+        const halfwayPercentage = previousPercentage + percentage / 2;
+        const labelText = `${label} (${Math.floor(percentage * 1000) / 10}%)`;
+        const labelTextPoint = getPointOnCircle(LABEL_TOP_LEFT_COORD,
+                                                LABEL_RADIUS,
+                                                halfwayPercentage,
+                                                pieStartingPercentage);
+        const labelLineP1 = getPointOnCircle(PIE_CHART_TOP_LEFT_COORD,
+                                             PIE_CHART_RADIUS,
+                                             halfwayPercentage,
+                                             pieStartingPercentage);
+        const labelLineP2 = getPointOnCircle(LABEL_LINE_TOP_LEFT_COORD,
+                                             LABEL_LINE_RADIUS,
+                                             halfwayPercentage,
+                                             pieStartingPercentage);
+        let labelElement = (
+            <text className="chart-label" x={labelTextPoint.x} y={labelTextPoint.y}>
+                {labelText}
+            </text>
+        );
+        let labelLineElement = (
+            <line x1={labelLineP1.x} y1={labelLineP1.y} x2={labelLineP2.x} y2={labelLineP2.y} stroke="black" />
+        );
 
         if (percentage > 0.99999999) {
             return (
                 <React.Fragment>
                     <circle
-                        cx={1}
-                        cy={1}
-                        r={1}
+                        cx={PIE_CHART_TOP_LEFT}
+                        cy={PIE_CHART_TOP_LEFT}
+                        r={PIE_CHART_RADIUS}
                         fill={color}
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
                     />
+                    {labelElement}
+                    {labelLineElement}
                     {isDonut && (
                         <circle
-                            cx={1}
-                            cy={1}
-                            r={donutPercentage}
+                            cx={topLeftDonut.x}
+                            cy={topLeftDonut.y}
+                            r={innerDonutRadius}
                             fill={'white'}
                         />
                     )}
@@ -83,10 +132,14 @@ export class Pie extends React.Component<PieProps> {
         const bigArch = percentage > 0.5 ? 1 : 0;
 
         if (isDonut) {
-            const per = donutPercentage;
-            const topLeftDonut: Point = {x: (1 - donutPercentage), y: (1 - donutPercentage)};
-            const startp1 = getPointOnCircle(topLeftDonut, per, previousPercentage, pieStartingPercentage);
-            const startp2 = getPointOnCircle(topLeftDonut, per, previousPercentage + percentage, pieStartingPercentage);
+            const startp1 = getPointOnCircle(topLeftDonut,
+                                             donutPercentage * PIE_CHART_RADIUS,
+                                             previousPercentage,
+                                             pieStartingPercentage);
+            const startp2 = getPointOnCircle(topLeftDonut,
+                                             donutPercentage * PIE_CHART_RADIUS,
+                                             previousPercentage + percentage,
+                                             pieStartingPercentage);
 
             return (
                 <React.Fragment>
@@ -94,16 +147,18 @@ export class Pie extends React.Component<PieProps> {
                         className="pie"
                         d={`M ${startp1.x} ${startp1.y}
                             L ${p1.x} ${p1.y}
-                            A 1 1 0 ${bigArch} 1 ${p2.x} ${p2.y}
+                            A ${PIE_CHART_RADIUS} ${PIE_CHART_RADIUS} 0 ${bigArch} 1 ${p2.x} ${p2.y}
                             L ${startp2.x} ${startp2.y}
-                            A ${per} ${per} 0 ${bigArch} 0 ${startp1.x} ${startp1.y}
+                            A ${innerDonutRadius} ${innerDonutRadius} 0 ${bigArch} 0 ${startp1.x} ${startp1.y}
                             Z`}
                         fill={color}
                         stroke={'white'}
-                        strokeWidth={0.01}
+                        strokeWidth={PIE_STROKE_WIDTH}
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
                     />
+                    {labelElement}
+                    {labelLineElement}
                 </React.Fragment>
             );
         }
@@ -112,18 +167,20 @@ export class Pie extends React.Component<PieProps> {
             <React.Fragment>
                 <path
                     className="pie"
-                    d={`M 1 1
+                    d={`M ${CENTER} ${CENTER}
                         L ${p1.x} ${p1.y}
                         M ${p1.x} ${p1.y}
-                        A 1 1 0 ${bigArch} 1 ${p2.x} ${p2.y}
-                        L 1 1
+                        A ${PIE_CHART_RADIUS} ${PIE_CHART_RADIUS} 0 ${bigArch} 1 ${p2.x} ${p2.y}
+                        L ${CENTER} ${CENTER}
                         Z`}
                     fill={color}
                     stroke={'white'}
-                    strokeWidth={0.01}
+                    strokeWidth={PIE_STROKE_WIDTH}
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
                 />
+                    {labelElement}
+                    {labelLineElement}
             </React.Fragment>
         );
     }
@@ -163,7 +220,7 @@ export class PieChart extends React.Component<PieChartProps, PieChartState> {
                 </div>
                 <div className="pie-chart-container-horizontal">
                     <div className="pie-chart-svg">
-                        <svg viewBox="0 0 2 2" data-tip="" data-for="pie-chart-tooltip">
+                        <svg viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE}`} data-tip="" data-for="pie-chart-tooltip">
                             {coords.map((c, i) => (
                                 <Pie
                                     key={i}
@@ -193,18 +250,6 @@ export class PieChart extends React.Component<PieChartProps, PieChartState> {
                                 </div>
                             ) : null}
                         </ReactTooltip>
-                    </div>
-                    <div className="pie-chart-container-vertical pie-chart-labels">
-                        {data.map((datum, i) => (
-                            <div key={i} className="pie-chart-label">
-                                <span><svg viewBox="0 0 2 2" className="pie-chart-label-svg">
-                                    <circle cx="1" cy="1" r="1" strokeWidth="0" fill={colors[i]} />
-                                </svg></span>
-                                <span className="chart-label">
-                                    {`${datum.label} (${Math.floor(coords[i].percentage * 1000) / 10}%)`}
-                                </span>
-                            </div>)
-                        )}
                     </div>
                 </div>
             </div>
