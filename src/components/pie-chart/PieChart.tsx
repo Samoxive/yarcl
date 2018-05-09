@@ -92,7 +92,7 @@ export class Pie extends React.Component<PieProps> {
                                              halfwayPercentage,
                                              pieStartingPercentage);
         let labelElement = (
-            <text className="chart-label" x={labelTextPoint.x} y={labelTextPoint.y}>
+            <text className="chart-label pie-chart-label" x={labelTextPoint.x} y={labelTextPoint.y}>
                 {labelText}
             </text>
         );
