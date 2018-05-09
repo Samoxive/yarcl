@@ -183,6 +183,7 @@ export const StackedAreaChart = ({title, subtitle, series, scale, scaleLabel}: S
                             points={num}
                             fill={series[i].color || colors[i]}
                             stroke="white"
+                            strokeWidth="1"
                             opacity="1"
                         />
                     )   
