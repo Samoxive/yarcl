@@ -175,18 +175,6 @@ export const StackedAreaChart = ({title, subtitle, series, scale, scaleLabel}: S
             </div>
             <svg viewBox={`0 0 ${chartX + marX + 100} ${chartY + marY + 50}`}>
                 <rect width="100%" height="100%" fill="white"/>
-                    {
-                    scaleYAxis(scale, biggest)
-                    }
-                {/*Y axis*/}
-                <line 
-                    x1={marX - 2}
-                    x2={marX - 2} 
-                    y1={marY} 
-                    y2={marY + chartY}
-                    stroke="black"
-                    strokeWidth="4" 
-                />
                 {/*Polygon*/}
                 {
                     polyPoints.map((num, i ) =>
@@ -194,14 +182,27 @@ export const StackedAreaChart = ({title, subtitle, series, scale, scaleLabel}: S
                             key={i}
                             points={num}
                             fill={series[i].color || colors[i]}
+                            stroke="white"
                             opacity="1"
                         />
                     )   
                 }
+                    {
+                    scaleYAxis(scale, biggest)
+                    }
+                {/*Y axis*/}
+                <line 
+                    x1={marX}
+                    x2={marX} 
+                    y1={marY} 
+                    y2={marY + chartY}
+                    stroke="black"
+                    strokeWidth="4" 
+                />
                 {/*X axis*/}
                 <line 
-                    x1={marX - 4} 
-                    x2={marX + chartX}
+                    x1={marX - 2} 
+                    x2={marX + chartX - 0.5}
                     y1={marY + chartY}
                     y2={marY + chartY}
                     stroke="black"
