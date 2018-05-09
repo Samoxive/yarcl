@@ -8,8 +8,8 @@ import { getColorGenerator } from '../../utils/colors';
 
 const SVG_SIZE = 500;
 const CENTER = SVG_SIZE / 2;
-const PIE_CHART_RADIUS = 150;
-const PIE_CHART_TOP_LEFT = 100;
+const PIE_CHART_RADIUS = 125;
+const PIE_CHART_TOP_LEFT = 125;
 const PIE_CHART_TOP_LEFT_COORD: Point = {x: PIE_CHART_TOP_LEFT, y: PIE_CHART_TOP_LEFT};
 const PIE_STROKE_WIDTH = 1;
 const LABEL_LINE_RADIUS = 175;
