@@ -177,7 +177,7 @@ Pie chart has these attributes
 
     options (optional): Customization options for the chart
 
-        showPercentage (optional): A boolean value to enable percentage text on pies (default: true)
+        pieStartingPercentage (optional): A number value that determines which angle the pies start from. Value can be between 0 and 1, 1 being 360 degrees. (default: 0.25)
 
         isDonut (optional): A boolean value to enable donut chart (default: false)
 
