@@ -1,6 +1,6 @@
 
 # yarcl
-Yet another react chart library.
+Yet another react chart library. It's 16KB in size (gzipped)!
 
 
 # Development

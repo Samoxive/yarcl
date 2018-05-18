@@ -3,6 +3,8 @@ import commonjs from 'rollup-plugin-commonjs';
 import uglify from 'rollup-plugin-uglify';
 import sass from 'rollup-plugin-sass';
 import pkg from './package.json';
+import gzip from 'rollup-plugin-gzip';
+import filesize from 'rollup-plugin-filesize';
 
 const globals = {
     'react': 'React',
@@ -25,7 +27,9 @@ export default [
             resolve(),
             commonjs(),
             uglify(),
-            sass({ output: 'lib/style.css' })
+            sass({ output: 'lib/style.css' }),
+            gzip(),
+            filesize(),
         ]
     }
 ];
