@@ -40,6 +40,9 @@ import { BarChart } from 'yarcl';
     data={[14000000, 4700000, 2800000, 1900000, 1600000]}
 />
 ```
+
+![](static/bar_chart.png)
+
 Bar chart has these attributes:
 
     title (optional): The main title
@@ -70,6 +73,9 @@ import { AreaChart } from 'yarcl';
     ]}
 />
 ```
+
+![](static/area_chart.png)
+
 Area chart has these attributes:
 
     title (optional): The main title
@@ -104,6 +110,9 @@ import { StackedAreaChart } from 'yarcl';
     ]}
 />
 ```
+
+![](static/stacked_area_chart.png)
+
 Stacked area chart has these attributes:
 
     title (optional): The main title
@@ -142,6 +151,9 @@ import { LineChart } from 'yarcl';
     ]}
 />
 ```
+
+![](static/line_chart.png)
+
 Line chart has these attributes:
 
     title (optional): This contains text.
@@ -189,6 +201,10 @@ import { PieChart } from 'yarcl';
     options={{ showPercentage: true, isDonut: true, donutPercentage: 0.5 }}
 />
 ```
+
+![](static/pie_chart.png)
+![](static/donut_chart.png)
+
 Pie chart has these attributes
 
     title: String value for the chart's title
@@ -241,6 +257,9 @@ import { HeatmapChart } from 'yarcl';
     }}
 />
 ```
+
+![](static/heatmap_chart.png)
+
 HeatMap chart has these attributes
 
     title: This contains text.
@@ -335,6 +354,9 @@ import { BubbleChart } from 'yarcl';
     ]}
 />
 ```
+
+![](static/bubble_chart.png)
+
 BubbleChart chart has these attributes
 
     title (optional): This contains text.
