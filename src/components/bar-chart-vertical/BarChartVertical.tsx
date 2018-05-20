@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './BarChartVertical.scss';
+import '../../components/bar-chart/BarChart.scss';
 import '../common.scss';
 import { getColorGenerator } from '../../utils/colors';
 
