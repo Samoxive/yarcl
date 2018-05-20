@@ -31,6 +31,8 @@ Or you can use <script> tags:
 ## Bar Chart
 Example:
 ```javascript
+import { BarChart } from 'yarcl';
+
 <BarChart
     title={'Population of largest Turkey cities (in millions)'}
     subtitle={'according to 2015 estimates'}
@@ -55,6 +57,8 @@ Bar chart has these attributes:
 ## Area Chart
 Example:
 ```javascript
+import { AreaChart } from 'yarcl';
+
 <AreaChart
     title="Population of countries by years (in millions)"
     subtitle="in 1950, 1965, 1980, 1995 and 2010"
@@ -87,6 +91,8 @@ Area chart has these attributes:
 ## Stacked Area Chart
 Example:
 ```javascript
+import { StackedAreaChart } from 'yarcl';
+
 <StackedAreaChart
     title="Population of countries by years (in millions)"
     subtitle="in 1950, 1965, 1980, 1995 and 2010"
@@ -119,6 +125,8 @@ Stacked area chart has these attributes:
 ## Line Chart
 Example:
 ```javascript
+import { LineChart } from 'yarcl';
+
 <LineChart
     title={{text: 'Population of countries by years (in millions)'}}
     subtitle={{text: 'in 1950, 1965, 1980, 1995 and 2010'}}
@@ -167,6 +175,8 @@ Line chart has these attributes:
 ## Pie Chart
 Example:
 ```javascript
+import { PieChart } from 'yarcl';
+
 <PieChart
     title={'Spread of population in top 5 districts in Kayseri '}
     data={[
@@ -200,7 +210,9 @@ Pie chart has these attributes
 ## Heatmap Chart
 Example:
 ```javascript
-< HeatmapChart
+import { HeatmapChart } from 'yarcl';
+
+<HeatmapChart
     title={{text:'Sales per employee per weekday'}}
     xAxis={{categories:['Alexander', 'Marie', 'Maximilian', 'Sophia', 'Lukas', 'Maria', 'Leon', 'Anna', 'Tim', 'Laura']}}
     yAxis={{categories:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']}}
@@ -263,6 +275,7 @@ HeatMap chart has these attributes
 ## BubbleChart Chart
 Example:
 ```javascript
+import { BubbleChart } from 'yarcl';
 
 <BubbleChart
     title={{text: 'Sugar and fat intake per country'}}
