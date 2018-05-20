@@ -1,17 +1,31 @@
 
 # yarcl
-Yet another react chart library.
-
-
-# Development
-
-To build yarcl, you need to install required dependencies by executing `npm i` in command line.
-
-Then you can build yarcl by executing `npm start` , library bundle will be in the folder `lib` .
-
-To run tests, just execute `npm test` .
+Yet another react chart library. It's 16KB in size (gzipped)!
 
 # Usage
+
+To use yarcl, you must have a project using react. You can find the library bundle and the default stylesheet file under `lib` folder.
+
+```cmd
+npm i yarcl
+```
+
+To use in your project:
+
+```javascript
+import './node_modules/yarcl/lib/style.css';
+import { LineChart } from 'yarcl';
+```
+
+Or you can use <script> tags:
+
+```html
+<link rel="stylesheet" href="./node_modules/yarcl/lib/style.css">
+<script src="./node_modules/yarcl/lib/yarcl.umd.min.js"></script>
+<script>
+    const LineChart = yarcl.LineChart;
+</script>
+```
 
 # Charts
 ## Bar Chart
@@ -393,3 +407,11 @@ BubbleChart chart has these attributes
             enabled: Boolean value if data values be wanted to be shown on the data cells.
 
             color: Color of data values if enabled.
+
+# Development
+
+To build yarcl, you need to install required dependencies by executing `npm i` in command line.
+
+Then you can build yarcl by executing `npm start` , library bundle will be in the folder `lib` .
+
+To run tests, just execute `npm test` .
