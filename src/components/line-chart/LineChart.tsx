@@ -1,6 +1,8 @@
-import * as React from 'react';
 import './LineChart.scss';
 import '../common.scss';
+
+import * as React from 'react';
+import * as ReactTooltip from 'react-tooltip';
 import { getColorGenerator } from '../../utils/colors';
 
 function bigOne(series: Data[]) {
@@ -355,7 +357,7 @@ export interface Data {
     data: number[];
 }
 
-export interface LineChartData {
+export interface LineChartProps {
     title?: Title;
     subtitle?: Subtitle;
     yAxis?: YAxis;
@@ -365,34 +367,57 @@ export interface LineChartData {
     series: Data[];
 }
 
-export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, series}: LineChartData) => (
-    <svg width={width} height={height}>
-        <rect fill="white" key="1" width={width} height={height}/>
+export interface LineChartState {
+    hoverId: number;
+}
 
-        {drawHorizontalLines((width || 900), (height || 600))}
-        {yAxisInfos((width || 900), (height || 600), series)}
+export class LineChart extends React.Component<LineChartProps, LineChartState> {
+    render() {
+        const title = this.props.title;
+        const subtitle = this.props.subtitle;
+        const yAxis = this.props.yAxis;
+        const plotOptions = this.props.plotOptions;
+        const width = this.props.width;
+        const height = this.props.height;
+        const series = this.props.series;
 
-        {xAxisDatas(series, (width || 900), (height || 600), (plotOptions != null) ? plotOptions.pointStart : 0)}
-
-        <text className="chart-title" key="2" textAnchor="middle" x={(width || 900) / 2} y="30">
-            {(title != null) ? title.text : ''}
-        </text>
-        <text className="chart-subtitle" key="3" textAnchor="middle" x={(width || 900) / 2} y="60">
-            {(subtitle != null) ? subtitle.text : ''}
-        </text>
-        <text 
-            className="chart-label"
-            key="4"
-            textAnchor="middle" 
-            x="30" 
-            y={(height || 600) / 2} 
-            fill="gray" 
-            transform={'rotate(-90 30,' + ( (height || 600) / 2 ) + ' )'}
-        >
-            {(yAxis != null) ? yAxis.title.text : ''}
-        </text>
-        {drawDataLines((width || 900), (height || 600), series)}
-        {drawPoint((width || 900), (height || 600), series)}
-        {placeNames((width || 900), (height || 600), series)}
-    </svg>
-);
+        return (
+            <>
+                <svg width={width} height={height}>
+                    <rect fill="white" key="1" width={width} height={height}/>
+        
+                    {drawHorizontalLines((width || 900), (height || 600))}
+                    {yAxisInfos((width || 900), (height || 600), series)}
+            
+                    {xAxisDatas(
+                        series, 
+                        (width || 900), 
+                        (height || 600), 
+                        (plotOptions != null
+                        ) ? plotOptions.pointStart : 0)}
+        
+                    <text className="chart-title" key="2" textAnchor="middle" x={(width || 900) / 2} y="30">
+                        {(title != null) ? title.text : ''}
+                    </text>
+                    <text className="chart-subtitle" key="3" textAnchor="middle" x={(width || 900) / 2} y="60">
+                        {(subtitle != null) ? subtitle.text : ''}
+                    </text>
+                    <text 
+                        className="chart-label"
+                        key="4"
+                        textAnchor="middle" 
+                        x="30" 
+                        y={(height || 600) / 2} 
+                        fill="gray" 
+                        transform={'rotate(-90 30,' + ( (height || 600) / 2 ) + ' )'}
+                    >
+                        {(yAxis != null) ? yAxis.title.text : ''}
+                    </text>
+                    {drawDataLines((width || 900), (height || 600), series)}
+                    {drawPoint((width || 900), (height || 600), series)}
+                    {placeNames((width || 900), (height || 600), series)}
+                </svg>
+            </>
+        );
+    }
+}
