@@ -17,7 +17,7 @@ export interface Series {
     color?: string;
 }
 
-export interface AreaChartState {
+export interface StackedAreaChartState {
     hoverId: number;
 }
 
@@ -161,7 +161,7 @@ function maxLengthOfAllArrays(series: Series[]): number {
     return Math.max(...(series.map((serie) => serie.data.length)));
 }
 
-export class StackedAreaChart extends React.Component<StackedAreaChartProps, AreaChartState> {
+export class StackedAreaChart extends React.Component<StackedAreaChartProps, StackedAreaChartState> {
     state = {
         hoverId: 0
     };
@@ -212,7 +212,7 @@ export class StackedAreaChart extends React.Component<StackedAreaChartProps, Are
                 <svg 
                     viewBox={`0 0 ${chartX + marX + 100} ${chartY + marY + 50}`} 
                     data-tip="" 
-                    data-for="area-chart-tooltip"
+                    data-for="stacked-area-chart-tooltip"
                 >
                     <rect width="100%" height="100%" fill="white"/>
                     {/*Polygon*/}
@@ -284,7 +284,7 @@ export class StackedAreaChart extends React.Component<StackedAreaChartProps, Are
                     place="top"
                     type="light"
                     effect="float"
-                    id="area-chart-tooltip"
+                    id="stacked-area-chart-tooltip"
                     className="chart-tooltip"
                 >
                     {hoverId !== -1 ? (
