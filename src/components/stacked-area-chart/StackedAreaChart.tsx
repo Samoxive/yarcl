@@ -290,9 +290,8 @@ export class StackedAreaChart extends React.Component<StackedAreaChartProps, Sta
                     {hoverId !== -1 ? (
                         <div>
                             {series.map((num, i) =>
-                            <div key={i}>{series[i].label + ': ' + series[i].data[hoverId]}</div>
-                            )
-                            }
+                                <div key={i}>{series[i].label + ': ' + series[i].data[hoverId]}</div>
+                            )}
                         </div>
                     ) : null}
                 </ReactTooltip>
