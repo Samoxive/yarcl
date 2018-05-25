@@ -50,7 +50,7 @@ import { BarChartVertical } from 'yarcl';
 ```
 
 ![](static/bar_chart.png)
-![](static/bar_chart_vertical.jpg)
+![](static/bar_chart_vertical.png)
 
 Bar chart has these attributes:
 
@@ -120,7 +120,7 @@ import { StackedAreaChart } from 'yarcl';
 />
 ```
 
-![](static/stacked_area_chart.jpg)
+![](static/stacked_area_chart.png)
 
 Stacked area chart has these attributes:
 
