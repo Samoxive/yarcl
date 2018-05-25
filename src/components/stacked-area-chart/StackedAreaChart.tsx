@@ -2,6 +2,7 @@ import * as React from 'react';
 import '../../components/area-chart/AreaChart.scss';
 import '../common.scss';
 import { getColorGenerator } from '../../utils/colors';
+import * as ReactTooltip from 'react-tooltip';
 
 export interface StackedAreaChartProps {
     title?: string;
@@ -14,6 +15,10 @@ export interface Series {
     label?: string;
     data: number[];
     color?: string;
+}
+
+export interface AreaChartState {
+    hoverId: number;
 }
 
 const marX = 50;
@@ -156,88 +161,126 @@ function maxLengthOfAllArrays(series: Series[]): number {
     return Math.max(...(series.map((serie) => serie.data.length)));
 }
 
-export const StackedAreaChart = ({title, subtitle, series, scale, scaleLabel}: StackedAreaChartProps) => {
-    stacker(series);
-    const colorGenerator = getColorGenerator();
-    let biggest = biggestNum(series);
-    let maxLen = maxLengthOfAllArrays(series);
-    let colors = series.map((datum) => datum.color ? datum.color : colorGenerator());
-    let polyPoints = polygonStackPoints(series);
+export class StackedAreaChart extends React.Component<StackedAreaChartProps, AreaChartState> {
+    state = {
+        hoverId: 0,
+    };
 
-    return (
-        <div className="yarcl-chart stacked-area-chart">
-            {/*Title*/}
-            <div className="chart-title">
-                {title}
-            </div>
-            <div className="chart-subtitle">
-                {subtitle}
-            </div>
-            <svg viewBox={`0 0 ${chartX + marX + 100} ${chartY + marY + 50}`}>
-                <rect width="100%" height="100%" fill="white"/>
-                {/*Polygon*/}
-                {
-                    polyPoints.map((num, i ) =>
-                        <polygon
-                            key={i}
-                            points={num}
-                            fill={series[i].color || colors[i]}
-                            stroke="white"
-                            strokeWidth="1"
-                            opacity="1"
-                        />
-                    )   
-                }
+    render() {
+        let {series, title, subtitle, scale, scaleLabel} = this.props;
+        const {hoverId} = this.state;
+        stacker(series);
+        const colorGenerator = getColorGenerator();
+        let biggest = biggestNum(series);
+        let maxLen = maxLengthOfAllArrays(series);
+        let colors = series.map((datum) => datum.color ? datum.color : colorGenerator());
+        let polyPoints = polygonStackPoints(series);
+
+        return (
+            <div className="yarcl-chart stacked-area-chart">
+                {/*Title*/}
+                <div className="chart-title">
+                    {title}
+                </div>
+                <div className="chart-subtitle">
+                    {subtitle}
+                </div>
+                <svg 
+                    viewBox={`0 0 ${chartX + marX + 100} ${chartY + marY + 50}`} 
+                >
+                    <rect width="100%" height="100%" fill="white"/>
+                    {/*Polygon*/}
                     {
-                    scaleYAxis(scale, biggest)
+                        polyPoints.map((num, i) =>
+                            <polygon
+                                key={i}
+                                points={num}
+                                fill={series[i].color || colors[i]}
+                                stroke="white"
+                                strokeWidth="1"
+                                opacity="1"
+                            />
+                        )   
                     }
-                {/*Y axis*/}
-                <line 
-                    x1={marX}
-                    x2={marX} 
-                    y1={marY} 
-                    y2={marY + chartY}
-                    stroke="black"
-                    strokeWidth="4" 
-                />
-                {/*X axis*/}
-                <line 
-                    x1={marX - 2} 
-                    x2={marX + chartX - 0.5}
-                    y1={marY + chartY}
-                    y2={marY + chartY}
-                    stroke="black"
-                    strokeWidth="4" 
-                />
-                {/*Scale of X axis*/}
-                    {
-                        scaleXAxis(scale, maxLen, scaleLabel)
+                        {
+                        scaleYAxis(scale, biggest)
+                        }
+                    {/*Y axis*/}
+                    <line 
+                        x1={marX}
+                        x2={marX} 
+                        y1={marY} 
+                        y2={marY + chartY}
+                        stroke="black"
+                        strokeWidth="4" 
+                    />
+                    {/*X axis*/}
+                    <line 
+                        x1={marX - 2} 
+                        x2={marX + chartX - 0.5}
+                        y1={marY + chartY}
+                        y2={marY + chartY}
+                        stroke="black"
+                        strokeWidth="4" 
+                    />
+                    {/*Scale of X axis*/}
+                        {
+                            scaleXAxis(scale, maxLen, scaleLabel)
+                        }
+                    {/*Legend*/}
+                    {series.map((num, i) =>
+                            <circle
+                                key={i}
+                                cx={marX + chartX + 20}
+                                cy={marY + chartY + (i * - 20)}
+                                r={5}
+                                fill={series[i].color || colors[i]}
+                                opacity="1"
+                            />
+                        )
                     }
-                {/*Legend*/}
-                {series.map((num, i) =>
-                        <circle
-                            key={i}
-                            cx={marX + chartX + 20}
-                            cy={marY + chartY + (i * - 20)}
-                            r={5}
-                            fill={series[i].color || colors[i]}
-                            opacity="1"
-                        />
-                    )
-                }
-                {series.map((num, i) =>
-                        <text
-                            key={i}
-                            x={marX + chartX + 30}
-                            y={marY + 5 + chartY + (i * - 20)}
-                            // fill={series[i].color || colors[i]}
-                            className="chart-label"
-                        >
-                        {series[i].label}
-                        </text>
-                    )
-                }
-            </svg>  
-        </div>
-    );
-};
+                    {series.map((num, i) =>
+                            <text
+                                key={i}
+                                x={marX + chartX + 30}
+                                y={marY + 5 + chartY + (i * - 20)}
+                                // fill={series[i].color || colors[i]}
+                                className="chart-label"
+                            >
+                            {series[i].label}
+                            </text>
+                        )
+                    }
+                    {series.map((num, i) =>
+                            <rect
+                                key={i}
+                                x={((chartX - 4) * (i) / maxLen) + marX}
+                                width={((chartX - 4) * (i + 1) / maxLen) + marX}
+                                y={marY}
+                                height={marY + chartY}
+                                opacity="0"
+                                onMouseEnter={() => this.setState({hoverId: i})}
+                                onMouseLeave={() => this.setState({hoverId: -1})}
+                            />
+                        )
+                    }
+                </svg>
+                
+                <ReactTooltip
+                    place="top"
+                    type="light"
+                    effect="float"
+                    id="area-chart-tooltip"
+                    className="chart-tooltip"
+                >
+                    {hoverId !== -1 ? (
+                        <div>
+                            <div>{hoverId}</div>
+                        </div>
+                    ) : null}
+                </ReactTooltip>
+            </div>
+
+        );
+    }
+}
