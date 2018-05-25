@@ -12,7 +12,7 @@ export interface StackedAreaChartProps {
     scaleLabel?: string[];
 }
 export interface Series {
-    label?: string;
+    label: string;
     data: number[];
     color?: string;
 }
@@ -163,18 +163,42 @@ function maxLengthOfAllArrays(series: Series[]): number {
 
 export class StackedAreaChart extends React.Component<StackedAreaChartProps, AreaChartState> {
     state = {
-        hoverId: 0,
+        hoverId: 0
     };
 
+    copy(series: Series[]): Series[] {
+        return JSON.parse(JSON.stringify(series));
+    }
+
+    drawRects(maxLen: number) {
+        let texts = [];
+        for (let i = 0; i < maxLen; i++) {
+            texts.push(
+                <rect
+                    key={i}
+                    x={((chartX - 4) * (i) / (maxLen)) + marX}
+                    width={((chartX - 4) * (i + 1) / (maxLen)) - (((chartX - 4) * (i) / (maxLen)))}
+                    y={marY}
+                    height={marY + chartY}
+                    opacity="0"
+                    onMouseEnter={() => this.setState({hoverId: i})}
+                    onMouseLeave={() => this.setState({hoverId: -1})}
+                />
+            );
+        }
+        return texts;
+    }
+    
     render() {
         let {series, title, subtitle, scale, scaleLabel} = this.props;
+        let stackSeries = this.copy(series);
         const {hoverId} = this.state;
-        stacker(series);
+        stacker(stackSeries);
         const colorGenerator = getColorGenerator();
-        let biggest = biggestNum(series);
-        let maxLen = maxLengthOfAllArrays(series);
-        let colors = series.map((datum) => datum.color ? datum.color : colorGenerator());
-        let polyPoints = polygonStackPoints(series);
+        let biggest = biggestNum(stackSeries);
+        const maxLen = maxLengthOfAllArrays(stackSeries);
+        let colors = stackSeries.map((datum) => datum.color ? datum.color : colorGenerator());
+        let polyPoints = polygonStackPoints(stackSeries);
 
         return (
             <div className="yarcl-chart stacked-area-chart">
@@ -187,6 +211,8 @@ export class StackedAreaChart extends React.Component<StackedAreaChartProps, Are
                 </div>
                 <svg 
                     viewBox={`0 0 ${chartX + marX + 100} ${chartY + marY + 50}`} 
+                    data-tip="" 
+                    data-for="area-chart-tooltip"
                 >
                     <rect width="100%" height="100%" fill="white"/>
                     {/*Polygon*/}
@@ -195,7 +221,7 @@ export class StackedAreaChart extends React.Component<StackedAreaChartProps, Are
                             <polygon
                                 key={i}
                                 points={num}
-                                fill={series[i].color || colors[i]}
+                                fill={stackSeries[i].color || colors[i]}
                                 stroke="white"
                                 strokeWidth="1"
                                 opacity="1"
@@ -228,18 +254,18 @@ export class StackedAreaChart extends React.Component<StackedAreaChartProps, Are
                             scaleXAxis(scale, maxLen, scaleLabel)
                         }
                     {/*Legend*/}
-                    {series.map((num, i) =>
+                    {stackSeries.map((num, i) =>
                             <circle
                                 key={i}
                                 cx={marX + chartX + 20}
                                 cy={marY + chartY + (i * - 20)}
                                 r={5}
-                                fill={series[i].color || colors[i]}
+                                fill={stackSeries[i].color || colors[i]}
                                 opacity="1"
                             />
                         )
                     }
-                    {series.map((num, i) =>
+                    {stackSeries.map((num, i) =>
                             <text
                                 key={i}
                                 x={marX + chartX + 30}
@@ -247,23 +273,11 @@ export class StackedAreaChart extends React.Component<StackedAreaChartProps, Are
                                 // fill={series[i].color || colors[i]}
                                 className="chart-label"
                             >
-                            {series[i].label}
+                            {stackSeries[i].label}
                             </text>
                         )
                     }
-                    {series.map((num, i) =>
-                            <rect
-                                key={i}
-                                x={((chartX - 4) * (i) / maxLen) + marX}
-                                width={((chartX - 4) * (i + 1) / maxLen) + marX}
-                                y={marY}
-                                height={marY + chartY}
-                                opacity="0"
-                                onMouseEnter={() => this.setState({hoverId: i})}
-                                onMouseLeave={() => this.setState({hoverId: -1})}
-                            />
-                        )
-                    }
+                    {this.drawRects(maxLen)}
                 </svg>
                 
                 <ReactTooltip
@@ -275,7 +289,10 @@ export class StackedAreaChart extends React.Component<StackedAreaChartProps, Are
                 >
                     {hoverId !== -1 ? (
                         <div>
-                            <div>{hoverId}</div>
+                            {series.map((num, i) =>
+                            <div key={i}>{series[i].label + ': ' + series[i].data[hoverId]}</div>
+                            )
+                            }
                         </div>
                     ) : null}
                 </ReactTooltip>
