@@ -32,8 +32,16 @@ Or you can use <script> tags:
 Example:
 ```javascript
 import { BarChart } from 'yarcl';
+import { BarChartVertical } from 'yarcl';
 
 <BarChart
+    title={'Population of largest Turkey cities (in millions)'}
+    subtitle={'according to 2015 estimates'}
+    label={['İstanbul', 'Ankara', 'İzmir', 'Bursa', 'Adana']}
+    data={[14000000, 4700000, 2800000, 1900000, 1600000]}
+/>
+
+<BarChartVertical
     title={'Population of largest Turkey cities (in millions)'}
     subtitle={'according to 2015 estimates'}
     label={['İstanbul', 'Ankara', 'İzmir', 'Bursa', 'Adana']}
@@ -42,6 +50,7 @@ import { BarChart } from 'yarcl';
 ```
 
 ![](static/bar_chart.png)
+![](static/bar_chart_vertical.jpg)
 
 Bar chart has these attributes:
 
@@ -111,7 +120,7 @@ import { StackedAreaChart } from 'yarcl';
 />
 ```
 
-![](static/stacked_area_chart.png)
+![](static/stacked_area_chart.jpg)
 
 Stacked area chart has these attributes:
 
