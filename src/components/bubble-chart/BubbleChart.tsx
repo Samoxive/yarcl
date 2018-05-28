@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactTooltip from 'react-tooltip';
 // import './BubbleChart.scss';
 import '../common.scss';
 
@@ -42,13 +43,14 @@ export interface Data {
     shortName: string;
     fullName?: string;
 }
-export interface BubbleChartData {
+export interface BubbleCharProps {
     title?: Title;
     subtitle?: Subtitle;
     xAxis: XAxis;
     yAxis: YAxis;
     width?: number;
     height?: number;
+    zName?: string;
     series: Data[];
 }
 
@@ -145,7 +147,7 @@ function DrawBackgroundLines(x1: number, y1: number, wx: number, wh: number, x2:
     );
 }
 
-function PutCircles(x1: number, y1: number, x2: number, y2: number, s: Data[]) {
+function PutCircles(x1: number, y1: number, x2: number, y2: number, s: Data[], b: BubbleChart) {
     const bigX = BigX(s);
     const smallX = SmallX(s);
     const bigY = BigY(s);
@@ -158,9 +160,11 @@ function PutCircles(x1: number, y1: number, x2: number, y2: number, s: Data[]) {
             <circle
                 cx={Map(s[index].x, smallX, bigX, x1, x2)} 
                 cy={Map(s[index].y, smallY, bigY, y2, y1)}
-                r={Map(Math.pow(s[index].z, 2), Math.sqrt(smallZ), Math.sqrt(bigZ), 3, 40)}
+                r={Map(Math.sqrt(s[index].z), Math.sqrt(smallZ), Math.sqrt(bigZ), 3, 40)}
                 stroke="rgba(255,0,0,0.8)"
                 fill="rgba(255,0,0,0.5)"
+                onMouseEnter={() => b.setState({hoverId: index})}
+                onMouseLeave={() => b.setState({hoverId: -1})}
             />
         ))
     );
@@ -291,68 +295,113 @@ function DrawGridLines(x1: number, y1: number, x2: number, y2: number, xAxis: XA
     );
 }
 
-export const BubbleChart = ({title, subtitle, xAxis, yAxis, width, height, series}: BubbleChartData) => (
-<svg width={width} height={height}>
-    <rect  
-        key="1" 
-        width={width} 
-        height={height}
-        fill="white"
-    />
-    <rect  
-        key="2" 
-        x="100" 
-        y="100" 
-        width={(width || 900) - 150} 
-        height={(height || 600) - 150} 
-        stroke="black" 
-        fill="white" 
-        opacity="0.3"
-    />
-            
-    {
-        DrawBackgroundLines(
-            100, 
-            100, 
-            (xAxis.gridLineWidth || 1),
-            (yAxis.gridLineWidth || 1), 
-            (width || 900) - 50, 
-            (height || 600) - 50
-        )
-    }
-    {PutCircles(100, 100, (width || 900) - 50, (height || 600) - 50, series)}
-    {PutYAxisInfos(100, 100, (height || 600) - 50, yAxis, series)}
-    {PutXAxisInfos(100, (width || 900) - 50, (height || 600) - 50, xAxis, series)}
-            
-    {DrawGridLines(100, 100, (width || 900) - 50, (height || 600) - 50, xAxis, yAxis, series)}
-            
-   <text className="chart-title" key="3" textAnchor="middle" x={(width || 900) / 2} y="30">
-        {(title != null) ? title.text : ''}
-    </text>
-    <text className="chart-subtitle" key="4" textAnchor="middle" x={(width || 900) / 2} y="60">
-        {(subtitle != null) ? subtitle.text : ''}
-    </text>
-    <text // Y Name
-        className="chart-label"
-        key="5"
-        textAnchor="middle" 
-        x="30" 
-        y={(height || 600) / 2} 
-        fill="gray" 
-        transform={'rotate(-90 30,' + ( (height || 600) / 2 ) + ' )'}
-    >
-        {(yAxis.title != null) ? yAxis.title.text : ''}
-    </text>
-    <text // X Name
-        className="chart-label"
-        key="6"
-        textAnchor="middle" 
-        x={(width || 900) / 2} 
-        y={(height || 600) - 10} 
-        fill="gray" 
-    >
-        {(xAxis.title != null) ? xAxis.title.text : ''}
-    </text>
-    {PutDataShortNames(100, 100, (width || 900) - 50, (height || 600) - 50, series)}
- </svg>
-);
+export interface BubbleChartState {
+    hoverId: number;
+}
+
+export class BubbleChart extends React.Component<BubbleCharProps, BubbleChartState> {
+    state = {
+        hoverId: 0,
+        hovering: false,
+    };
+    render() {
+        const width = this.props.width;
+        const height = this.props.height;
+        const xAxis = this.props.xAxis;
+        const yAxis = this.props.yAxis;
+        const series = this.props.series;
+        const title = this.props.title;
+        const zName = this.props.zName;
+        const subtitle = this.props.subtitle;
+        const {hoverId} = this.state;
+        return(
+            <>
+                <svg 
+                    width={width} 
+                    height={height} 
+                    viewBox={`0 0 ${width} ${height}`} 
+                    data-tip="" 
+                    data-for="bubble-chart-tooltip"
+                >
+                <rect  
+                    key="1" 
+                    width={width} 
+                    height={height}
+                    fill="white"
+                />
+                <rect  
+                    key="2" 
+                    x="100" 
+                    y="100" 
+                    width={(width || 900) - 150} 
+                    height={(height || 600) - 150} 
+                    stroke="black" 
+                    fill="white" 
+                    opacity="0.3"
+                />
+                    
+                {
+                    DrawBackgroundLines(
+                        100, 
+                        100, 
+                        (xAxis.gridLineWidth || 1),
+                        (yAxis.gridLineWidth || 1), 
+                        (width || 900) - 50, 
+                        (height || 600) - 50
+                    )
+                }
+                {PutYAxisInfos(100, 100, (height || 600) - 50, yAxis, series)}
+                {PutXAxisInfos(100, (width || 900) - 50, (height || 600) - 50, xAxis, series)}
+                    
+                {DrawGridLines(100, 100, (width || 900) - 50, (height || 600) - 50, xAxis, yAxis, series)}
+                {PutDataShortNames(100, 100, (width || 900) - 50, (height || 600) - 50, series)}
+                {PutCircles(100, 100, (width || 900) - 50, (height || 600) - 50, series, this)}
+                    
+                <text className="chart-title" key="3" textAnchor="middle" x={(width || 900) / 2} y="30">
+                    {(title != null) ? title.text : ''}
+                </text>
+                <text className="chart-subtitle" key="4" textAnchor="middle" x={(width || 900) / 2} y="60">
+                    {(subtitle != null) ? subtitle.text : ''}
+                </text>
+                <text // Y Name
+                    className="chart-label"
+                    key="5"
+                    textAnchor="middle" 
+                    x="30" 
+                    y={(height || 600) / 2} 
+                    fill="gray" 
+                    transform={'rotate(-90 30,' + ( (height || 600) / 2 ) + ' )'}
+                >
+                    {(yAxis.title != null) ? yAxis.title.text : ''}
+                </text>
+                <text // X Name
+                    className="chart-label"
+                    key="6"
+                    textAnchor="middle" 
+                    x={(width || 900) / 2} 
+                    y={(height || 600) - 10} 
+                    fill="gray" 
+                >
+                    {(xAxis.title != null) ? xAxis.title.text : ''}
+                </text>
+                </svg>
+                <ReactTooltip
+                    place="top"
+                    type="light"
+                    effect="float"
+                    id="bubble-chart-tooltip"
+                    className="chart-tooltip"
+                >
+                    {hoverId !== -1 ? (
+                        <div>
+                            <div>{series[hoverId].fullName}</div>
+                            <div>{(yAxis.title ? yAxis.title.text : ' Y Value') + ' : ' + series[hoverId].y}</div>
+                            <div>{(xAxis.title ? xAxis.title.text : ' X Value') + ' : ' + series[hoverId].x}</div>
+                            <div>{(zName || 'Z Value') + ' : ' + series[hoverId].x}</div>
+                        </div>
+                    ) : null}
+                </ReactTooltip>
+            </>
+        );
+   }
+}
