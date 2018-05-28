@@ -158,7 +158,7 @@ function PutCircles(x1: number, y1: number, x2: number, y2: number, s: Data[]) {
             <circle
                 cx={Map(s[index].x, smallX, bigX, x1, x2)} 
                 cy={Map(s[index].y, smallY, bigY, y2, y1)}
-                r={Map(Math.pow(s[index].z, 2), Math.sqrt(smallZ), Math.sqrt(bigZ), 3, 40)}
+                r={Map(Math.sqrt(s[index].z), Math.sqrt(smallZ), Math.sqrt(bigZ), 3, 40)}
                 stroke="rgba(255,0,0,0.8)"
                 fill="rgba(255,0,0,0.5)"
             />

@@ -1,6 +1,8 @@
-import * as React from 'react';
 import './LineChart.scss';
 import '../common.scss';
+
+import * as React from 'react';
+import * as ReactTooltip from 'react-tooltip';
 import { getColorGenerator } from '../../utils/colors';
 
 function bigOne(series: Data[]) {
@@ -142,7 +144,7 @@ function xAxisDatas(s: Data[], w: number, h: number, p: number) {
     ));
 }
 
-function triangle (w: number, h: number, i: number, j: number , d: Data[]) {
+function triangle (w: number, h: number, i: number, j: number , d: Data[], l: LineChart) {
     const c = getMaxDataCount(d);
     const b = bigOne(d);
     const x = 105 + j * ( w - 300 ) / ( c - 1 );
@@ -167,11 +169,13 @@ function triangle (w: number, h: number, i: number, j: number , d: Data[]) {
                 ''} 
             fill={colors[i]} 
             stroke-width={1}
+            onMouseEnter={() => l.setState({hoverId1: i, hoverId2: j})}
+            onMouseLeave={() => l.setState({hoverId1: -1})}
         />
     ) ;
 }
 
-function star(w: number, h: number, i: number, j: number , d: Data[]) {
+function star(w: number, h: number, i: number, j: number , d: Data[], l: LineChart) {
     const c = getMaxDataCount(d);
     const b = bigOne(d);
     const x = 105 + j * ( w - 300 ) / ( c - 1 );
@@ -204,12 +208,14 @@ function star(w: number, h: number, i: number, j: number , d: Data[]) {
         ''} 
         fill={colors[i]} 
         stroke-width={1}
+        onMouseEnter={() => l.setState({hoverId1: i, hoverId2: j})}
+        onMouseLeave={() => l.setState({hoverId1: -1})}
     />
     );
 
 }
 
-function pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
+function pentagon(w: number, h: number, i: number, j: number , d: Data[], l: LineChart) {
     const c = getMaxDataCount(d);
     const b = bigOne(d);
     const x = 105 + j * ( w - 300 ) / ( c - 1 );
@@ -242,6 +248,8 @@ function pentagon(w: number, h: number, i: number, j: number , d: Data[]) {
         ''}
         fill={colors[i]} 
         stroke-width={1}
+        onMouseEnter={() => l.setState({hoverId1: i, hoverId2: j})}
+        onMouseLeave={() => l.setState({hoverId1: -1})}
     />
     ); 
 }
@@ -297,7 +305,7 @@ function drawDataLines(w: number, h: number, d: Data[]) {
     ));
 }
 
-function drawPoint(w: number, h: number, d: Data[]) {
+function drawPoint(w: number, h: number, d: Data[], l: LineChart) {
     const c = getMaxDataCount(d);
     const b = bigOne(d);
     let colorGenerator = getColorGenerator();
@@ -312,6 +320,8 @@ function drawPoint(w: number, h: number, d: Data[]) {
                 r={5} 
                 fill={colors[i]} 
                 stroke-width={1}
+                onMouseEnter={() => l.setState({hoverId1: i, hoverId2: j})}
+                onMouseLeave={() => l.setState({hoverId1: -1})}
             /> 
             ) :
             (i % 5 === 1) ? (
@@ -323,14 +333,16 @@ function drawPoint(w: number, h: number, d: Data[]) {
                 height={10} 
                 fill={colors[i]} 
                 stroke-width={1}
+                onMouseEnter={() => l.setState({hoverId1: i, hoverId2: j})}
+                onMouseLeave={() => l.setState({hoverId1: -1})}
             />
             ) :
             (i % 5 === 2) ? 
-            triangle(w, h, i, j, d) :
+            triangle(w, h, i, j, d, l) :
             (i % 5 === 3) ? 
-            star(w, h, i, j, d) :
+            star(w, h, i, j, d, l) :
             (i % 5 === 4) ?
-            pentagon(w, h, i, j, d) : null
+            pentagon(w, h, i, j, d, l) : null
         ))
     ));
 }
@@ -355,7 +367,7 @@ export interface Data {
     data: number[];
 }
 
-export interface LineChartData {
+export interface LineChartProps {
     title?: Title;
     subtitle?: Subtitle;
     yAxis?: YAxis;
@@ -365,34 +377,86 @@ export interface LineChartData {
     series: Data[];
 }
 
-export const LineChart = ({title, subtitle, yAxis, plotOptions, width, height, series}: LineChartData) => (
-    <svg width={width} height={height}>
-        <rect fill="white" key="1" width={width} height={height}/>
+export interface LineChartState {
+    hoverId1: number;
+    hoverId2: number;
+}
 
-        {drawHorizontalLines((width || 900), (height || 600))}
-        {yAxisInfos((width || 900), (height || 600), series)}
+export class LineChart extends React.Component<LineChartProps, LineChartState> {
 
-        {xAxisDatas(series, (width || 900), (height || 600), (plotOptions != null) ? plotOptions.pointStart : 0)}
+    state = {
+        hoverId1: -1,
+        hoverId2: 0,
+        hovering: false,
+    };
 
-        <text className="chart-title" key="2" textAnchor="middle" x={(width || 900) / 2} y="30">
-            {(title != null) ? title.text : ''}
-        </text>
-        <text className="chart-subtitle" key="3" textAnchor="middle" x={(width || 900) / 2} y="60">
-            {(subtitle != null) ? subtitle.text : ''}
-        </text>
-        <text 
-            className="chart-label"
-            key="4"
-            textAnchor="middle" 
-            x="30" 
-            y={(height || 600) / 2} 
-            fill="gray" 
-            transform={'rotate(-90 30,' + ( (height || 600) / 2 ) + ' )'}
-        >
-            {(yAxis != null) ? yAxis.title.text : ''}
-        </text>
-        {drawDataLines((width || 900), (height || 600), series)}
-        {drawPoint((width || 900), (height || 600), series)}
-        {placeNames((width || 900), (height || 600), series)}
-    </svg>
-);
+    render() {
+        const title = this.props.title;
+        const subtitle = this.props.subtitle;
+        const yAxis = this.props.yAxis;
+        const plotOptions = this.props.plotOptions;
+        const width = this.props.width;
+        const height = this.props.height;
+        const series = this.props.series;
+        const {hoverId1, hoverId2} = this.state;
+        
+        return (
+            <div>
+                <svg 
+                    width={width} 
+                    height={height} 
+                    viewBox={`0 0 ${width} ${height}`} 
+                    data-tip="" 
+                    data-for="line-chart-tooltip"
+                >
+                    <rect fill="white" key="1" width={width} height={height}/>
+        
+                    {drawHorizontalLines((width || 900), (height || 600))}
+                    {yAxisInfos((width || 900), (height || 600), series)}
+            
+                    {xAxisDatas(
+                        series, 
+                        (width || 900), 
+                        (height || 600), 
+                        (plotOptions != null
+                        ) ? plotOptions.pointStart : 0)}
+        
+                    <text className="chart-title" key="2" textAnchor="middle" x={(width || 900) / 2} y="30">
+                        {(title != null) ? title.text : ''}
+                    </text>
+                    <text className="chart-subtitle" key="3" textAnchor="middle" x={(width || 900) / 2} y="60">
+                        {(subtitle != null) ? subtitle.text : ''}
+                    </text>
+                    <text 
+                        className="chart-label"
+                        key="4"
+                        textAnchor="middle" 
+                        x="30" 
+                        y={(height || 600) / 2} 
+                        fill="gray" 
+                        transform={'rotate(-90 30,' + ( (height || 600) / 2 ) + ' )'}
+                    >
+                        {(yAxis != null) ? yAxis.title.text : ''}
+                    </text>
+                    {drawDataLines((width || 900), (height || 600), series)}
+                    {drawPoint((width || 900), (height || 600), series, this)}
+                    {placeNames((width || 900), (height || 600), series)}
+                </svg>
+                <ReactTooltip
+                    place="top"
+                    type="light"
+                    effect="float"
+                    id="line-chart-tooltip"
+                    className="chart-tooltip"
+                >
+                    {hoverId1 !== -1 ? (
+                        <div>
+                            <div>{series[hoverId1].name}</div>
+                            <div>{series[hoverId1].data[hoverId2]}</div>
+                        </div>
+                    ) : null}
+                </ReactTooltip>
+            </div>
+        );
+    }
+}
