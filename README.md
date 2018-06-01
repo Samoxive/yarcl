@@ -2,28 +2,56 @@
 # yarcl
 Yet another react chart library. It's 16KB in size (gzipped)!
 
-
-# Development
-
-To build yarcl, you need to install required dependencies by executing `npm i` in command line.
-
-Then you can build yarcl by executing `npm start` , library bundle will be in the folder `lib` .
-
-To run tests, just execute `npm test` .
-
 # Usage
+
+To use yarcl, you must have a project using react. You can find the library bundle and the default stylesheet file under `lib` folder.
+
+```cmd
+npm i yarcl
+```
+
+To use in your project:
+
+```javascript
+import './node_modules/yarcl/lib/style.css';
+import { LineChart } from 'yarcl';
+```
+
+Or you can use <script> tags:
+
+```html
+<link rel="stylesheet" href="./node_modules/yarcl/lib/style.css">
+<script src="./node_modules/yarcl/lib/yarcl.umd.min.js"></script>
+<script>
+    const LineChart = yarcl.LineChart;
+</script>
+```
 
 # Charts
 ## Bar Chart
 Example:
 ```javascript
+import { BarChart } from 'yarcl';
+import { BarChartVertical } from 'yarcl';
+
 <BarChart
     title={'Population of largest Turkey cities (in millions)'}
     subtitle={'according to 2015 estimates'}
     label={['İstanbul', 'Ankara', 'İzmir', 'Bursa', 'Adana']}
     data={[14000000, 4700000, 2800000, 1900000, 1600000]}
 />
+
+<BarChartVertical
+    title={'Population of largest Turkey cities (in millions)'}
+    subtitle={'according to 2015 estimates'}
+    label={['İstanbul', 'Ankara', 'İzmir', 'Bursa', 'Adana']}
+    data={[14000000, 4700000, 2800000, 1900000, 1600000]}
+/>
 ```
+
+![](static/bar_chart.png)
+![](static/bar_chart_vertical.png)
+
 Bar chart has these attributes:
 
     title (optional): The main title
@@ -41,6 +69,8 @@ Bar chart has these attributes:
 ## Area Chart
 Example:
 ```javascript
+import { AreaChart } from 'yarcl';
+
 <AreaChart
     title="Population of countries by years (in millions)"
     subtitle="in 1950, 1965, 1980, 1995 and 2010"
@@ -52,6 +82,9 @@ Example:
     ]}
 />
 ```
+
+![](static/area_chart.png)
+
 Area chart has these attributes:
 
     title (optional): The main title
@@ -73,6 +106,8 @@ Area chart has these attributes:
 ## Stacked Area Chart
 Example:
 ```javascript
+import { StackedAreaChart } from 'yarcl';
+
 <StackedAreaChart
     title="Population of countries by years (in millions)"
     subtitle="in 1950, 1965, 1980, 1995 and 2010"
@@ -84,6 +119,9 @@ Example:
     ]}
 />
 ```
+
+![](static/stacked_area_chart.png)
+
 Stacked area chart has these attributes:
 
     title (optional): The main title
@@ -105,6 +143,8 @@ Stacked area chart has these attributes:
 ## Line Chart
 Example:
 ```javascript
+import { LineChart } from 'yarcl';
+
 <LineChart
     title={{text: 'Population of countries by years (in millions)'}}
     subtitle={{text: 'in 1950, 1965, 1980, 1995 and 2010'}}
@@ -120,6 +160,9 @@ Example:
     ]}
 />
 ```
+
+![](static/line_chart.png)
+
 Line chart has these attributes:
 
     title (optional): This contains text.
@@ -153,6 +196,8 @@ Line chart has these attributes:
 ## Pie Chart
 Example:
 ```javascript
+import { PieChart } from 'yarcl';
+
 <PieChart
     title={'Spread of population in top 5 districts in Kayseri '}
     data={[
@@ -165,6 +210,10 @@ Example:
     options={{ showPercentage: true, isDonut: true, donutPercentage: 0.5 }}
 />
 ```
+
+![](static/pie_chart.png)
+![](static/donut_chart.png)
+
 Pie chart has these attributes
 
     title: String value for the chart's title
@@ -186,7 +235,9 @@ Pie chart has these attributes
 ## Heatmap Chart
 Example:
 ```javascript
-< HeatmapChart
+import { HeatmapChart } from 'yarcl';
+
+<HeatmapChart
     title={{text:'Sales per employee per weekday'}}
     xAxis={{categories:['Alexander', 'Marie', 'Maximilian', 'Sophia', 'Lukas', 'Maria', 'Leon', 'Anna', 'Tim', 'Laura']}}
     yAxis={{categories:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']}}
@@ -215,6 +266,9 @@ Example:
     }}
 />
 ```
+
+![](static/heatmap_chart.png)
+
 HeatMap chart has these attributes
 
     title: This contains text.
@@ -249,6 +303,7 @@ HeatMap chart has these attributes
 ## BubbleChart Chart
 Example:
 ```javascript
+import { BubbleChart } from 'yarcl';
 
 <BubbleChart
     title={{text: 'Sugar and fat intake per country'}}
@@ -308,6 +363,9 @@ Example:
     ]}
 />
 ```
+
+![](static/bubble_chart.png)
+
 BubbleChart chart has these attributes
 
     title (optional): This contains text.
@@ -393,3 +451,11 @@ BubbleChart chart has these attributes
             enabled: Boolean value if data values be wanted to be shown on the data cells.
 
             color: Color of data values if enabled.
+
+# Development
+
+To build yarcl, you need to install required dependencies by executing `npm i` in command line.
+
+Then you can build yarcl by executing `npm start` , library bundle will be in the folder `lib` .
+
+To run tests, just execute `npm test` .
