@@ -31,8 +31,7 @@ Or you can use <script> tags:
 ## Bar Chart
 Example:
 ```javascript
-import { BarChart } from 'yarcl';
-import { BarChartVertical } from 'yarcl';
+import { BarChart, BarChartVertical } from 'yarcl';
 
 <BarChart
     title={'Population of largest Turkey cities (in millions)'}
